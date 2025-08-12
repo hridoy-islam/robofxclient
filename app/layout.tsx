@@ -27,7 +27,8 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${nunito.variable} light`}>
       <head>
-        <title>RoboFx Trader</title>
+        <title>Auto Trader FX</title>
+        <link rel="shortcut icon" href="/favicon.png" type="image/x-icon" />
       </head>
       <body>
         <Providers>{children}</Providers>

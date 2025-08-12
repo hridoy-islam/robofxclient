@@ -55,9 +55,16 @@ export default function Sidebar({ currentUser }: UserSidebarProps) {
     },
   ];
   return (
-    <div className="absolute  left-0 top-0 z-9999 hidden lg:flex h-screen justify-between w-1/5 flex-col overflow-y-hidden bg-white border-stroke p-4 duration-300 ease-linear lg:static lg:translate-x-0 translate-x-0">
+    <div className="absolute left-0 top-0 z-9999 hidden lg:flex h-screen justify-between w-1/5 flex-col overflow-y-hidden bg-white border-stroke p-4 duration-300 ease-linear lg:static lg:translate-x-0 translate-x-0">
       <div>
-        <Image src={logo} alt="robofx" className="mb-6" />
+        <Image
+          src={logo}
+          height={50}
+          width={50}
+          alt="robofx"
+          className="mb-6"
+        />
+
         <ul>
           {sidebarmenu.map((item) => (
             <li key={item.path}>

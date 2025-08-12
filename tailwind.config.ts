@@ -31,8 +31,8 @@ const config: any = {
       },
     },
     colors: {
-      primary: "#2C929C",
-      secondary: "#0F172A",
+      primary: "#2dd4bf",
+      secondary: "#064e3b",
       white: "#fff",
       red: "#D00000",
       stroke: "#EBEBEB",
@@ -43,8 +43,8 @@ const config: any = {
       themes: {
         light: {
           colors: {
-            primary: "#2C929C",
-            secondary: "#0F172A",
+            primary: "#2dd4bf",
+            secondary: "#064e3b",
             white: "#ffffff",
             red: "#D00000",
             stroke: "#EBEBEB",
