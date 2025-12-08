@@ -2,12 +2,13 @@
 
 // Import necessary types from React and Next UI
 import React, { useState, ChangeEvent, FormEvent } from "react";
-import { Button, Card, CardBody, CardHeader } from "@nextui-org/react";
+import { Card, CardBody, CardHeader } from "@nextui-org/react";
 import InputField from "@/app/dashboard/_components/Product/InputField";
 import Axios from "@/utils/axios";
 import toast from "react-hot-toast";
 import Cookies from "universal-cookie";
 import ImageUpload from "@/components/ImageUpload";
+import { Button } from "@/components/ui/button";
 
 // Define an interface for your product data
 interface Product {
@@ -179,7 +180,7 @@ export default function Page() {
                 onChange={(e) => handleInputChange(e, "graphicscard")}
               />
             </div>
-            <div className="border-t border-stroke py-2 flex justify-end">
+            <div className=" flex justify-end">
               <Button
                 className="bg-primary text-white rounded-sm"
                 type="submit"

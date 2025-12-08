@@ -6,97 +6,91 @@ import { Button } from "@/components/ui/button";
 import {
   Ticket,
   Mail,
-  HelpCircle,
   MessageSquare,
   Clock,
-  Phone,
   FileText,
-  Search,
   CheckCircle,
-  AlertCircle,
+  Zap,
   Users,
-  Headphones,
+  LayoutDashboard,
+  ShieldCheck,
+  ChevronRight,
 } from "lucide-react";
 
 export default function SupportPage() {
   const supportCategories = [
     {
-      icon: <Ticket className="w-8 h-8 text-blue-600" />,
-      title: "Technical Support",
-      description: "Get help with installation, setup, and technical issues",
-      color: "blue",
-      count: "24/7 Available",
+      icon: <Zap className="w-6 h-6 " />,
+      title: "Mining Operations",
+      description: "Hash rate issues, hardware allocation, and pool connectivity.",
+      action: "Get Technical Help",
     },
     {
-      icon: <MessageSquare className="w-8 h-8 text-purple-600" />,
-      title: "Trading Assistance",
-      description: "Expert guidance on trading strategies and optimization",
-      color: "purple",
-      count: "Expert Team",
+      icon: <LayoutDashboard className="w-6 h-6 " />,
+      title: "Dashboard & Account",
+      description: "Login issues, verification status, and security settings.",
+      action: "Manage Account",
     },
     {
-      icon: <FileText className="w-8 h-8 text-indigo-600" />,
-      title: "Account Management",
-      description: "Help with account setup, verification, and management",
-      color: "indigo",
-      count: "Dedicated Manager",
+      icon: <FileText className="w-6 h-6 " />,
+      title: "Billing & Payouts",
+      description: "Withdrawal queries, deposit confirmations, and plan upgrades.",
+      action: "View Financial FAQ",
     },
     {
-      icon: <HelpCircle className="w-8 h-8 text-cyan-600" />,
-      title: "General Inquiries",
-      description: "Questions about features, pricing, and general information",
-      color: "cyan",
-      count: "Quick Response",
+      icon: <ShieldCheck className="w-6 h-6 " />,
+      title: "Security & Privacy",
+      description: "2FA setup, wallet address changes, and data protection.",
+      action: "Security Center",
     },
   ];
 
   const supportStats = [
     {
-      label: "Average Response Time",
+      label: "Avg. Response Time",
       value: "< 2 Hours",
-      icon: <Clock className="w-6 h-6 text-green-600" />,
+      icon: <Clock className="w-5 h-5 text-gray-400" />,
     },
     {
-      label: "Customer Satisfaction",
+      label: "User Satisfaction",
       value: "98.5%",
-      icon: <CheckCircle className="w-6 h-6 text-blue-600" />,
+      icon: <CheckCircle className="w-5 h-5 text-gray-400" />,
     },
     {
-      label: "Issues Resolved",
-      value: "99.2%",
-      icon: <AlertCircle className="w-6 h-6 text-purple-600" />,
-    },
-    {
-      label: "Support Languages",
-      value: "12+",
-      icon: <Users className="w-6 h-6 text-indigo-600" />,
+      label: "Active Agents",
+      value: "24/7",
+      icon: <Users className="w-5 h-5 text-gray-400" />,
     },
   ];
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-gray-50 font-sans text-gray-900">
       <Header />
 
       <BreadCumb
         title="Support Center"
-        subtitle="Get expert assistance with our comprehensive support system and dedicated team"
+        subtitle="Dedicated assistance for your mining journey."
       />
 
-      {/* Support Stats */}
-      <section className="py-12 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-4 gap-6">
+      {/* Stats Bar - Floating overlap */}
+      <section className="relative z-20 -mt-8 ">
+        <div className="container mx-auto ">
+          <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-gray-100">
             {supportStats.map((stat, index) => (
               <div
                 key={index}
-                className="glass-white rounded-2xl p-6 text-center shadow-blue border border-gray-100"
+                className="flex items-center justify-center space-x-4 py-4 md:py-0"
               >
-                <div className="flex justify-center mb-3">{stat.icon}</div>
-                <div className="text-2xl font-black text-gray-900 mb-1">
-                  {stat.value}
+                <div className="p-3 bg-gray-50 rounded-full border border-gray-100">
+                  {stat.icon}
                 </div>
-                <div className="text-gray-600 text-sm font-medium">
-                  {stat.label}
+                <div>
+                  <div className="text-xl font-bold text-gray-900 leading-none">
+                    {stat.value}
+                  </div>
+                  <div className="text-sm text-gray-500 font-medium mt-1">
+                    {stat.label}
+                  </div>
                 </div>
               </div>
             ))}
@@ -105,223 +99,138 @@ export default function SupportPage() {
       </section>
 
       {/* Main Support Section */}
-      <section className="section-padding bg-white">
-        <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-3 gap-12">
-            {/* Left Column - Support Categories */}
-            <div className="lg:col-span-2 space-y-8">
+      <section className="py-20">
+        <div className="container mx-auto px-4 max-w-6xl">
+          <div className="grid lg:grid-cols-12 gap-12">
+            
+            {/* Left Column - Categories */}
+            <div className="lg:col-span-7 space-y-10">
               <div>
-                <div className="inline-flex items-center justify-center mb-6">
-                  <div className="flex items-center space-x-3 glass-blue rounded-full px-6 py-3 shadow-blue">
-                    <Headphones className="w-5 h-5 text-blue-600" />
-                    <span className="text-blue-600 font-bold">
-                      Support Categories
-                    </span>
-                  </div>
-                </div>
-                <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-6 leading-tight">
-                  How can we{" "}
-                  <span className="text-gradient">help you today?</span>
+                <span className=" font-semibold tracking-wide uppercase text-sm">
+                  Help Categories
+                </span>
+                <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mt-3 mb-4">
+                  How can we assist you?
                 </h2>
-                <p className="text-xl text-gray-600 leading-relaxed">
-                  Choose the category that best matches your needs, and our
-                  expert team will assist you promptly.
+                <p className="text-lg text-gray-500 leading-relaxed">
+                  Select a category below to find answers or direct your inquiry to the right department.
                 </p>
               </div>
 
-              {/* Support Categories Grid */}
-              <div className="grid md:grid-cols-2 gap-6">
+              <div className="grid md:grid-cols-2 gap-5">
                 {supportCategories.map((category, index) => (
                   <div
                     key={index}
-                    className="group glass-white rounded-3xl p-8 shadow-blue hover:shadow-blue-lg border border-gray-100 hover:border-blue-200 transition-all duration-300 card-hover cursor-pointer"
+                    className="group bg-white p-6 rounded-2xl border border-gray-200 hover:border-blue-500 hover:shadow-lg transition-all duration-300 cursor-pointer flex flex-col h-full"
                   >
-                    <div
-                      className={`w-16 h-16 bg-${category.color}-50 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-${category.color}-100 transition-colors`}
-                    >
+                    <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center mb-5 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
                       {category.icon}
                     </div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
+                    <h3 className="text-lg font-bold text-gray-900 mb-2">
                       {category.title}
                     </h3>
-                    <p className="text-gray-600 leading-relaxed mb-4">
+                    <p className="text-sm text-gray-500 leading-relaxed mb-6 flex-grow">
                       {category.description}
                     </p>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium text-blue-600">
-                        {category.count}
-                      </span>
-                      <div className="w-8 h-px bg-blue-400 group-hover:w-12 transition-all duration-300"></div>
+                    <div className="flex items-center  font-semibold text-sm group-hover:translate-x-1 transition-transform">
+                      {category.action} <ChevronRight className="w-4 h-4 ml-1" />
                     </div>
                   </div>
                 ))}
               </div>
 
-              {/* Quick Search */}
-              {/* <div className="glass-blue rounded-3xl p-8 shadow-blue">
-                <h3 className="text-2xl font-bold text-gray-900 mb-4 flex items-center">
-                  <Search className="w-6 h-6 text-blue-600 mr-3" />
-                  Quick Help Search
-                </h3>
-                <p className="text-gray-600 mb-6">
-                  Search our knowledge base for instant answers
-                </p>
-                <div className="flex gap-4">
-                  <input
-                    type="text"
-                    placeholder="Search for help articles, guides, or FAQs..."
-                    className="flex-1 px-6 py-4 bg-white border border-gray-200 rounded-2xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                  />
-                  <Button className="btn-gradient text-white font-bold px-8 py-4 rounded-2xl">
-                    Search
-                  </Button>
-                </div>
-              </div> */}
+              {/* Direct Contact Info Block */}
+              <div className="bg-gray-900 rounded-2xl p-8 text-white relative overflow-hidden">
+                 <div className="absolute top-0 right-0 w-64 h-64 bg-blue-600 rounded-full blur-3xl opacity-20 -mr-16 -mt-16"></div>
+                 <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                    <div>
+                        <h3 className="text-xl font-bold mb-2">Prefer to email us directly?</h3>
+                        <p className="text-gray-400 text-sm">Our enterprise support team monitors this inbox 24/7.</p>
+                    </div>
+                    <a href="mailto:support@cryptominerx.com" className="flex items-center space-x-3 bg-white/10 hover:bg-white/20 px-6 py-3 rounded-xl transition-all border border-white/10 backdrop-blur-sm">
+                        <Mail className="w-5 h-5" />
+                        <span className="font-mono">support@cryptominerx.com</span>
+                    </a>
+                 </div>
+              </div>
             </div>
 
-            {/* Right Column - Contact Info & Ticket Form */}
-            <div className="space-y-8">
-              {/* Contact Information */}
-              <div className="glass-white rounded-3xl p-8 shadow-blue border border-gray-100">
-                <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-                  <Mail className="w-6 h-6 text-blue-600 mr-3" />
-                  Contact Information
-                </h3>
-
-                <div className="space-y-6">
-                  <div className="flex items-start space-x-4">
-                    <div className="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center flex-shrink-0">
-                      <Mail className="w-6 h-6 text-blue-600" />
-                    </div>
-                    <div>
-                      <h4 className="text-gray-900 font-bold mb-1">
-                        Email Support
-                      </h4>
-                      <a
-                        href="mailto:support@algopips.net"
-                        className="text-blue-600 hover:text-blue-700 transition-colors font-medium"
-                      >
-                        support@algopips.net
-                      </a>
-                      <p className="text-gray-500 text-sm mt-1">
-                        Response within 2 hours
-                      </p>
-                    </div>
+            {/* Right Column - Form */}
+            <div className="lg:col-span-5">
+              <div className="bg-white rounded-2xl shadow-lg shadow-gray-200/50 border border-gray-100 p-8 sticky top-8">
+                <div className="mb-8">
+                  <div className="inline-flex items-center space-x-2 bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-4">
+                    <Ticket className="w-3 h-3" />
+                    <span>Open Ticket</span>
                   </div>
-
-                  {/* <div className="flex items-start space-x-4">
-                    <div className="w-12 h-12 bg-green-50 rounded-2xl flex items-center justify-center flex-shrink-0">
-                      <Phone className="w-6 h-6 text-green-600" />
-                    </div>
-                    <div>
-                      <h4 className="text-gray-900 font-bold mb-1">
-                        Phone Support
-                      </h4>
-                      <p className="text-gray-700 font-medium">
-                        +1-800-Algopips
-                      </p>
-                      <p className="text-gray-500 text-sm mt-1">
-                        24/7 Available
-                      </p>
-                    </div>
-                  </div> */}
-
-                  <div className="flex items-start space-x-4">
-                    <div className="w-12 h-12 bg-purple-50 rounded-2xl flex items-center justify-center flex-shrink-0">
-                      <MessageSquare className="w-6 h-6 text-purple-600" />
-                    </div>
-                    <div>
-                      <h4 className="text-gray-900 font-bold mb-1">
-                        Live Chat
-                      </h4>
-                      <p className="text-gray-700 font-medium">
-                        Available 24/7
-                      </p>
-                      <p className="text-gray-500 text-sm mt-1">
-                        Instant assistance
-                      </p>
-                    </div>
-                  </div>
+                  <h3 className="text-2xl font-bold text-gray-900">
+                    Submit a Request
+                  </h3>
+                  <p className="text-gray-500 text-sm mt-2">
+                    We usually respond within 2 hours.
+                  </p>
                 </div>
-              </div>
 
-              {/* Quick Ticket Form */}
-              <div className="glass-white rounded-3xl p-8 shadow-blue border border-gray-100">
-                <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-                  <Ticket className="w-6 h-6 text-purple-600 mr-3" />
-                  Create Support Ticket
-                </h3>
-
-                <form className="space-y-6">
-                  <div>
-                    <label
-                      htmlFor="priority"
-                      className="block text-gray-900 font-medium mb-2"
-                    >
-                      Priority Level
-                    </label>
-                    <select
-                      id="priority"
-                      className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                    >
-                      <option value="low">Low Priority</option>
-                      <option value="medium">Medium Priority</option>
-                      <option value="high">High Priority</option>
-                      <option value="urgent">Urgent</option>
-                    </select>
+                <form className="space-y-5">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                        <label className="block text-xs font-bold text-gray-700 uppercase mb-2">Priority</label>
+                        <select className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all">
+                            <option value="normal">Normal</option>
+                            <option value="high">High</option>
+                            <option value="urgent">Urgent</option>
+                        </select>
+                    </div>
+                    <div>
+                         <label className="block text-xs font-bold text-gray-700 uppercase mb-2">Department</label>
+                         <select className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all">
+                            <option value="tech">Technical</option>
+                            <option value="billing">Billing</option>
+                            <option value="sales">Sales</option>
+                        </select>
+                    </div>
                   </div>
 
                   <div>
-                    <label
-                      htmlFor="category"
-                      className="block text-gray-900 font-medium mb-2"
-                    >
-                      Category
-                    </label>
-                    <select
-                      id="category"
-                      className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                    >
-                      <option value="technical">Technical Support</option>
-                      <option value="trading">Trading Assistance</option>
-                      <option value="account">Account Management</option>
-                      <option value="general">General Inquiry</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label
-                      htmlFor="subject"
-                      className="block text-gray-900 font-medium mb-2"
-                    >
-                      Subject
+                    <label className="block text-xs font-bold text-gray-700 uppercase mb-2">
+                        Email Address
                     </label>
                     <input
-                      type="text"
-                      id="subject"
-                      className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                      placeholder="Brief description of your issue"
+                      type="email"
+                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all"
+                      placeholder="you@example.com"
                     />
                   </div>
 
                   <div>
-                    <label
-                      htmlFor="message"
-                      className="block text-gray-900 font-medium mb-2"
-                    >
-                      Message
+                    <label className="block text-xs font-bold text-gray-700 uppercase mb-2">
+                        Subject
+                    </label>
+                    <input
+                      type="text"
+                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all"
+                      placeholder="Brief description of the issue"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-gray-700 uppercase mb-2">
+                        Message
                     </label>
                     <textarea
-                      id="message"
                       rows={4}
-                      className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"
-                      placeholder="Describe your issue in detail..."
+                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all resize-none"
+                      placeholder="Please include error codes if applicable..."
                     ></textarea>
                   </div>
 
-                  <Button className="w-full btn-gradient text-white font-bold py-4 rounded-2xl shadow-blue hover:shadow-blue-lg transition-all duration-200">
-                    Submit Ticket
+                  <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-6 rounded-xl shadow-lg shadow-blue-600/20 transition-all duration-200 mt-2">
+                    Submit Ticket <MessageSquare className="w-4 h-4 ml-2" />
                   </Button>
+                  
+                  <p className="text-center text-xs text-gray-400 mt-4">
+                    Protected by reCAPTCHA and the Google Privacy Policy.
+                  </p>
                 </form>
               </div>
             </div>

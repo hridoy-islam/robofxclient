@@ -201,178 +201,171 @@ export default function Mining({
   const inActiveRigs = wholeRigs?.length - miningRigs?.length;
 
   return (
-    <div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 my-6">
-        <Card className="p-6 space-y-3">
-          <h2>Total</h2>
-          <p className="text-3xl font-bold">
-            {wholeRigs?.length}{" "}
-            <span className="font-normal text-md">Rigs</span>
-          </p>
-          <div className="flex justify-between my-1">
-            <div className="flex items-center justify-start">
-              <Icon
-                icon="octicon:dot-fill-24"
-                color="#2385BA"
-                className="text-xl"
-              />
-              <span>Active {miningRigs?.length}</span>
-            </div>
-            <div className="flex items-center">
-              <Icon
-                icon="octicon:dot-fill-24"
-                color="#B8DEE9"
-                className="text-xl"
-              />
-              <span>Inactive {inActiveRigs}</span>
-            </div>
-          </div>
-          <Progress
-            size="md"
-            classNames={{
-              base: "max-w-md",
-              track: "drop-shadow-md border border-default",
-              indicator: "bg-gradient-to-r from-pink-500 to-yellow-500",
-              label: "tracking-wider font-medium text-default-600",
-              value: "text-foreground/60",
-            }}
-            value={80}
-            showValueLabel={false}
-          />
-        </Card>
-        <Card className="p-6 space-y-3">
-          <h2>Current Mining Balance</h2>
-          <h3 className="text-4xl font-bold">
-            {currencyConvert(currentUser?.balance, settings[0]?.btc)} BTC
-          </h3>
-          <div className="flex gap-2 justify-between">
-            {showStartAllButton && (
-              <Button onClick={handleStartAllRigs} className="bg-primaryLight">
-                <Icon icon="ph:play-fill" /> Start All Rigs
-              </Button>
-            )}
-            {showPauseAllButton && (
-              <Button onClick={handlePauseAllRigs} className="bg-[#f9e5e5]">
-                <Icon icon="solar:pause-bold" /> Stop All Rigs
-              </Button>
-            )}
-          </div>
-        </Card>
-        <Card className="p-6 grid grid-cols-2 gap-1">
-          <div className="space-y-3">
-            <h2>Power Consumed</h2>
-            <h2 className="text-3xl font-bold">{totalConsumed} KWH</h2>
-            <p>Better Than Last Month</p>
-          </div>
-          <div>
-            <ResponsiveContainer width="100%">
-              <BarChart
-                width={500}
-                height={200}
-                data={chartData}
-                margin={{
-                  top: 5,
-                  right: 30,
-                  left: 20,
-                  bottom: 5,
-                }}
-              >
-                <Bar
-                  dataKey="pv"
-                  fill="#2C929C"
-                  activeBar={<Rectangle fill="#e3eeef" stroke="#2C929C" />}
-                />
-                <Bar
-                  dataKey="uv"
-                  fill="#e3eeef"
-                  activeBar={<Rectangle fill="#2C929C" stroke="#e3eeef" />}
-                />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </Card>
-      </div>
-      <div className="mb-5">
-        <Card className="p-6 space-y-3">
-          <h3>Rig Hash Generated</h3>
+  <div className="space-y-8">
 
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 xl:grid-cols-10 gap-4">
-            {" "}
-            {wholeRigs?.map((rig, index) => (
-              <Button
-                onClick={() => handleGraph(rig?._id)}
-                className={`${isActive === rig?._id ? "btn-basic" : ""} px-1 `}
-                variant="bordered"
-                key={index}
-              >
-                {rig?.rigName}
-              </Button>
-            ))}
+    {/* Top Stats Grid */}
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+      {/* Total Rigs */}
+      <Card className="p-6 space-y-4 shadow-md border border-default-200">
+        <h2 className="text-lg font-semibold">Total Rigs</h2>
+
+        <p className="text-4xl font-bold tracking-tight">
+          {wholeRigs?.length}
+          <span className="text-base font-normal ml-2">units</span>
+        </p>
+
+        <div className="flex justify-between mt-2">
+          <div className="flex items-center gap-1">
+            <Icon icon="octicon:dot-fill-24" color="#2385BA" className="text-xl" />
+            <span className="font-medium">Active {miningRigs?.length}</span>
           </div>
 
-          <p>
-            Rig Hash Generated is the amount of data that transferred between in
-            a hour.
-          </p>
+          <div className="flex items-center gap-1">
+            <Icon icon="octicon:dot-fill-24" color="#B8DEE9" className="text-xl" />
+            <span className="font-medium">Inactive {inActiveRigs}</span>
+          </div>
+        </div>
 
-          <ResponsiveContainer width="100%" height={200}>
-            <AreaChart
-              width={500}
-              height={200}
-              data={selectedMiningData}
-              syncId="anyId"
-              margin={{
-                top: 10,
-                right: 30,
-                left: 0,
-                bottom: 0,
-              }}
+        <Progress
+          size="md"
+          className="mt-3"
+          classNames={{
+            base: "w-full",
+            track: "drop-shadow-sm border border-default-300 rounded-full",
+            indicator: "bg-gradient-to-r from-purple-500 to-yellow-400",
+          }}
+          value={80}
+          showValueLabel={false}
+        />
+      </Card>
+
+      {/* Mining Balance */}
+      <Card className="p-6 space-y-5 shadow-md border border-default-200">
+        <h2 className="text-lg font-semibold">Current Mining Balance</h2>
+
+        <h3 className="text-4xl font-bold text-primary tracking-tight">
+          {currencyConvert(currentUser?.balance, settings[0]?.btc)} BTC
+        </h3>
+
+        <div className="flex gap-3 justify-between">
+          {showStartAllButton && (
+            <Button
+              onClick={handleStartAllRigs}
+              className="bg-primaryLight font-medium"
+              fullWidth
             >
-              <CartesianGrid strokeDasharray="3 3" />
+              <Icon icon="ph:play-fill" className="mr-1" /> Start All Rigs
+            </Button>
+          )}
 
-              <Area
-                type="monotone"
+          {showPauseAllButton && (
+            <Button
+              onClick={handlePauseAllRigs}
+              className="bg-red-100 text-red-600 font-medium"
+              fullWidth
+            >
+              <Icon icon="solar:pause-bold" className="mr-1" /> Stop All Rigs
+            </Button>
+          )}
+        </div>
+      </Card>
+
+      {/* Power Consumed */}
+      <Card className="p-6 shadow-md border border-default-200 grid grid-cols-2 gap-2">
+        <div className="flex flex-col justify-between space-y-2">
+          <h2 className="font-semibold text-lg">Power Consumed</h2>
+
+          <h2 className="text-4xl font-bold tracking-tight">{totalConsumed} KWH</h2>
+          <p className="text-sm text-default-500">Better than last month</p>
+        </div>
+
+        <div className="h-24 mt-2">
+          <ResponsiveContainer width="100%">
+            <BarChart data={chartData}>
+              <Bar
                 dataKey="pv"
-                stroke="#82ca9d"
-                fill="#82ca9d"
+                fill="#2C929C"
+                activeBar={<Rectangle fill="#e3eeef" stroke="#2C929C" />}
               />
-            </AreaChart>
-          </ResponsiveContainer>
-        </Card>
-      </div>
-      <div>
-        <Card className="p-6 space-y-3">
-          <h3>Temperature</h3>
-          <p>Total number of requests for the selected period</p>
-          <h3>
-            <span className="text-3xl font-bold mr-2">18° C</span> Average
-            Temperature
-          </h3>
-          <ResponsiveContainer width="100%" height={400}>
-            <LineChart
-              width={300}
-              height={400}
-              data={chartData}
-              margin={{
-                top: 10,
-                right: 30,
-                left: 0,
-                bottom: 0,
-              }}
-            >
-              <CartesianGrid strokeDasharray="1 1" />
-              <XAxis />
-              <Line
-                connectNulls
-                type="monotone"
+              <Bar
                 dataKey="uv"
-                stroke="#D00000"
-                fill="#D00000"
+                fill="#e3eeef"
+                activeBar={<Rectangle fill="#2C929C" stroke="#e3eeef" />}
               />
-            </LineChart>
+            </BarChart>
           </ResponsiveContainer>
-        </Card>
-      </div>
+        </div>
+      </Card>
     </div>
-  );
+
+    {/* Rig Hash Chart */}
+    <Card className="p-6 space-y-5 shadow-md border border-default-200">
+      <h3 className="text-lg font-semibold">Rig Hash Generated</h3>
+
+      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 xl:grid-cols-10 gap-3">
+        {wholeRigs?.map((rig, index) => (
+          <Button
+            key={index}
+            onClick={() => handleGraph(rig?._id)}
+            className={`${isActive === rig?._id ? "btn-basic" : ""}`}
+            variant="bordered"
+            size="sm"
+          >
+            {rig?.rigName}
+          </Button>
+        ))}
+      </div>
+
+      <p className="text-sm text-default-500">
+        Rig hash generated is the amount of data transferred in one hour.
+      </p>
+
+      <div className="h-48">
+        <ResponsiveContainer width="100%" height="100%">
+          <AreaChart data={selectedMiningData} margin={{ top: 10, right: 20 }}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <Area
+              type="monotone"
+              dataKey="pv"
+              stroke="#3b82f6"
+              fill="#3b82f6"
+            />
+          </AreaChart>
+        </ResponsiveContainer>
+      </div>
+    </Card>
+
+    {/* Temperature Chart */}
+    <Card className="p-6 space-y-4 shadow-md border border-default-200">
+      <h3 className="text-lg font-semibold">Temperature</h3>
+      <p className="text-sm text-default-500">
+        Total number of requests for the selected period
+      </p>
+
+      <h3 className="text-3xl font-bold">
+        18° C
+        <span className="text-base ml-2 text-default-500">Average Temperature</span>
+      </h3>
+
+      <div className="h-72">
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart data={chartData} margin={{ top: 10, right: 20 }}>
+            <CartesianGrid strokeDasharray="1 1" />
+            <XAxis />
+            <Line
+              connectNulls
+              type="monotone"
+              dataKey="uv"
+              stroke="#D00000"
+              strokeWidth={2}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+    </Card>
+
+  </div>
+);
+
 }

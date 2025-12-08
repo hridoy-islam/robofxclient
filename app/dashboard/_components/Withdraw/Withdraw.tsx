@@ -2,12 +2,13 @@
 import Pagination from "@/components/Pagination";
 import { UserData } from "@/utils/interfaces";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { CardBody, CardHeader, Card, Button, Chip } from "@nextui-org/react";
+import { CardBody, CardHeader, Card, Chip } from "@nextui-org/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { DateRangePicker } from "react-date-range";
 import { useSearchParams } from "next/navigation";
+import { Button } from "@/components/ui/button";
 
 interface WithdrawObject {
   _id: string;
@@ -84,78 +85,130 @@ const Withdraw = ({ allWithdraws }: WithdrawProps) => {
     key: "selection",
   };
 
-  return (
-    <div>
-      {/* <DateRangePicker ranges={[selectionRange]} onChange={handleSelect} /> */}
-      <div className="grid grid-cols-2 gap-4 mb-6">
-        <Card className="p-5">
-          <p>Total Requests</p>
-          <h3 className="text-4xl font-semibold my-2">
-            {pendingRequestLength}
-          </h3>
-        </Card>
-        <Card className="p-5">
-          <p>Total Withdraw</p>
-          <h3 className="text-4xl font-semibold my-2">
-            {approvedRequestLength}
-          </h3>
-        </Card>
-      </div>
-      <Card className="mb-6">
-        <CardHeader className="tableHeader">
-          <h2>Withdraw Requests</h2>
-        </CardHeader>
-        <CardBody>
-          <table className="table-auto">
-            <thead>
-              <tr>
-                <th>Requested By</th>
-                <th>Withdraw ID</th>
-                <th>BTC</th>
-                <th>Amount</th>
-                <th>Requested Date</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {withdraws?.map((withdraw, index) => (
-                <tr key={index}>
-                  <td>
-                    {withdraw?.userid?.personal_information?.firstName}{" "}
-                    {withdraw?.userid?.personal_information?.lastName}
-                  </td>
-                  <td>
-                    <Chip
-                      color={
-                        withdraw?.status === "approved"
-                          ? "success"
-                          : withdraw?.status === "pending"
-                          ? "warning"
-                          : "danger"
-                      }
-                      className="text-white uppercase"
-                    >
-                      {withdraw?.status}
-                    </Chip>
-                  </td>
-                  <td>{withdraw?.btc}</td>
-                  <td>${withdraw?.amount}</td>
-                  <td>{withdraw?.requestDate}</td>
-                  <td>
-                    <Link href={`/dashboard/admin/withdraw/${withdraw?._id}`}>
-                      <Button className="text-primary border-primary border-1 bg-white ml-2 px-3 text-md">
-                        <Icon icon="solar:eye-linear" className="text-lg" />
-                        <span>View</span>
-                      </Button>
-                    </Link>{" "}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </CardBody>
-      </Card>
+ return (
+  <div className="space-y-8">
 
+    {/* Stats Section */}
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+  {/* Pending Requests */}
+  <Card shadow="sm" className="p-6 bg-gradient-to-br from-orange-50 to-orange-100 border border-orange-200">
+    <div className="flex items-center justify-between">
+      <div>
+        <p className="text-sm text-orange-600 font-medium">Pending Requests</p>
+        <h3 className="text-4xl font-bold mt-2 text-orange-700">
+          {pendingRequestLength}
+        </h3>
+      </div>
+      <div className="p-3 bg-white rounded-xl shadow-md">
+        <Icon icon="solar:clock-circle-linear" className="text-orange-600" width={32} />
+      </div>
+    </div>
+  </Card>
+
+  {/* Approved Withdrawals */}
+  <Card shadow="sm" className="p-6 bg-gradient-to-br from-green-50 to-green-100 border border-green-200">
+    <div className="flex items-center justify-between">
+      <div>
+        <p className="text-sm text-green-700 font-medium">Approved Withdrawals</p>
+        <h3 className="text-4xl font-bold mt-2 text-green-700">
+          {approvedRequestLength}
+        </h3>
+      </div>
+      <div className="p-3 bg-white rounded-xl shadow-md">
+        <Icon icon="solar:check-circle-linear" className="text-green-600" width={32} />
+      </div>
+    </div>
+  </Card>
+
+</div>
+
+    {/* Table Section */}
+    <Card shadow="sm" className="overflow-hidden">
+      <CardHeader className="border-b px-6 py-4 bg-gray-50">
+        <h2 className="text-xl font-semibold">Withdraw Requests</h2>
+      </CardHeader>
+
+      <CardBody className="p-0">
+        <table className="min-w-full text-left">
+          <thead className="bg-gray-100 border-b">
+            <tr>
+              <th className="px-6 py-3 text-sm font-medium text-gray-600">
+                Requested By
+              </th>
+              <th className="px-6 py-3 text-sm font-medium text-gray-600">
+                Status
+              </th>
+              <th className="px-6 py-3 text-sm font-medium text-gray-600">
+                BTC Address
+              </th>
+              <th className="px-6 py-3 text-sm font-medium text-gray-600">
+                Amount
+              </th>
+              <th className="px-6 py-3 text-sm font-medium text-gray-600">
+                Requested Date
+              </th>
+              <th className="px-6 py-3 text-sm font-medium text-gray-600">
+                Actions
+              </th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {withdraws?.map((withdraw, index) => (
+              <tr
+                key={index}
+                className="border-b hover:bg-gray-50 transition"
+              >
+                <td className="px-6 py-4 whitespace-nowrap">
+                  {withdraw?.userid?.personal_information?.firstName}{" "}
+                  {withdraw?.userid?.personal_information?.lastName}
+                </td>
+
+                <td className="px-6 py-4">
+                  <Chip
+                    color={
+                      withdraw?.status === "approved"
+                        ? "success"
+                        : withdraw?.status === "pending"
+                        ? "warning"
+                        : "danger"
+                    }
+                    className="uppercase text-xs font-semibold"
+                  >
+                    {withdraw?.status}
+                  </Chip>
+                </td>
+
+                <td className="px-6 py-4">{withdraw?.btc}</td>
+
+                <td className="px-6 py-4 font-semibold">
+                  ${withdraw?.amount}
+                </td>
+
+                <td className="px-6 py-4">{withdraw?.requestDate}</td>
+
+                <td className="px-6 py-4">
+                  <Link
+                    href={`/dashboard/admin/withdraw/${withdraw?._id}`}
+                  >
+                    <Button
+                      size="sm"
+                    >
+                      <Icon icon="solar:eye-linear" width={18} />
+                      View
+                    </Button>
+                  </Link>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </CardBody>
+    </Card>
+
+    {/* Pagination */}
+    <div className="pt-4">
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
@@ -163,7 +216,9 @@ const Withdraw = ({ allWithdraws }: WithdrawProps) => {
         nextPageHref={getNextPageHref()}
       />
     </div>
-  );
+  </div>
+);
+
 };
 
 export default Withdraw;

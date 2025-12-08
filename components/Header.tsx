@@ -1,17 +1,20 @@
 "use client";
 import { useState } from "react";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import {
   Menu,
   X,
+  Search,
+  Globe,
   Home,
   Settings,
   HelpCircle,
   DollarSign,
   Headphones,
   Mail,
+  ChevronRight,
 } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { useModal } from "@/context/ModalContext";
 
@@ -19,109 +22,94 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { openModal } = useModal();
 
+  // Restored your specific Nav Items
   const navItems = [
-    { name: "Home", href: "/", icon: <Home className="w-5 h-5" /> },
+    { name: "Home", href: "/", icon: <Home className="w-4 h-4" /> },
     {
       name: "Features",
       href: "features",
-      icon: <Settings className="w-5 h-5" />,
+      icon: <Settings className="w-4 h-4" />,
     },
-    { name: "FAQ", href: "faq", icon: <HelpCircle className="w-5 h-5" /> },
+    { name: "FAQ", href: "faq", icon: <HelpCircle className="w-4 h-4" /> },
     {
       name: "Pricing",
       href: "pricing",
-      icon: <DollarSign className="w-5 h-5" />,
+      icon: <DollarSign className="w-4 h-4" />,
     },
     {
       name: "Support",
       href: "support",
-      icon: <Headphones className="w-5 h-5" />,
+      icon: <Headphones className="w-4 h-4" />,
     },
-    { name: "Contact", href: "contact", icon: <Mail className="w-5 h-5" /> },
+    { name: "Contact", href: "contact", icon: <Mail className="w-4 h-4" /> },
   ];
 
   return (
     <>
       {/* Main Header */}
-      <header className="bg-slate-950/95 backdrop-blur-md border-b border-slate-800/50 sticky top-0 z-50">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-20">
-            {/* Logo */}
-            <Link href={"/"}>
-              <Image src="/logo.png" alt="" width={200} height={100} />
-            </Link>
-            {/* <div className="flex items-center space-x-3">
-              <div className="relative">
-                <div className="w-12 h-12 bg-gradient-primary rounded-2xl flex items-center justify-center shadow-lg">
-                  <span className="text-white font-black text-xl">R</span>
-                </div>
-                <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-slate-950"></div>
-              </div>
-              <div>
-                <div className="text-white font-black text-2xl">RoboFX</div>
-                <div className="text-blue-400 font-medium text-xs uppercase tracking-wider">
-                  AI Trader
-                </div>
-              </div>
-            </div> */}
+      <header className="bg-white border-b border-slate-100 sticky top-0 z-50 font-sans">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="flex items-center justify-between h-[72px]">
+            
+            {/* Left Section: Logo & Nav */}
+            <div className="flex items-center gap-8 lg:gap-12">
+              {/* Logo - Blue 'C' */}
+              <Link href={"/"} className="flex-shrink-0">
+                             <Image src="/logo.png" alt="" width={200} height={100} />
 
-            {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center space-x-1">
-              {navItems.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className="flex items-center space-x-2 px-4 py-3 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800/50 transition-all duration-200 font-medium group"
+              </Link>
+
+              {/* Desktop Navigation */}
+              <nav className="hidden lg:flex items-center gap-6 xl:gap-8">
+                {navItems.map((item) => (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className="flex items-center gap-2 text-sm font-semibold text-slate-900 hover:text-[#0052FF] transition-colors"
+                  >
+                    {/* Render Icon */}
+                    <span className="text-slate-500 group-hover:text-[#0052FF]">
+                        {item.icon}
+                    </span>
+                    {item.name}
+                  </Link>
+                ))}
+              </nav>
+            </div>
+
+            {/* Right Section: Actions */}
+            <div className="flex items-center gap-2 md:gap-4">
+              
+              
+
+              {/* Sign In (Replaces Live Trading) */}
+              <Link href="/login">
+                <Button
+                    variant="ghost"
+                    className="hidden md:flex rounded-full bg-slate-100 hover:bg-slate-200 text-slate-900 font-semibold px-5 h-10"
                 >
-                  <span className="group-hover:text-blue-400 transition-colors">
-                    {item.icon}
-                  </span>
-                  <span>{item.name}</span>
-                </Link>
-              ))}
-            </nav>
+                    Sign in
+                </Button>
+              </Link>
 
-            {/* Right Section */}
-            <div className="flex items-center space-x-4">
-              {/* Status Indicator */}
-              <div
-                onClick={() =>
-                  openModal({
-                    title: "Get Started with AI Trading",
-                    subtitle:
-                      "Download your trading robot and start your automated trading journey",
-                    buttonText: "Start Trading Now",
-                    type: "download",
-                  })
-                }
-                className="hidden md:flex items-center space-x-2 glass rounded-full px-4 py-2"
-              >
-                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                <span className="text-white text-sm font-medium">
-                  Live Trading
-                </span>
-              </div>
-
-              {/* CTA Button */}
-
+              {/* Sign Up Button */}
               <Button
                 onClick={() =>
                   openModal({
-                    title: "Get Started with AI Trading",
-                    subtitle:
-                      "Download your trading robot and start your automated trading journey",
-                    buttonText: "Start Trading Now",
-                    type: "download",
+                    title: "Create your account",
+                    subtitle: "Join the world's largest crypto exchange",
+                    buttonText: "Sign Up",
+                    type: "signup",
                   })
                 }
-                className="btn-gradient text-white font-bold px-6 py-3 rounded-xl shadow-lg hover:shadow-blue-500/25 hidden md:block"
+                className="hidden md:flex rounded-full bg-[#0052FF] hover:bg-[#0040CC] text-white font-semibold px-5 h-10 shadow-none border-none"
               >
-                Start Trading
+                Sign up
               </Button>
 
               {/* Mobile Menu Button */}
               <button
-                className="lg:hidden p-2 text-white hover:bg-slate-800/50 rounded-xl transition-colors"
+                className="lg:hidden p-2 text-slate-900 hover:bg-slate-100 rounded-full transition-colors"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
               >
                 {isMenuOpen ? (
@@ -137,7 +125,7 @@ export default function Header() {
 
       {/* Mobile Slide-out Menu */}
       <div
-        className={`fixed inset-0 z-50 lg:hidden transition-opacity duration-300 ${
+        className={`fixed inset-0 z-40 lg:hidden transition-opacity duration-300 ${
           isMenuOpen
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
@@ -145,72 +133,70 @@ export default function Header() {
       >
         {/* Backdrop */}
         <div
-          className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+          className="absolute inset-0 bg-black/20 backdrop-blur-sm"
           onClick={() => setIsMenuOpen(false)}
         ></div>
 
-        {/* Menu Panel */}
+        {/* Menu Panel (Light Theme) */}
         <div
-          className={`absolute right-0 top-0 h-full w-80 bg-slate-900/95 backdrop-blur-md border-l border-slate-800/50 transform transition-transform duration-300 ${
+          className={`absolute right-0 top-0 h-full w-full sm:w-80 bg-white shadow-2xl transform transition-transform duration-300 ${
             isMenuOpen ? "translate-x-0" : "translate-x-full"
           }`}
         >
-          {/* Menu Header */}
-          <div className="flex items-center justify-between p-6 border-b border-slate-800/50">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-primary rounded-xl flex items-center justify-center">
-                <span className="text-white font-bold text-lg">R</span>
-              </div>
-              <div>
-                <div className="text-white font-bold text-lg">Algopips</div>
-                <div className="text-blue-400 text-xs">AI Trader</div>
-              </div>
-            </div>
+          {/* Mobile Header */}
+          <div className="flex items-center justify-between p-4 border-b border-slate-100 h-[72px]">
+             <div className="w-8 h-8 bg-[#0052FF] rounded-full flex items-center justify-center">
+                <span className="text-white font-bold text-lg pb-[2px] pr-[1px]">C</span>
+             </div>
             <button
               onClick={() => setIsMenuOpen(false)}
-              className="p-2 text-slate-400 hover:text-white hover:bg-slate-800/50 rounded-lg transition-colors"
+              className="p-2 text-slate-900 hover:bg-slate-100 rounded-full transition-colors"
             >
-              <X className="w-5 h-5" />
+              <X className="w-6 h-6" />
             </button>
           </div>
 
-          {/* Menu Items */}
-          <nav className="p-6 space-y-2">
-            {navItems.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className="flex items-center space-x-3 px-4 py-4 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800/50 transition-all duration-200 font-medium group"
-                onClick={() => setIsMenuOpen(false)}
+          {/* Mobile Menu Items */}
+          <div className="flex flex-col h-[calc(100%-72px)] overflow-y-auto">
+            <nav className="p-4 space-y-1">
+              {navItems.map((item) => (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className="flex items-center justify-between px-4 py-4 rounded-lg text-slate-900 hover:bg-slate-50 font-semibold group"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="text-slate-500 group-hover:text-[#0052FF]">
+                        {item.icon}
+                    </span>
+                    <span className="text-base">{item.name}</span>
+                  </div>
+                  {/* <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-slate-900" /> */}
+                </Link>
+              ))}
+            </nav>
+
+            {/* Mobile Footer Buttons */}
+            <div className="mt-auto p-6 space-y-3 border-t border-slate-100">
+               <Link href="/login" onClick={() => setIsMenuOpen(false)} className="block w-full">
+                  <Button
+                    variant="outline"
+                    className="w-full rounded-full border-slate-300 text-slate-900 font-bold h-12 hover:bg-slate-50"
+                  >
+                    Sign in
+                  </Button>
+               </Link>
+              
+              <Button
+                onClick={() => {
+                   setIsMenuOpen(false);
+                   openModal({ type: "signup" })
+                }}
+                className="btn-gradient"
               >
-                <span className="group-hover:text-blue-400 transition-colors">
-                  {item.icon}
-                </span>
-                <span>{item.name}</span>
-              </Link>
-            ))}
-          </nav>
-
-          {/* Menu Footer */}
-          <div className="absolute bottom-6 left-6 right-6">
-            <Button
-              onClick={() =>
-                openModal({
-                  title: "Get Started with AI Trading",
-                  subtitle:
-                    "Download your trading robot and start your automated trading journey",
-                  buttonText: "Start Trading Now",
-                  type: "download",
-                })
-              }
-              className="w-full btn-gradient text-white font-bold py-4 rounded-xl shadow-lg"
-            >
-              Start Trading
-            </Button>
-
-            <div className="flex items-center justify-center space-x-2 mt-4 text-slate-400 text-sm">
-              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-              <span>Live Trading</span>
+                Sign up
+              </Button>
             </div>
           </div>
         </div>

@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from "react";
 import {
-  Button,
   Card,
   CardBody,
   CardFooter,
@@ -14,6 +13,8 @@ import { DecodedToken } from "@/utils/interfaces";
 import axios from "@/utils/axios";
 import toast from "react-hot-toast";
 import ImageUpload from "@/components/ImageUpload";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 interface UserData {
   firstName: string;
@@ -110,73 +111,93 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({ id }) => {
       <CardHeader>
         <h2>Profile Information</h2>
       </CardHeader>
-      <CardBody>
-        <div className="grid grid-cols-2 gap-2 items-center">
-          <div>
-            <div className="flex flex-row gap-2">
-              <div className="flex flex-col w-full">
-                <label htmlFor="firstName">First Name</label>
-                <input
-                  type="text"
-                  name="firstName"
-                  className="roboinput"
-                  id="firstName"
-                  value={userData.firstName}
-                  onChange={(e) => handleChange("firstName", e.target.value)}
-                />
-              </div>
-              <div className="flex flex-col w-full">
-                <label htmlFor="lastName">Last Name</label>
-                <input
-                  type="text"
-                  name="lastName"
-                  className="roboinput"
-                  id="lastName"
-                  value={userData.lastName}
-                  onChange={(e) => handleChange("lastName", e.target.value)}
-                />
-              </div>
-            </div>
-            <div className="flex flex-col">
-              <label htmlFor="email">Email</label>
-              <input
-                type="email"
-                name="email"
-                className="roboinput"
-                id="email"
-                value={userData.email}
-                onChange={(e) => handleChange("email", e.target.value)}
-              />
-            </div>
-          </div>
-          <div>
-            <div className="flex flex-col">
-              <label htmlFor="photo">Upload Photo</label>
-              <ImageUpload
-                value={userData.photo}
-                onChange={(value) => handleChange("photo", value)}
-              />
-            </div>
-            <div className="flex flex-col">
-              <label htmlFor="phone">Phone Number</label>
-              <input
-                type="text"
-                name="phone"
-                className="roboinput"
-                id="phone"
-                value={userData.phone}
-                onChange={(e) => handleChange("phone", e.target.value)}
-              />
-            </div>
-          </div>
+    <CardBody className="p-6 bg-white">
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    {/* Left Column */}
+    <div className="space-y-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="flex flex-col">
+          <label htmlFor="firstName" className="text-gray-700 font-medium mb-1">
+            First Name
+          </label>
+          <Input
+            type="text"
+            name="firstName"
+            id="firstName"
+            value={userData.firstName}
+            onChange={(e) => handleChange("firstName", e.target.value)}
+            className="px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+            placeholder="Enter first name"
+          />
         </div>
-      </CardBody>
+        <div className="flex flex-col">
+          <label htmlFor="lastName" className="text-gray-700 font-medium mb-1">
+            Last Name
+          </label>
+          <Input
+            type="text"
+            name="lastName"
+            id="lastName"
+            value={userData.lastName}
+            onChange={(e) => handleChange("lastName", e.target.value)}
+            className="px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+            placeholder="Enter last name"
+          />
+        </div>
+      </div>
+
+      <div className="flex flex-col">
+        <label htmlFor="email" className="text-gray-700 font-medium mb-1">
+          Email
+        </label>
+        <Input
+          type="email"
+          name="email"
+          id="email"
+          value={userData.email}
+          onChange={(e) => handleChange("email", e.target.value)}
+          className="px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+          placeholder="Enter email address"
+        />
+      </div>
+    </div>
+
+    {/* Right Column */}
+    <div className="space-y-4">
+      <div className="flex flex-col">
+        <label htmlFor="photo" className="text-gray-700 font-medium mb-1">
+          Upload Photo
+        </label>
+        <ImageUpload
+          value={userData.photo}
+          onChange={(value) => handleChange("photo", value)}
+        />
+      </div>
+
+      <div className="flex flex-col">
+        <label htmlFor="phone" className="text-gray-700 font-medium mb-1">
+          Phone Number
+        </label>
+        <Input
+          type="text"
+          name="phone"
+          id="phone"
+          value={userData.phone}
+          onChange={(e) => handleChange("phone", e.target.value)}
+          className="px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+          placeholder="Enter phone number"
+        />
+      </div>
+    </div>
+  </div>
+</CardBody>
+
       <CardFooter className="w-full flex flex-row-reverse gap-3">
         <Button className="btn-basic rounded-md" onClick={handleSave}>
           Save
         </Button>
         <Button
-          className="bg-white border border-stroke rounded-md shadow-sm"
+          className="bg-gray-100 border border-stroke rounded-md shadow-sm text-black hover:bg-gray-200"
           onClick={handleClear}
         >
           Clear

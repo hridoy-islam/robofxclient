@@ -64,40 +64,46 @@ const Product = ({ productResponse, orderResponse }: ProductInterface) => {
   };
 
   return (
-    <div>
-      {/* <SingleProductView /> */}
-      <div className="flex w-full flex-col">
-        <Tabs
-          aria-label="Options"
-          color="primary"
-          variant="bordered"
-          classNames={{
-            tabList: "bg-white p-0 rounded-0 text-white",
-            cursor: "w-full bg-primary",
-            tab: "max-w-fit px-8 h-10",
-            // tabContent: "group-data-[selected=true]:text-[#06b6d4]"
-          }}
-        >
-          <Tab key="items" title="Items">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {products?.map((product, index) => (
-                <SingleProductView key={index} product={product} />
-              ))}
-            </div>
-          </Tab>
-          <Tab key="orders" title="Orders">
-            <Order orders={orders} totalPage={orderResponse?.meta?.totalPage} />
-          </Tab>
-        </Tabs>
-      </div>
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        previousPageHref={getPreviousPageHref()}
-        nextPageHref={getNextPageHref()}
-      />{" "}
+  <div>
+    <div className="flex w-full flex-col">
+      <Tabs
+        aria-label="Options"
+        color="primary"
+        variant="bordered"
+        classNames={{
+          tabList: "bg-white p-0 rounded-0",
+          cursor: "w-full bg-primary",
+          tab: "max-w-fit px-8 h-10",
+          tabContent:
+            "group-data-[selected=true]:text-white group-data-[selected=true]:font-semibold",
+        }}
+      >
+        <Tab key="items" title="Items">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {products?.map((product, index) => (
+              <SingleProductView key={index} product={product} />
+            ))}
+          </div>
+        </Tab>
+
+        <Tab key="orders" title="Orders">
+          <Order
+            orders={orders}
+            totalPage={orderResponse?.meta?.totalPage}
+          />
+        </Tab>
+      </Tabs>
     </div>
-  );
+
+    <Pagination
+      currentPage={currentPage}
+      totalPages={totalPages}
+      previousPageHref={getPreviousPageHref()}
+      nextPageHref={getNextPageHref()}
+    />
+  </div>
+);
+
 };
 
 export default Product;

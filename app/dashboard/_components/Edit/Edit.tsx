@@ -17,17 +17,16 @@ interface EditProps {
 
 const Edit = ({ id, rigs }: EditProps) => {
   return (
-    <Tabs
-      aria-label="Options"
-      color="primary"
-      variant="bordered"
-      classNames={{
-        tabList: "bg-white p-0 rounded-0 text-white",
-        cursor: "w-full bg-primary",
-        tab: "max-w-fit px-8 h-10",
-        // tabContent: "group-data-[selected=true]:text-[#06b6d4]"
-      }}
-    >
+<Tabs
+  aria-label="Options"
+  color="primary"
+  variant="bordered"
+  classNames={{
+    tabList: "bg-white p-0 rounded-0",
+    cursor: "w-full bg-primary",
+    tab: "max-w-fit px-8 h-10 data-[selected=true]:text-white transition-colors duration-200",
+  }}
+>
       <Tab key="personal" title="Personal Info">
         <PersonalInfo id={id} />
       </Tab>

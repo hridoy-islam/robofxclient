@@ -6,7 +6,6 @@ import {
   CardBody,
   CardHeader,
   Avatar,
-  Button,
 } from "@nextui-org/react";
 import Link from "next/link";
 import { Icon } from "@iconify/react/dist/iconify.js";
@@ -16,6 +15,7 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import Axios from "@/utils/axios";
 import Cookies from "universal-cookie";
+import { Button } from "@/components/ui/button";
 
 interface AccountTabProps {
   // allWallets: { _id: string; name: string; __v: number }[];
@@ -62,90 +62,44 @@ const AccountTab = ({ currentUser }: AccountTabProps) => {
   };
 
   return (
-    <Card>
-      <CardHeader className="tableHeader">
-        <div>
-          <h2>Primary Account</h2>
-        </div>
-      </CardHeader>
-      <CardBody>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border-b-2 border-stroke pb-6">
-          {/* <div className="flex items-center">
-            <h2 className="rounded-lg rounded-r-none bg-primary p-2 w-1/3 text-white text-center">
-              Exchange
-            </h2>
-            <h2 className="rounded-lg rounded-l-none bg-stroke p-2 w-2/3 text-textLight text-center">
-              Coin Exchange
-            </h2>
-          </div> */}
+  <Card className="shadow-md rounded-lg border border-gray-200">
+    <CardHeader className="bg-primary text-white py-3 px-6 rounded-t-lg">
+      <h2 className="text-lg font-semibold">Primary Account Settings</h2>
+    </CardHeader>
 
-          {/* <div className="flex items-center">
-            <h2 className="rounded-lg rounded-r-none bg-primary p-2 w-1/3 text-white text-center">
-              Wallet
-            </h2>
-            <h2 className="rounded-lg rounded-l-none bg-stroke p-2 w-2/3 text-textLight text-center">
-              {currentUser?.currency.charAt(0).toUpperCase() +
-                currentUser?.currency.slice(1)}
-            </h2>
-          </div> */}
-          {/* <div className="flex items-center">
-            <h2 className="rounded-lg rounded-r-none bg-primary p-2 w-1/3 text-white text-center">
-              Exchange
-            </h2>
-            <h2 className="rounded-lg rounded-l-none bg-stroke p-2 w-2/3 text-textLight text-center">
-              Coin Exchange
-            </h2>
-          </div> */}
+    <CardBody className="px-6 py-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 border-b border-gray-200 pb-6">
+        <label className="flex flex-col md:flex-row items-center gap-4">
+          <span className="w-full md:w-1/3 text-gray-700 font-medium text-center md:text-left">
+            Select Wallet
+          </span>
+          <select
+            className="w-full md:w-2/3 h-12 rounded-lg border border-gray-300 bg-white px-4 text-gray-700 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+            value={selectedPrimaryAccount}
+            onChange={(e) => setSelectedPrimaryAccount(e.target.value)}
+          >
+            <option value="">Choose Primary Account</option>
+            {currentUser?.wallets?.map((wallet, index) => (
+              <option key={index} value={wallet?._id}>
+                {wallet?.wallet} - {wallet?.account} - {wallet?.exchange}
+              </option>
+            ))}
+          </select>
+        </label>
+      </div>
 
-          <div className="flex items-center">
-            <h2 className="rounded-lg rounded-r-none bg-primary h-12 w-1/3 text-white text-center pt-2.5">
-              Wallet
-            </h2>
-            <select
-              className="rounded-lg rounded-l-none bg-stroke h-12 outline-none w-2/3 text-textLight text-center"
-              onChange={(e) => {
-                setSelectedPrimaryAccount(e.target.value);
-              }}
-              value={selectedPrimaryAccount}
-            >
-              <option value="">Choose Primary Account</option>
-              {currentUser?.wallets?.map((wallet, index) => (
-                <option key={index} value={wallet?._id}>
-                  {wallet?.wallet} - {wallet?.account} - {wallet?.exchange}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-        <div className="flex flex-col md:flex-row justify-between py-6 items-center">
-          {/* <div className="flex flex-col">
-            <label htmlFor="" className="text-xl font-semobold">
-              Currency Type
-            </label>
-            <select
-              onChange={(e) => {
-                setSelectedCurrency(e.target.value);
-              }}
-              name=""
-              className="roboinput w-60"
-              id=""
-              value={selectedCurrency}
-            >
-              <option>Select Currency</option>
-              <option value="usd">$ USD</option>
-              <option value="inr">₹ INR</option>
-              <option value="euro">€ Euro</option>
-            </select>
-          </div> */}
-          <div>
-            <Button onClick={submitForm} className="btn-basic mr-3">
-              Save
-            </Button>
-          </div>
-        </div>
-      </CardBody>
-    </Card>
-  );
+      <div className="flex justify-end mt-6">
+        <Button
+          onClick={submitForm}
+          className="bg-primary text-white hover:bg-primary-dark px-6 py-2 rounded-lg font-medium transition"
+        >
+          Save Changes
+        </Button>
+      </div>
+    </CardBody>
+  </Card>
+);
+
 };
 
 export default AccountTab;

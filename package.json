@@ -1,5 +1,5 @@
 {
-  "name": "robofxclient",
+  "name": "cryptominerx",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -11,6 +11,11 @@
   "dependencies": {
     "@nextui-org/navbar": "^2.0.27",
     "@nextui-org/react": "^2.2.9",
+    "@radix-ui/react-avatar": "^1.1.11",
+    "@radix-ui/react-dialog": "^1.1.15",
+    "@radix-ui/react-icons": "^1.3.2",
+    "@radix-ui/react-label": "^2.1.8",
+    "@radix-ui/react-select": "^2.2.6",
     "@react-pdf/renderer": "^3.3.4",
     "@types/jsonwebtoken": "^9.0.5",
     "axios": "^1.6.5",

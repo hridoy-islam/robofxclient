@@ -1,17 +1,18 @@
 "use client";
-import { Button } from "@nextui-org/react";
 import { Icon } from "@iconify/react";
 import Cookies from "universal-cookie";
-import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function LogoutButton() {
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
   const cookies = new Cookies();
-  const router = useRouter();
 
   const handleLogout = () => {
+    setIsLoggingOut(true);
+    // Remove the cookie
+    cookies.remove("jwt", { path: "/" }); // Ensure path is defined to strictly remove it
 
-    cookies.remove("jwt");
-
+    // Small delay for visual feedback before redirect
     setTimeout(() => {
       window.location.href = "/";
     }, 500);
@@ -20,11 +21,23 @@ export default function LogoutButton() {
   return (
     <button
       onClick={handleLogout}
-      // variant="bordered"
-      className="flex items-center gap-2 rounded-md border-2 border-red text-red text-md font-medium py-2 px-4 cursor-pointer"
+      disabled={isLoggingOut}
+      className={`
+        group flex items-center gap-2 px-4 py-3 rounded-full text-sm font-bold transition-all duration-200 border
+        ${
+          isLoggingOut
+            ? "bg-red-50 text-red-400 border-transparent cursor-wait"
+            : "bg-white text-gray-600 border-gray-200 hover:border-red-200 hover:bg-red-50 hover:text-red-600 hover:shadow-sm"
+        }
+      `}
     >
-      <Icon icon="tabler:logout" className="text-xl" />
-      Logout
+      <Icon
+        icon={isLoggingOut ? "line-md:loading-loop" : "solar:logout-2-outline"}
+        className={`text-lg transition-transform duration-200 ${
+          !isLoggingOut && "group-hover:-translate-x-0.5"
+        }`}
+      />
+      <span>{isLoggingOut ? "Signing out..." : "Logout"}</span>
     </button>
   );
 }

@@ -1,13 +1,6 @@
 "use client";
 import ViewButton from "@/components/ViewButton";
-import {
-  Avatar,
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
-  Tooltip,
-} from "@nextui-org/react";
+import { Card, CardBody, CardHeader, Tooltip } from "@nextui-org/react";
 import Cookies from "universal-cookie";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -25,6 +18,8 @@ import {
   YAxis,
 } from "recharts";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 interface DashboardProps {
   allUsers: UserData[];
@@ -152,213 +147,242 @@ const Dashboard = ({
   ];
 
   return (
-    <div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-        <Card>
-          <CardHeader>
-            <div className="">
-              <div className="">
-                <p className="text-textLight">Total Users</p>
-                <h2 className="text-4xl">{wholeUsers?.length}</h2>
-              </div>
+    <div className="space-y-10">
+      {/* Stats Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Total Users */}
+        <Card className="shadow-md border border-gray-200">
+          <CardHeader className="flex flex-col gap-2">
+            <p className="text-sm text-gray-500">Total Users</p>
+            <h2 className="text-3xl font-semibold">{wholeUsers?.length}</h2>
+            <ResponsiveContainer width="100%" height={100}>
+              <AreaChart
+                data={data}
+                syncId="anyId"
+                margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
+              >
+                <Area
+                  type="monotone"
+                  dataKey="pv"
+                  stroke="#3b82f6"
+                  fill="#93c5fd"
+                />
+              </AreaChart>
+            </ResponsiveContainer>
+          </CardHeader>
+        </Card>
 
-              <ResponsiveContainer width={350} height={100}>
-                <AreaChart
-                  data={data}
-                  syncId="anyId"
-                  margin={{
-                    top: 10,
-                    right: 10,
-                    left: 0,
-                    bottom: 0,
-                  }}
-                >
-                  <Area
-                    type="monotone"
-                    dataKey="pv"
-                    stroke="#82ca9d"
-                    fill="#82ca9d"
-                  />
-                </AreaChart>
-              </ResponsiveContainer>
-            </div>
+        {/* New Users */}
+        <Card className="shadow-md border border-gray-200">
+          <CardHeader className="flex flex-col gap-2">
+            <p className="text-sm text-gray-500">New Users</p>
+            <h2 className="text-3xl font-semibold">{wholeUsers?.length}</h2>
+            <ResponsiveContainer width="100%" height={100}>
+              <AreaChart
+                data={user}
+                syncId="anyId"
+                margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
+              >
+                <Area
+                  type="monotone"
+                  dataKey="pv"
+                  stroke="#3b82f6"
+                  fill="#93c5fd"
+                />
+              </AreaChart>
+            </ResponsiveContainer>
           </CardHeader>
         </Card>
-        <Card>
-          <CardHeader>
-            <div className="">
-              <div>
-                <p className="text-textLight">New Users</p>
-                <h2 className="text-4xl">{wholeUsers?.length}</h2>
-              </div>
-              <ResponsiveContainer width={350} height={100}>
-                <AreaChart
-                  data={user}
-                  syncId="anyId"
-                  margin={{
-                    top: 10,
-                    right: 10,
-                    left: 0,
-                    bottom: 0,
-                  }}
-                >
-                  <Area type="monotone" dataKey="pv" stroke="red" fill="red" />
-                </AreaChart>
-              </ResponsiveContainer>
-            </div>
-          </CardHeader>
-        </Card>
-        <Card>
-          <CardHeader>
-            <div className="">
-              <div>
-                <p className="text-textLight">Total Rigs</p>
-                <h2 className="text-4xl">{wholeRigsAdmin?.length}</h2>
-              </div>
-              <ResponsiveContainer width={350} height={100}>
-                <AreaChart
-                  data={rigs}
-                  syncId="anyId"
-                  margin={{
-                    top: 10,
-                    right: 10,
-                    left: 0,
-                    bottom: 0,
-                  }}
-                >
-                  <Area
-                    type="monotone"
-                    dataKey="pv"
-                    stroke="#82ca9d"
-                    fill="#82ca9d"
-                  />
-                </AreaChart>
-              </ResponsiveContainer>
-            </div>
+
+        {/* Total Rigs */}
+        <Card className="shadow-md border border-gray-200">
+          <CardHeader className="flex flex-col gap-2">
+            <p className="text-sm text-gray-500">Total Rigs</p>
+            <h2 className="text-3xl font-semibold">{wholeRigsAdmin?.length}</h2>
+            <ResponsiveContainer width="100%" height={100}>
+              <AreaChart
+                data={rigs}
+                syncId="anyId"
+                margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
+              >
+                <Area
+                  type="monotone"
+                  dataKey="pv"
+                 stroke="#3b82f6"
+                  fill="#93c5fd"
+                />
+              </AreaChart>
+            </ResponsiveContainer>
           </CardHeader>
         </Card>
       </div>
-      <div className="my-10">
-        <Card>
-          <CardHeader className="tableHeader">
-            <h2>Users</h2>
-            <Button
-              onClick={() => {
-                router.push("/dashboard/admin/user");
-              }}
-              className="text-primary bg-white border-primary border rounded-md"
-            >
-              View All
-            </Button>
-          </CardHeader>
-          <CardBody>
-            <table className="table-auto">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Phone</th>
-                  <th>Email Address</th>
-                  <th>City</th>
-                  <th>Country</th>
-                  <th>Actions</th>
+
+      {/* Users Table */}
+      <Card className="shadow-md border border-gray-200">
+        <CardHeader className="flex items-center justify-between">
+          <h2 className="text-xl font-semibold">Users</h2>
+          <Button
+            variant="outline"
+            onClick={() => router.push("/dashboard/admin/user")}
+          >
+            View All
+          </Button>
+        </CardHeader>
+        <CardBody className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-4 py-2 text-left text-sm font-medium text-gray-500">
+                  Name
+                </th>
+                <th className="px-4 py-2 text-left text-sm font-medium text-gray-500">
+                  Phone
+                </th>
+                <th className="px-4 py-2 text-left text-sm font-medium text-gray-500">
+                  Email
+                </th>
+                <th className="px-4 py-2 text-left text-sm font-medium text-gray-500">
+                  City
+                </th>
+                <th className="px-4 py-2 text-left text-sm font-medium text-gray-500">
+                  Country
+                </th>
+                <th className="px-4 py-2 text-left text-sm font-medium text-gray-500">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {allUsers?.slice(0, 3)?.map((user, index) => (
+                <tr key={index}>
+                  <td className="px-4 py-2 flex items-center gap-2">
+                    <Avatar className="h-8 w-8">
+                      {user?.personal_information?.photo ? (
+                        <AvatarImage
+                          src={user.personal_information.photo}
+                          alt={`${user.personal_information.firstName} ${user.personal_information.lastName}`}
+                          className="object-cover"
+                        />
+                      ) : (
+                        <AvatarFallback className="bg-gray-300 text-gray-700 text-sm font-medium">
+                          {user?.personal_information?.firstName?.charAt(0)}
+                          {user?.personal_information?.lastName?.charAt(0)}
+                        </AvatarFallback>
+                      )}
+                    </Avatar>
+                    <span>
+                      {user?.personal_information?.firstName}{" "}
+                      {user?.personal_information?.lastName}
+                    </span>
+                  </td>
+
+                  <td className="px-4 py-2">
+                    {user?.personal_information?.phone}
+                  </td>
+                  <td className="px-4 py-2">{user?.email}</td>
+                  <td className="px-4 py-2">
+                    {user?.contact_information?.city}
+                  </td>
+                  <td className="px-4 py-2">
+                    {user?.contact_information?.country}
+                  </td>
+                  <td className="px-4 py-2">
+                    <ViewButton userId={user?._id} />
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {allUsers?.slice(0, 3)?.map((user, index) => (
-                  <tr key={index}>
-                    <td>
-                      <div className="flex items-center gap-2">
-                        {user?.personal_information?.photo ? (
-                          <Avatar
-                            className="w-6 h-6"
-                            src={user?.personal_information?.photo}
-                          />
-                        ) : (
-                          <Image src={Logo} className="w-6 h-6" alt="" />
-                        )}
-                        {user?.personal_information?.firstName}{" "}
-                        {user?.personal_information?.lastName}
-                      </div>
-                    </td>
-                    <td>{user?.personal_information?.phone}</td>
-                    <td>{user?.email}</td>
-                    <td>{user?.contact_information?.city}</td>
-                    <td>{user?.contact_information?.country}</td>
-                    <td>
-                      <ViewButton userId={user?._id} />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </CardBody>
-        </Card>
-      </div>
-      <div className="my-10">
-        <Card>
-          <CardHeader className="tableHeader">
-            <h2>Orders</h2>
-            <Button
-              onClick={() => {
-                router.push("/dashboard/admin/order");
-              }}
-              className="text-primary bg-white border-primary border rounded-md"
-            >
-              View All
-            </Button>
-          </CardHeader>
-          <CardBody>
-            <table className="table-auto">
-              <thead>
-                <tr>
-                  <th>Product Name</th>
-                  <th>User</th>
-                  <th>Price</th>
-                  <th>Status</th>
-                  <th>Date</th>
-                  <th>Actions</th>
+              ))}
+            </tbody>
+          </table>
+        </CardBody>
+      </Card>
+
+      {/* Orders Table */}
+      <Card className="shadow-md border border-gray-200">
+        <CardHeader className="flex items-center justify-between">
+          <h2 className="text-xl font-semibold">Orders</h2>
+          <Button
+            variant="outline"
+            onClick={() => router.push("/dashboard/admin/order")}
+          >
+            View All
+          </Button>
+        </CardHeader>
+        <CardBody className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-4 py-2 text-left text-sm font-medium text-gray-500">
+                  Product Name
+                </th>
+                <th className="px-4 py-2 text-left text-sm font-medium text-gray-500">
+                  User
+                </th>
+                <th className="px-4 py-2 text-left text-sm font-medium text-gray-500">
+                  Price
+                </th>
+                <th className="px-4 py-2 text-left text-sm font-medium text-gray-500">
+                  Status
+                </th>
+                <th className="px-4 py-2 text-left text-sm font-medium text-gray-500">
+                  Date
+                </th>
+                <th className="px-4 py-2 text-left text-sm font-medium text-gray-500">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {allOrders?.slice(0, 3)?.map((order, index) => (
+                <tr key={index}>
+                  <td className="px-4 py-2">{order?.productid?.title}</td>
+
+                  <td className="px-4 py-2 flex items-center gap-2">
+                    <Avatar className="h-8 w-8">
+                      {order?.userid?.personal_information?.photo ? (
+                        <AvatarImage
+                          src={order.userid.personal_information.photo}
+                          alt={`${order.userid.personal_information.firstName} ${order.userid.personal_information.lastName}`}
+                          className="object-cover"
+                        />
+                      ) : (
+                        <AvatarFallback className="bg-gray-300 text-gray-700 text-sm font-medium">
+                          {order?.userid?.personal_information?.firstName?.charAt(
+                            0
+                          )}
+                          {order?.userid?.personal_information?.lastName?.charAt(
+                            0
+                          )}
+                        </AvatarFallback>
+                      )}
+                    </Avatar>
+                    <span>
+                      {order?.userid?.personal_information?.firstName}{" "}
+                      {order?.userid?.personal_information?.lastName}
+                    </span>
+                  </td>
+
+                  <td className="px-4 py-2">${order?.productid?.price}</td>
+                  <td className="px-4 py-2">{order?.status}</td>
+                  <td className="px-4 py-2">
+                    {moment(order?.createdAt).format("LL")}
+                  </td>
+                  <td className="px-4 py-2">
+                    <Link href={`/dashboard/admin/order/${order?._id}`}>
+                      <Button
+                        variant="outline"
+                        className="flex items-center gap-2"
+                      >
+                        <Icon icon="solar:eye-linear" className="text-lg" />
+                        View
+                      </Button>
+                    </Link>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {allOrders?.slice(0, 3)?.map((order, index) => (
-                  <tr key={index}>
-                    <td>{order?.productid?.title}</td>
-
-                    <td>
-                      <div className="flex items-center gap-2">
-                        {order?.userid?.personal_information?.photo ? (
-                          <Avatar
-                            className="w-6 h-6"
-                            src={order?.userid?.personal_information?.photo}
-                          />
-                        ) : (
-                          <Image src={Logo} className="w-6 h-6" alt="" />
-                        )}
-                        <span>
-                          {order?.userid?.personal_information?.firstName}{" "}
-                          {order?.userid?.personal_information?.lastName}
-                        </span>
-                      </div>
-                    </td>
-
-                    <td>${order?.productid?.price}</td>
-                    <td>{order?.status}</td>
-                    <td>{moment(order?.createdAt).format("LL")}</td>
-                    <td>
-                      <Link href={`/dashboard/admin/order/${order?._id}`}>
-                        <Button className="text-primary border-primary border-1 bg-white ml-2 px-3 text-md">
-                          <Icon icon="solar:eye-linear" className="text-lg" />
-                          <span>View</span>
-                        </Button>
-                      </Link>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </CardBody>
-        </Card>
-      </div>
+              ))}
+            </tbody>
+          </table>
+        </CardBody>
+      </Card>
     </div>
   );
 };

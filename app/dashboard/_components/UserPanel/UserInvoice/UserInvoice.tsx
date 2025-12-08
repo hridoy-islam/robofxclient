@@ -8,7 +8,6 @@ import {
   CardBody,
   CardHeader,
   Avatar,
-  Button,
 } from "@nextui-org/react";
 import { Icon } from "@iconify/react";
 import DownloadInvoiceButton from "@/components/DownloadInvoiceButton";
@@ -29,6 +28,7 @@ import ReactDOMServer from "react-dom/server";
 import { PDFViewer } from "@react-pdf/renderer";
 import { useSearchParams } from "next/navigation";
 import Pagination from "@/components/Pagination";
+import { Button } from "@/components/ui/button";
 
 interface Invoice {
   _id: string;
@@ -136,488 +136,270 @@ const UserInvoice = ({ invoices }: UserInvoiceProps) => {
   };
 
   return (
-    <div>
-      <div className="flex w-full flex-col">
-        <Tabs
-          aria-label="Options"
-          color="primary"
-          variant="bordered"
-          classNames={{
-            tabList: "bg-white p-0 rounded-0 text-white",
-            cursor: "w-full bg-primary",
-            tab: "max-w-fit px-8 h-10",
-          }}
-        >
-          <Tab key="bill" title="Bill Invoices">
-            <Card>
-              <CardHeader className="tableHeader">
-                <div>
-                  <h2>All Bill Invoices</h2>
-                </div>
-              </CardHeader>
-              <CardBody>
-                <table className="table-fixed">
-                  <thead>
-                    <tr>
-                      <th>Invoice Number</th>
-                      <th>Amount</th>
-                      <th>User</th>
-                      <th>Created On</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {billInvoices?.map((invoice, index) => (
-                      <tr key={index}>
-                        <td>{invoice?.invoiceId}</td>
-                        <td>
-                          ${calculateTotalAmount(invoice?.information || 0)}
-                        </td>
-                        <td>
-                          <div className="flex items-center gap-2">
-                            <Avatar
-                              className="w-6 h-6"
-                              src={invoice?.userid?.personal_information?.photo}
-                            />
-                            <span>
-                              {invoice?.userid?.personal_information?.firstName}{" "}
-                              {invoice?.userid?.personal_information?.lastName}
-                            </span>{" "}
-                          </div>
-                        </td>
-                        <td>{moment(invoice?.createdAt).format("LL")}</td>
-                        <td>
-                          <div className="flex gap-3">
-                            <Button
-                              onPress={() => openModal(invoice)}
-                              className="text-primary border-primary border-1 bg-white ml-2 px-3 text-md"
-                            >
-                              <Icon
-                                icon="solar:eye-linear"
-                                className="text-lg"
-                              />
-                              <span>View</span>
-                            </Button>{" "}
-                            <Button
-                              onPress={() => openModal(invoice)}
-                              className="flex items-center text-purple border border-purple bg-transparent text-lg"
-                            >
-                              <Icon
-                                icon="material-symbols-light:download"
-                                width={27}
-                              />{" "}
-                              Download
-                            </Button>{" "}
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </CardBody>
-            </Card>
-          </Tab>
-          <Tab key="addon" title="Add-ons Invoice">
-            <Card>
-              <CardHeader className="tableHeader">
-                <div>
-                  <h2>Add On Invoices</h2>
-                </div>
-              </CardHeader>
-              <CardBody>
-                <table className="table-fixed">
-                  <thead>
-                    <tr>
-                      <th>Invoice Number</th>
-                      <th>Amount</th>
-                      <th>User</th>
-                      <th>Created On</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {addonInvoices?.map((invoice, index) => (
-                      <tr key={index}>
-                        <td>{invoice?.invoiceId}</td>
-                        <td>
-                          ${calculateTotalAmount(invoice?.information || 0)}
-                        </td>
-                        <td>
-                          <div className="flex items-center gap-2">
-                            <Avatar
-                              className="w-6 h-6"
-                              src={invoice?.userid?.personal_information?.photo}
-                            />
-                            <span>
-                              {invoice?.userid?.personal_information?.firstName}{" "}
-                              {invoice?.userid?.personal_information?.lastName}
-                            </span>{" "}
-                          </div>
-                        </td>
-                        <td>{moment(invoice?.createdAt).format("LL")}</td>
-                        <td>
-                          <div className="flex gap-3">
-                            <Button
-                              onPress={() => openModal(invoice)}
-                              className="text-primary border-primary border-1 bg-white ml-2 px-3 text-md"
-                            >
-                              <Icon
-                                icon="solar:eye-linear"
-                                className="text-lg"
-                              />
-                              <span>View</span>
-                            </Button>{" "}
-                            <Button
-                              onPress={() => openModal(invoice)}
-                              className="flex items-center text-purple border border-purple bg-transparent text-lg"
-                            >
-                              <Icon
-                                icon="material-symbols-light:download"
-                                width={27}
-                              />{" "}
-                              Download
-                            </Button>{" "}
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </CardBody>
-            </Card>
-          </Tab>
-          <Tab key="rigs" title="Rigs Invoice">
-            <Card>
-              <CardHeader className="tableHeader">
-                <div>
-                  <h2>Rigs Invoices</h2>
-                </div>
-              </CardHeader>
-              <CardBody>
-                <table className="table-fixed">
-                  <thead>
-                    <tr>
-                      <th>Invoice Number</th>
-                      <th>Amount</th>
-                      <th>User</th>
-                      <th>Created On</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {rigsInvoices?.map((invoice, index) => (
-                      <tr key={index}>
-                        <td>{invoice?.invoiceId}</td>
-                        <td>
-                          ${calculateTotalAmount(invoice?.information || 0)}
-                        </td>
-                        <td>
-                          <div className="flex items-center gap-2">
-                            <Avatar
-                              className="w-6 h-6"
-                              src={invoice?.userid?.personal_information?.photo}
-                            />
-                            <span>
-                              {invoice?.userid?.personal_information?.firstName}{" "}
-                              {invoice?.userid?.personal_information?.lastName}
-                            </span>{" "}
-                          </div>
-                        </td>
-                        <td>{moment(invoice?.createdAt).format("LL")}</td>
-                        <td>
-                          <div className="flex gap-3">
-                            <Button
-                              onPress={() => openModal(invoice)}
-                              className="text-primary border-primary border-1 bg-white ml-2 px-3 text-md"
-                            >
-                              <Icon
-                                icon="solar:eye-linear"
-                                className="text-lg"
-                              />
-                              <span>View</span>
-                            </Button>{" "}
-                            <Button
-                              onPress={() => openModal(invoice)}
-                              className="flex items-center text-purple border border-purple bg-transparent text-lg"
-                            >
-                              <Icon
-                                icon="material-symbols-light:download"
-                                width={27}
-                              />{" "}
-                              Download
-                            </Button>{" "}
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </CardBody>
-            </Card>
-          </Tab>
-        </Tabs>
-
-        <Modal
-          size="3xl"
-          className="mt-[300px]"
-          isOpen={isOpen}
-          onOpenChange={onOpenChange}
-        >
-          <ModalContent>
-            {(onClose) => (
-              <>
-                <ModalHeader className="flex flex-col gap-1 "> </ModalHeader>
-                <ModalBody>
-                  <div
-                    className="p-6 bg-white rounded shadow-sm my-6 "
-                    id="invoice"
-                  >
-                    <div className="grid grid-cols-1 md:grid-cols-2 items-center">
-                      <div>
-                        <img
-                          src="/logo.png"
-                          alt="company-logo"
-                          className="h-auto w-40 object-cover"
-                        />
-                      </div>
-
-                      <div className="mt-6 md:mt-0">
-                        <div className="flex md:justify-end gap-8">
-                          <div className="border-r-2 border-primary pr-6">
-                            <p>Date</p>
-                            {moment(selectedInvoice?.createdAt).format("LL")}
-                          </div>
-
-                          <div>
-                            <p>Invoice</p>
-                            <p>INV - {selectedInvoice?.invoiceId}</p>
-                          </div>
+  <div className="flex w-full flex-col gap-6">
+    <Tabs
+      aria-label="Invoice Categories"
+      color="primary"
+      variant="bordered"
+      className=" rounded-md "
+      classNames={{
+        tabList: "bg-gray-50 p-1 rounded-md flex gap-2",
+        tab: "px-6 py-2 rounded-md font-medium text-black data-[selected=true]:bg-primary data-[selected=true]:text-white",
+      }}
+    >
+      <Tab key="bill" title="Bill Invoices">
+        <Card className="shadow-sm rounded-md">
+          <CardHeader className="bg-gray-100 px-6 py-4">
+            <h2 className="text-lg font-semibold text-gray-800">All Bill Invoices</h2>
+          </CardHeader>
+          <CardBody className="p-0">
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th className="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
+                      Invoice Number
+                    </th>
+                    <th className="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
+                      Amount
+                    </th>
+                    <th className="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
+                      User
+                    </th>
+                    <th className="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
+                      Created On
+                    </th>
+                    <th className="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {billInvoices?.map((invoice, index) => (
+                    <tr
+                      key={index}
+                      className="hover:bg-gray-50 transition duration-150"
+                    >
+                      <td className="px-6 py-4 text-gray-700 font-medium">
+                        {invoice?.invoiceId}
+                      </td>
+                      <td className="px-6 py-4 text-gray-700 font-medium">
+                        ${calculateTotalAmount(invoice?.information || [])}
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-2">
+                          <Avatar
+                            className="w-6 h-6"
+                            src={invoice?.userid?.personal_information?.photo}
+                          />
+                          <span className="text-gray-800">
+                            {invoice?.userid?.personal_information?.firstName}{" "}
+                            {invoice?.userid?.personal_information?.lastName}
+                          </span>
                         </div>
-                      </div>
-                    </div>
+                      </td>
+                      <td className="px-6 py-4 text-gray-500">
+                        {moment(invoice?.createdAt).format("LL")}
+                      </td>
+                      <td className="px-6 py-4 flex gap-2">
+                        <Button
+                          onClick={() => openModal(invoice)}
+                          size="sm"
+                          className="flex items-center gap-1 bg-primary text-white hover:bg-primary/90"
+                        >
+                          <Icon icon="solar:eye-linear" className="text-lg" />
+                          View
+                        </Button>
+                        <Button
+                          onClick={() => openModal(invoice)}
+                          size="sm"
+                          className="flex items-center gap-1 border border-purple text-purple hover:bg-purple/10"
+                        >
+                          <Icon icon="material-symbols-light:download" width={20} />
+                          Download
+                        </Button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </CardBody>
+        </Card>
+      </Tab>
 
-                    {/* <!-- Client info --> */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 items-center mt-8">
-                      <div>
-                        <p className="text-gray-500">
-                          Algopips
-                          <br />
-                          Bayswater Tower Marasi Dr Business Bay - Dubai UAE
-                        </p>
-                      </div>
-
-                      <div className="md:text-right mt-5 md:mt-0">
-                        <p className="">User Info</p>
-                        <p className="font-normal text-gray-400">
-                          {
-                            selectedInvoice?.userid?.personal_information
-                              ?.firstName
-                          }{" "}
-                          {
-                            selectedInvoice?.userid?.personal_information
-                              ?.lastName
-                          }
-                        </p>
-                        <p className="font-normal text-gray-400">
-                          {
-                            selectedInvoice?.userid?.contact_information
-                              ?.address
-                          }
-                          ,{selectedInvoice?.userid?.contact_information?.city},
-                          {
-                            selectedInvoice?.userid?.contact_information
-                              ?.country
-                          }
-                        </p>
-                        <p className="font-normal text-gray-400">
-                          Phone:{" "}
-                          {selectedInvoice?.userid?.personal_information?.phone}
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* <!-- Invoice Items --> */}
-                    <div className="-mx-4 mt-8 flow-root sm:mx-0">
-                      <table className="min-w-full">
-                        <colgroup>
-                          <col className="w-full sm:w-1/2" />
-                          <col className="sm:w-1/6" />
-                          <col className="sm:w-1/6" />
-                          <col className="sm:w-1/6" />
-                        </colgroup>
-                        <thead className="border-b border-gray-300 text-gray-900">
-                          <tr>
-                            <th
-                              scope="col"
-                              className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
-                            >
-                              Items
-                            </th>
-                            <th
-                              scope="col"
-                              className="hidden px-3 py-3.5 text-right text-sm font-semibold text-gray-900 sm:table-cell"
-                            >
-                              Qty
-                            </th>
-                            <th
-                              scope="col"
-                              className="hidden px-3 py-3.5 text-right text-sm font-semibold text-gray-900 sm:table-cell"
-                            >
-                              Rate
-                            </th>
-                            <th
-                              scope="col"
-                              className="py-3.5 pl-3 pr-4 text-right text-sm font-semibold text-gray-900 sm:pr-0"
-                            >
-                              Tax
-                            </th>
-                            <th
-                              scope="col"
-                              className="py-3.5 pl-3 pr-4 text-right text-sm font-semibold text-gray-900 sm:pr-0"
-                            >
-                              Amount
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {selectedInvoice?.information?.map(
-                            (invoice: any, index: number) => (
-                              <tr
-                                key={index}
-                                className="border-b border-gray-200"
-                              >
-                                <td className="max-w-0 py-5 pl-4 pr-3 text-sm sm:pl-0">
-                                  <div className="font-medium text-gray-900">
-                                    {invoice?.item}
-                                  </div>
-                                </td>
-                                <td className="hidden px-3 py-5 text-right text-sm text-gray-500 sm:table-cell">
-                                  {invoice?.quantity}
-                                </td>
-                                <td className="hidden px-3 py-5 text-right text-sm text-gray-500 sm:table-cell">
-                                  ${invoice?.rate}
-                                </td>
-                                <td className="py-5 pl-3 pr-4 text-right text-sm text-gray-500 sm:pr-0">
-                                  {invoice?.tax}%
-                                </td>
-                                <td className="py-5 pl-3 pr-4 text-right text-sm text-gray-500 sm:pr-0">
-                                  ${invoice?.amount}
-                                </td>
-                              </tr>
-                            )
-                          )}
-                        </tbody>
-                        <tfoot>
-                          <tr>
-                            <th
-                              scope="row"
-                              colSpan={4}
-                              className="hidden pl-4 pr-3 pt-6 text-right text-sm font-normal text-gray-500 sm:table-cell sm:pl-0"
-                            >
-                              Sub - total
-                            </th>
-                            <th
-                              scope="row"
-                              className="pl-6 pr-3 pt-6 text-left text-sm font-normal text-gray-500 sm:hidden"
-                            >
-                              Subtotal
-                            </th>
-                            <td className="pl-3 pr-6 pt-6 text-right text-sm text-gray-500 sm:pr-0">
-                              $
-                              {selectedInvoice &&
-                                calculateTotalAmount(
-                                  selectedInvoice?.information
-                                )}
-                            </td>
-                          </tr>
-
-                          <tr>
-                            <th
-                              scope="row"
-                              colSpan={4}
-                              className="hidden pl-4 pr-3 pt-4 text-right text-sm font-semibold text-gray-900 sm:table-cell sm:pl-0"
-                            >
-                              Total Payment
-                            </th>
-                            <th
-                              scope="row"
-                              className="pl-6 pr-3 pt-4 text-left text-sm font-semibold text-gray-900 sm:hidden"
-                            >
-                              Total
-                            </th>
-                            <td className="pl-3 pr-4 pt-4 text-right text-sm font-semibold text-gray-900 sm:pr-0">
-                              $
-                              {selectedInvoice &&
-                                calculateTotalAmount(
-                                  selectedInvoice?.information
-                                )}
-                            </td>
-                          </tr>
-                          <tr>
-                            <th
-                              scope="row"
-                              colSpan={4}
-                              className="hidden pl-4 pr-3 pt-4 text-right text-sm font-semibold text-gray-900 sm:table-cell sm:pl-0"
-                            >
-                              Total Due
-                            </th>
-                            <th
-                              scope="row"
-                              className="pl-6 pr-3 pt-4 text-left text-sm font-semibold text-gray-900 sm:hidden"
-                            >
-                              Total
-                            </th>
-                            <td className="pl-3 pr-4 pt-4 text-right text-sm font-semibold text-gray-900 sm:pr-0">
-                              $0
-                            </td>
-                          </tr>
-                        </tfoot>
-                      </table>
-                    </div>
-
-                    {/* <!--  Footer  --> */}
-                    <div className="border-t pt-4 flex justify-between items-center mt-16">
-                      <div>
-                        {" "}
-                        <img
-                          src="/logo.png"
-                          alt="company-logo"
-                          className="h-auto w-20 object-cover"
-                        />
-                      </div>
-                      <div className="flex flex-col md:flex-row gap-4">
-                        <div className="md:border-r md:pr-4">
-                          {" "}
-                          mining@algopips.net
+      <Tab key="addon" title="Add-ons Invoice">
+        <Card className="shadow-sm rounded-md">
+          <CardHeader className="bg-gray-100 px-6 py-4">
+            <h2 className="text-lg font-semibold text-gray-800">Add-on Invoices</h2>
+          </CardHeader>
+          <CardBody className="p-0">
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th className="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
+                      Invoice Number
+                    </th>
+                    <th className="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
+                      Amount
+                    </th>
+                    <th className="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
+                      User
+                    </th>
+                    <th className="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
+                      Created On
+                    </th>
+                    <th className="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {addonInvoices?.map((invoice, index) => (
+                    <tr
+                      key={index}
+                      className="hover:bg-gray-50 transition duration-150"
+                    >
+                      <td className="px-6 py-4 text-gray-700 font-medium">
+                        {invoice?.invoiceId}
+                      </td>
+                      <td className="px-6 py-4 text-gray-700 font-medium">
+                        ${calculateTotalAmount(invoice?.information || [])}
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-2">
+                          <Avatar
+                            className="w-6 h-6"
+                            src={invoice?.userid?.personal_information?.photo}
+                          />
+                          <span className="text-gray-800">
+                            {invoice?.userid?.personal_information?.firstName}{" "}
+                            {invoice?.userid?.personal_information?.lastName}
+                          </span>
                         </div>
-                        <div>+19292301920</div>
-                      </div>
-                    </div>
-                  </div>
-                </ModalBody>
-                <ModalFooter>
-                  {" "}
-                  <Button
-                    onClick={generatePDF}
-                    className="flex items-center text-purple border border-purple bg-transparent text-lg"
-                  >
-                    <Icon icon="material-symbols-light:download" width={27} />{" "}
-                    Download
-                  </Button>
-                </ModalFooter>
-              </>
-            )}
-          </ModalContent>
-        </Modal>
-      </div>
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        previousPageHref={getPreviousPageHref()}
-        nextPageHref={getNextPageHref()}
-      />{" "}
-    </div>
-  );
+                      </td>
+                      <td className="px-6 py-4 text-gray-500">
+                        {moment(invoice?.createdAt).format("LL")}
+                      </td>
+                      <td className="px-6 py-4 flex gap-2">
+                        <Button
+                          onClick={() => openModal(invoice)}
+                          size="sm"
+                          className="flex items-center gap-1 bg-primary text-white hover:bg-primary/90"
+                        >
+                          <Icon icon="solar:eye-linear" className="text-lg" />
+                          View
+                        </Button>
+                        <Button
+                          onClick={() => openModal(invoice)}
+                          size="sm"
+                          className="flex items-center gap-1 border border-purple text-purple hover:bg-purple/10"
+                        >
+                          <Icon icon="material-symbols-light:download" width={20} />
+                          Download
+                        </Button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </CardBody>
+        </Card>
+      </Tab>
+
+      <Tab key="rigs" title="Rigs Invoice">
+        <Card className="shadow-sm rounded-md">
+          <CardHeader className="bg-gray-100 px-6 py-4">
+            <h2 className="text-lg font-semibold text-gray-800">Rigs Invoices</h2>
+          </CardHeader>
+          <CardBody className="p-0">
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th className="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
+                      Invoice Number
+                    </th>
+                    <th className="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
+                      Amount
+                    </th>
+                    <th className="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
+                      User
+                    </th>
+                    <th className="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
+                      Created On
+                    </th>
+                    <th className="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {rigsInvoices?.map((invoice, index) => (
+                    <tr
+                      key={index}
+                      className="hover:bg-gray-50 transition duration-150"
+                    >
+                      <td className="px-6 py-4 text-gray-700 font-medium">
+                        {invoice?.invoiceId}
+                      </td>
+                      <td className="px-6 py-4 text-gray-700 font-medium">
+                        ${calculateTotalAmount(invoice?.information || [])}
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-2">
+                          <Avatar
+                            className="w-6 h-6"
+                            src={invoice?.userid?.personal_information?.photo}
+                          />
+                          <span className="text-gray-800">
+                            {invoice?.userid?.personal_information?.firstName}{" "}
+                            {invoice?.userid?.personal_information?.lastName}
+                          </span>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 text-gray-500">
+                        {moment(invoice?.createdAt).format("LL")}
+                      </td>
+                      <td className="px-6 py-4 flex gap-2">
+                        <Button
+                          onClick={() => openModal(invoice)}
+                          size="sm"
+                          className="flex items-center gap-1 bg-primary text-white hover:bg-primary/90"
+                        >
+                          <Icon icon="solar:eye-linear" className="text-lg" />
+                          View
+                        </Button>
+                        <Button
+                          onClick={() => openModal(invoice)}
+                          size="sm"
+                          className="flex items-center gap-1 border border-purple text-purple hover:bg-purple/10"
+                        >
+                          <Icon icon="material-symbols-light:download" width={20} />
+                          Download
+                        </Button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </CardBody>
+        </Card>
+      </Tab>
+    </Tabs>
+
+    <Pagination
+      currentPage={currentPage}
+      totalPages={totalPages}
+      previousPageHref={getPreviousPageHref()}
+      nextPageHref={getNextPageHref()}
+    />
+  </div>
+);
+
 };
 
 export default UserInvoice;

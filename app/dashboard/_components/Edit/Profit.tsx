@@ -1,18 +1,14 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-} from "@nextui-org/react";
+import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/react";
 import axios from "@/utils/axios";
 import toast from "react-hot-toast";
 import Cookies from "universal-cookie";
-import { DecodedToken, UserData } from "@/utils/interfaces";
+import { DecodedToken } from "@/utils/interfaces";
 import { jwtDecode } from "jwt-decode";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 interface PersonalInfoProps {
   id: string;
@@ -35,95 +31,75 @@ const Profit: React.FC<PersonalInfoProps> = ({ id }) => {
         },
       })
       .then((response) => {
-        if (response) {
-          setProfit(response?.data?.data?.profit);
-          setBalance(response?.data?.data?.balance);
-          setGrossBalance(response?.data?.data?.grossBalance);
+        if (response?.data?.data) {
+          setProfit(response.data.data.profit);
+          setBalance(response.data.data.balance);
+          setGrossBalance(response.data.data.grossBalance);
         }
       })
-      .catch((err) => console.log(""));
-  }, []);
+      .catch(() => console.log("Failed to fetch user data"));
+  }, [id, token]);
 
   const handleSave = () => {
-    // const userId = decoded?.id;
-    if (!id) {
-      console.error("User ID not available");
-      return;
-    }
-
-    const url = `/users/${id}`;
+    if (!id) return;
 
     axios
       .patch(
-        url,
+        `/users/${id}`,
         { profit, balance, grossBalance },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        { headers: { Authorization: `Bearer ${token}` } }
       )
-      .then((response) => {
-        toast.success(response?.data?.message);
-      })
-      .catch((error) => {
-        toast.error("Something went wrong!");
-        // console.error("Error saving data", error);
-      });
+      .then((response) => toast.success(response?.data?.message))
+      .catch(() => toast.error("Something went wrong!"));
   };
 
   return (
-    <Card>
+    <Card className="shadow-md border border-gray-200">
       <CardHeader>
-        <h2>Profile Information</h2>
+        <h2 className="text-xl font-semibold">Profile Information</h2>
       </CardHeader>
       <CardBody>
-        <div className="grid grid-cols-2 gap-2 items-center">
-          <div>
-            <div className="flex gap-2">
-              <div className="flex flex-col w-full">
-                <label htmlFor="profit">Profit</label>
-                <input
-                  type="number"
-                  name="profit"
-                  className="roboinput"
-                  id="profit"
-                  value={profit}
-                  onChange={(e) => setProfit(Number(e.target.value))}
-                />
-              </div>
-            </div>
-            <div className="flex gap-2">
-              <div className="flex flex-col w-full">
-                <label htmlFor="balance">Balance</label>
-                <input
-                  type="number"
-                  name="balance"
-                  className="roboinput"
-                  id="balance"
-                  value={balance}
-                  onChange={(e) => setBalance(Number(e.target.value))}
-                />
-              </div>
-            </div>
-            <div className="flex gap-2">
-              <div className="flex flex-col w-full">
-                <label htmlFor="grossBalance">Gross Balance</label>
-                <input
-                  type="number"
-                  name="grossBalance"
-                  className="roboinput"
-                  id="grossBalance"
-                  value={grossBalance}
-                  onChange={(e) => setGrossBalance(Number(e.target.value))}
-                />
-              </div>
-            </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="flex flex-col">
+            <label htmlFor="profit" className="mb-1 font-medium text-gray-700">
+              Profit
+            </label>
+            <Input
+              type="number"
+              id="profit"
+              value={profit}
+              onChange={(e) => setProfit(Number(e.target.value))}
+              placeholder="Enter profit"
+            />
+          </div>
+          <div className="flex flex-col">
+            <label htmlFor="balance" className="mb-1 font-medium text-gray-700">
+              Balance
+            </label>
+            <Input
+              type="number"
+              id="balance"
+              value={balance}
+              onChange={(e) => setBalance(Number(e.target.value))}
+              placeholder="Enter balance"
+            />
+          </div>
+          <div className="flex flex-col">
+            <label htmlFor="grossBalance" className="mb-1 font-medium text-gray-700">
+              Gross Balance
+            </label>
+            <Input
+              type="number"
+              id="grossBalance"
+              value={grossBalance}
+              onChange={(e) => setGrossBalance(Number(e.target.value))}
+              placeholder="Enter gross balance"
+            />
           </div>
         </div>
       </CardBody>
-      <CardFooter className="w-full flex flex-row-reverse gap-3">
-        <Button className="btn-basic rounded-md" onClick={handleSave}>
+      <CardFooter className="flex justify-end">
+        <Button className="bg-primary text-white" onClick={handleSave}>
           Save
         </Button>
       </CardFooter>

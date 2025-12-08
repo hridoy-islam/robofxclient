@@ -8,400 +8,271 @@ import {
   Phone,
   Send,
   Building2,
-  MessageCircle,
-  Calendar,
-  Headphones,
+  Clock,
   MapPin,
+  Globe,
+  ArrowRight,
+  MessageSquare,
 } from "lucide-react";
 
 export default function ContactPage() {
   const offices = [
     {
-      name: "Dubai",
-      country: "United Arab Emirates",
-      address: "Park Lane Tower Business Bay, Dubai UAE",
-      phone: "+971542819321",
-      email: "dubai@robofx.com",
-      timezone: "GMT+4",
-      description: "Middle East Hub",
-      position: "top-1/4 right-1/3",
-      features: ["24/7 Support", "Local Expertise", "Arabic Support"],
-      gradient: "from-orange-500 to-red-500",
-      mapPosition: { top: "47%", left: "51%" },
+      city: "Dubai",
+      country: "UAE",
+      address: "Park Lane Tower, Business Bay, Dubai",
+      email: "dubai@cryptominerx.com",
+      phone: "+971 54 281 9321",
     },
     {
-      name: "Singapore",
+      city: "Singapore",
       country: "Singapore",
-      address:
-        "Business Office Services, 61 Robinson Road #13-01A, Robinson Centre",
-      phone: "+65-XXXX-XXXX",
-      email: "singapore@robofx.com",
-      timezone: "GMT+8",
-      description: "Asia-Pacific Center",
-      position: "top-1/2 right-1/4",
-      features: ["Multi-Currency", "Regional Markets", "Expert Analysis"],
-      gradient: "from-blue-500 to-purple-500",
-      mapPosition: { top: "61%", left: "76%" },
+      address: "61 Robinson Road #13-01A, Robinson Centre",
+      email: "asia@cryptominerx.com",
+      phone: "+65 6789 0123",
     },
     {
-      name: "Malaysia",
-      country: "Malaysia",
-      address: "Menara HLX, KL City Centre, KLCC, Kuala Lumpur, Bukit Bintang",
-      phone: "+60-XXX-XXX-XXXX",
-      email: "malaysia@robofx.com",
-      timezone: "GMT+8",
-      description: "Southeast Asia Gateway",
-      position: "top-1/3 left-1/4",
-      features: [
-        "Malaysian Support",
-        "Regional Integration",
-        "Live Trading Workshops",
-      ],
-      gradient: "from-indigo-500 to-cyan-500",
-      mapPosition: { top: "58.5%", left: "68%" },
-    },
-    {
-      name: "United Kingdom",
+      city: "London",
       country: "United Kingdom",
-      address: "34A Jewry Street, Winchester, Hampshire SO23",
-      phone: "+44-XXX-XXX-XXXX",
-      email: "uk@robofx.com",
-      timezone: "GMT+0",
-      description: "European Operations",
-      position: "top-1/4 left-1/3",
-      features: [
-        "European Markets",
-        "Regulatory Compliance",
-        "Multi-Language Support",
-      ],
-      gradient: "from-green-500 to-blue-500",
-      mapPosition: { top: "34%", left: "36.5%" },
+      address: "34A Jewry Street, Winchester, Hampshire",
+      email: "uk@cryptominerx.com",
+      phone: "+44 20 7123 4567",
     },
     {
-      name: "United States",
-      country: "United States",
+      city: "New York",
+      country: "USA",
       address: "530 Fifth Ave, New York, NY 10036",
-      phone: "+1-XXX-XXX-XXXX",
-      email: "usa@robofx.com",
-      timezone: "GMT-5",
-      description: "North America Headquarters",
-      position: "top-1/3 left-1/2",
-      features: [
-        "US Market Access",
-        "Regulatory Standards",
-        "English & Spanish Support",
-      ],
-      gradient: "from-red-600 to-blue-600",
-      mapPosition: { top: "42%", left: "19%" },
+      email: "usa@cryptominerx.com",
+      phone: "+1 212 555 0199",
     },
   ];
 
   const contactMethods = [
     {
-      icon: <Phone className="w-8 h-8 text-green-600" />,
-      title: "Phone Support",
-      description: "Speak directly with our experts",
-      contact: "+971542819321",
-      availability: "24/7 Available",
-      color: "green",
-    },
-    {
-      icon: <Mail className="w-8 h-8 text-blue-600" />,
+      icon: <Mail className="w-6 h-6 text-blue-600" />,
       title: "Email Support",
-      description: "Send us your detailed inquiries",
-      contact: "support@algopips.net",
-      availability: "Response within 2 hours",
-      color: "blue",
+      description: "For general inquiries and account support.",
+      action: "support@cryptominerx.com",
+      link: "mailto:support@cryptominerx.com",
     },
-    // {
-    //   icon: <MessageCircle className="w-8 h-8 text-purple-600" />,
-    //   title: "Live Chat",
-    //   description: "Get instant help from our team",
-    //   contact: "Start Chat",
-    //   availability: "Available 24/7",
-    //   color: "purple",
-    // },
     {
-      icon: <Calendar className="w-8 h-8 text-indigo-600" />,
-      title: "Schedule Meeting",
-      description: "Book a consultation call",
-      contact: "Book Now",
-      availability: "Flexible scheduling",
-      color: "indigo",
+      icon: <Phone className="w-6 h-6 text-blue-600" />,
+      title: "Phone Support",
+      description: "Speak directly with our mining experts.",
+      action: "+971 54 281 9321",
+      link: "tel:+971542819321",
+    },
+    {
+      icon: <MessageSquare className="w-6 h-6 text-blue-600" />,
+      title: "Live Chat",
+      description: "Real-time assistance for urgent issues.",
+      action: "Start Chat",
+      link: "#",
     },
   ];
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white font-sans text-gray-900">
       <Header />
 
       <BreadCumb
         title="Contact Us"
-        subtitle="Get in touch with our expert team for personalized trading solutions and support"
+        subtitle="Global infrastructure, local support. Get in touch with our team."
       />
 
-      {/* Contact Methods */}
-      <section className="py-12 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Multiple Ways to Reach Us
+      {/* Intro & Quick Contact Grid */}
+      <section className="py-16 md:py-24 bg-white">
+        <div className="container mx-auto ">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+              Get in touch with <span className="text-blue-600">CryptoMinerX</span>
             </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Choose the contact method that works best for you
+            <p className="text-lg text-gray-500 leading-relaxed">
+              Whether you are looking to start your first mining contract or build an 
+              institutional-grade mining farm, our team is ready to assist you.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {contactMethods.map((method, index) => (
               <div
                 key={index}
-                className="group glass-white rounded-3xl p-6 text-center shadow-blue hover:shadow-blue-lg border border-gray-100 hover:border-blue-200 transition-all duration-300 card-hover cursor-pointer"
+                className="bg-gray-50 rounded-2xl p-8 border border-gray-100 hover:border-blue-200 transition-all duration-300 group"
               >
-                <div
-                  className={`w-16 h-16 bg-${method.color}-50 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-${method.color}-100 transition-colors`}
-                >
+                <div className="w-12 h-12 bg-white rounded-xl shadow-sm border border-gray-100 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                   {method.icon}
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+                <h3 className="text-xl font-bold text-gray-900 mb-2">
                   {method.title}
                 </h3>
-                <p className="text-gray-600 text-sm mb-3">
+                <p className="text-gray-500 mb-6 text-sm">
                   {method.description}
                 </p>
-                <div className="text-blue-600 font-bold mb-1">
-                  {method.contact}
-                </div>
-                <div className="text-gray-500 text-xs">
-                  {method.availability}
-                </div>
+                <a
+                  href={method.link}
+                  className="text-blue-600 font-bold hover:text-blue-800 inline-flex items-center transition-colors"
+                >
+                  {method.action} <ArrowRight className="w-4 h-4 ml-2" />
+                </a>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Main Contact Section */}
-      <section className="section-padding bg-white">
-        <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-16">
-            {/* Left Column - Contact Form */}
-            <div className="space-y-8">
-              <div>
-                <div className="inline-flex items-center justify-center mb-6">
-                  <div className="flex items-center space-x-3 glass-blue rounded-full px-6 py-3 shadow-blue">
-                    <Send className="w-5 h-5 text-blue-600" />
-                    <span className="text-blue-600 font-bold">
-                      Send Message
-                    </span>
-                  </div>
-                </div>
-                <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-6 leading-tight">
-                  Let's start a{" "}
-                  <span className="text-gradient">conversation</span>
-                </h2>
-                <p className="text-xl text-gray-600 leading-relaxed">
-                  Ready to transform your trading experience? Our expert team is
-                  here to guide you every step of the way.
+      {/* Main Content Split: Form & Offices */}
+      <section className="py-20 bg-gray-50 border-t border-gray-200">
+        <div className="container mx-auto px-4 max-w-7xl">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
+            
+            {/* Left Column: Contact Form */}
+            <div className="bg-white rounded-2xl shadow-xl shadow-gray-200/50 p-8 md:p-10 border border-gray-100">
+              <div className="mb-8">
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                  Send us a message
+                </h3>
+                <p className="text-gray-500">
+                  Our team typically responds within 2-4 business hours.
                 </p>
               </div>
 
-              {/* Contact Form */}
-              <div className="glass-white rounded-3xl p-8 shadow-blue border border-gray-100">
-                <form className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <label
-                        htmlFor="firstName"
-                        className="block text-gray-900 font-medium mb-2"
-                      >
-                        First Name *
-                      </label>
-                      <input
-                        type="text"
-                        id="firstName"
-                        className="w-full px-4 py-4 bg-white border border-gray-200 rounded-2xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                        placeholder="John"
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label
-                        htmlFor="lastName"
-                        className="block text-gray-900 font-medium mb-2"
-                      >
-                        Last Name *
-                      </label>
-                      <input
-                        type="text"
-                        id="lastName"
-                        className="w-full px-4 py-4 bg-white border border-gray-200 rounded-2xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                        placeholder="Doe"
-                        required
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <label
-                        htmlFor="email"
-                        className="block text-gray-900 font-medium mb-2"
-                      >
-                        Email Address *
-                      </label>
-                      <input
-                        type="email"
-                        id="email"
-                        className="w-full px-4 py-4 bg-white border border-gray-200 rounded-2xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                        placeholder="john@example.com"
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label
-                        htmlFor="phone"
-                        className="block text-gray-900 font-medium mb-2"
-                      >
-                        Phone Number
-                      </label>
-                      <input
-                        type="tel"
-                        id="phone"
-                        className="w-full px-4 py-4 bg-white border border-gray-200 rounded-2xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                        placeholder="+1 (555) 123-4567"
-                      />
-                    </div>
-                  </div>
-
+              <form className="space-y-6">
+                <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <label
-                      htmlFor="subject"
-                      className="block text-gray-900 font-medium mb-2"
-                    >
-                      Subject *
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      First Name
                     </label>
-                    <select
-                      id="subject"
-                      className="w-full px-4 py-4 bg-white border border-gray-200 rounded-2xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                      required
-                    >
-                      <option value="">Select a subject</option>
-                      <option value="general">General Inquiry</option>
-                      <option value="demo">Request Demo</option>
-                      <option value="pricing">Pricing Information</option>
-                      <option value="technical">Technical Support</option>
-                      <option value="partnership">Partnership</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label
-                      htmlFor="message"
-                      className="block text-gray-900 font-medium mb-2"
-                    >
-                      Message *
-                    </label>
-                    <textarea
-                      id="message"
-                      rows={6}
-                      className="w-full px-4 py-4 bg-white border border-gray-200 rounded-2xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"
-                      placeholder="Tell us about your trading goals and how we can help you achieve them..."
-                      required
-                    ></textarea>
-                  </div>
-
-                  <div className="flex items-start space-x-3">
                     <input
-                      type="checkbox"
-                      id="consent"
-                      className="mt-1 w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                      required
+                      type="text"
+                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 focus:ring-2 focus:ring-blue-500 focus:bg-white focus:outline-none transition-all"
+                      placeholder="John"
                     />
-                    <label
-                      htmlFor="consent"
-                      className="text-gray-600 text-sm leading-relaxed"
-                    >
-                      I agree to receive communications from algopips and
-                      understand that I can unsubscribe at any time.
-                    </label>
                   </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      Last Name
+                    </label>
+                    <input
+                      type="text"
+                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 focus:ring-2 focus:ring-blue-500 focus:bg-white focus:outline-none transition-all"
+                      placeholder="Doe"
+                    />
+                  </div>
+                </div>
 
-                  <Button className="w-full btn-gradient text-white font-bold py-6 rounded-2xl text-lg shadow-blue-lg hover:shadow-blue transition-all duration-200 group">
-                    <Send className="w-6 h-6 mr-3 group-hover:translate-x-1 transition-transform" />
-                    Send Message
-                  </Button>
-                </form>
-              </div>
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 focus:ring-2 focus:ring-blue-500 focus:bg-white focus:outline-none transition-all"
+                    placeholder="john@company.com"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Subject
+                  </label>
+                  <select className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 focus:ring-2 focus:ring-blue-500 focus:bg-white focus:outline-none transition-all">
+                    <option value="">Select a topic...</option>
+                    <option value="sales">Mining Farm Sales</option>
+                    <option value="support">Technical Support</option>
+                    <option value="partnership">Partnership Inquiry</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Message
+                  </label>
+                  <textarea
+                    rows={5}
+                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 focus:ring-2 focus:ring-blue-500 focus:bg-white focus:outline-none transition-all resize-none"
+                    placeholder="How can we help you today?"
+                  ></textarea>
+                </div>
+
+                <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 h-auto rounded-xl shadow-lg shadow-blue-600/20 transition-all">
+                  Send Message
+                </Button>
+              </form>
             </div>
 
-            {/* Right Column - Office Information */}
-            <div className="space-y-8">
+            {/* Right Column: Global Presence */}
+            <div className="space-y-10">
               <div>
-                <div className="inline-flex items-center justify-center mb-6">
-                  <div className="flex items-center space-x-3 glass-blue rounded-full px-6 py-3 shadow-blue">
-                    <Building2 className="w-5 h-5 text-blue-600" />
-                    <span className="text-blue-600 font-bold">Our Offices</span>
-                  </div>
+                <div className="inline-flex items-center space-x-2 bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-4">
+                  <Globe className="w-3 h-3" />
+                  <span>Global Network</span>
                 </div>
-                <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-6 leading-tight">
-                  Visit us <span className="text-gradient">worldwide</span>
-                </h2>
-                <p className="text-xl text-gray-600 leading-relaxed">
-                  With offices across three continents, we're always close to
-                  our clients.
+                <h3 className="text-3xl font-bold text-gray-900 mb-4">
+                  Visit our offices
+                </h3>
+                <p className="text-lg text-gray-500 leading-relaxed">
+                    
+
+[Image of World Map with location pins]
+
+                </p>
+                <p className="text-lg text-gray-500 leading-relaxed">
+                  CryptoMinerX operates legally registered offices in major financial 
+                  hubs, ensuring regulatory compliance and accessible support for our institutional clients.
                 </p>
               </div>
 
-              {/* Office Cards */}
-              <div className="space-y-6">
+              <div className="grid gap-6">
                 {offices.map((office, index) => (
                   <div
                     key={index}
-                    className="glass-white rounded-3xl p-6 shadow-blue border border-gray-100 hover:border-blue-200 transition-all duration-300 card-hover"
+                    className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm flex items-start space-x-4 hover:border-blue-300 transition-colors"
                   >
-                    <div className="flex items-start justify-between mb-2">
-                      <div>
-                        <div className="flex items-center space-x-3 mb-2">
-                          <h3 className="text-2xl font-bold text-gray-900">
-                            {office.name}
-                          </h3>
-                        </div>
-
-                        <p className="text-gray-600 flex items-center">
-                          <MapPin className="w-4 h-4 mr-1" />
-                          {office.address}
-                        </p>
+                    <div className="flex-shrink-0">
+                      <div className="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center text-blue-600">
+                        <Building2 className="w-5 h-5" />
+                      </div>
+                    </div>
+                    <div>
+                      <div className="flex items-center justify-between mb-1">
+                        <h4 className="text-lg font-bold text-gray-900">
+                          {office.city}
+                        </h4>
+                        <span className="text-xs font-bold text-gray-400 uppercase tracking-wide border border-gray-100 px-2 py-1 rounded">
+                          {office.country}
+                        </span>
+                      </div>
+                      <p className="text-gray-500 text-sm mb-3">
+                        {office.address}
+                      </p>
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-3 text-sm">
+                        <a href={`mailto:${office.email}`} className="text-blue-600 hover:underline font-medium">
+                          {office.email}
+                        </a>
+                        <span className="hidden sm:inline text-gray-300">|</span>
+                        <span className="text-gray-600">{office.phone}</span>
                       </div>
                     </div>
                   </div>
                 ))}
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      {/* Emergency Contact */}
-      <section className="py-12 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="glass-white rounded-3xl p-8 shadow-blue border border-gray-100 max-w-4xl mx-auto text-center">
-            <Headphones className="w-16 h-16 text-blue-600 mx-auto mb-6" />
-            <h3 className="text-3xl font-bold text-gray-900 mb-4">
-              Need Immediate Assistance?
-            </h3>
-            <p className="text-gray-600 mb-8 text-lg leading-relaxed">
-              For urgent trading issues or technical emergencies, our dedicated
-              support team is available 24/7 to help you.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a
-                href="tel:+971542819321"
-                className="btn-gradient flex justify-center items-center text-white font-bold px-8 py-4 rounded-xl shadow-blue hover:shadow-blue-lg transition-all duration-200"
-              >
-                <Phone className="w-5 h-5 mr-2" />
-                Call Emergency Line
-              </a>
+              {/* Emergency Banner */}
+              <div className="bg-gray-900 rounded-xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-white">
+                <div className="flex items-center space-x-4">
+                    <div className="p-3 bg-red-500/10 rounded-full">
+                        <Clock className="w-6 h-6 text-red-500" />
+                    </div>
+                    <div>
+                        <h4 className="font-bold">24/7 Priority Line</h4>
+                        <p className="text-sm text-gray-400">For enterprise clients only</p>
+                    </div>
+                </div>
+                <div className="text-lg font-mono font-bold text-red-400">
+                    +971 54 281 9321
+                </div>
+              </div>
+
             </div>
           </div>
         </div>

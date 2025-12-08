@@ -1,140 +1,92 @@
 "use client";
 
-import {
-  Button,
-  Navbar,
-  NavbarBrand,
-  NavbarContent,
-  NavbarItem,
-  NavbarMenu,
-  NavbarMenuToggle,
-} from "@nextui-org/react";
-import LogoutButton from "./LogoutButton";
+import React, { useState } from "react";
 import Link from "next/link";
-import { Icon } from "@iconify/react/dist/iconify.js";
 import { usePathname } from "next/navigation";
+import { Icon } from "@iconify/react";
+import { Menu, X } from "lucide-react";
 import { UserData } from "@/utils/interfaces";
+import LogoutButton from "./LogoutButton";
 
-interface UserSidebarProps {
+interface AdminNavbarProps {
   currentUser: UserData;
 }
 
-export default function AdminNavbar({ currentUser }: UserSidebarProps) {
-  const sidebarmenu = [
-    {
-      path: "/dashboard/admin",
-      name: "Dashboard",
-      icon: <Icon icon="solar:pie-chart-outline" />,
-    },
-    {
-      path: "/dashboard/admin/user",
-      name: "User",
-      icon: <Icon icon="solar:user-linear" />,
-    },
-    {
-      path: "/dashboard/admin/withdraw",
-      name: "Withdraw",
-      icon: <Icon icon="solar:banknote-2-linear" />,
-    },
-    {
-      path: "/dashboard/admin/product",
-      name: "Product",
-      icon: <Icon icon="solar:bag-heart-linear" />,
-    },
-    {
-      path: "/dashboard/admin/invoice",
-      name: "Invoice",
-      icon: <Icon icon="ri:currency-fill" />,
-    },
-    {
-      path: "/dashboard/admin/order",
-      name: "Order",
-      icon: <Icon icon="akar-icons:cart" />,
-    },
-    {
-      path: "/dashboard/admin/vendor",
-      name: "Vendor",
-      icon: <Icon icon="iconoir:bank" />,
-    },
-    {
-      path: "/dashboard/admin/settings",
-      name: "Settings",
-      icon: <Icon icon="solar:settings-linear" />,
-    },
-  ];
+export default function AdminNavbar({ currentUser }: AdminNavbarProps) {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
 
+  const toggleMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
+  const closeMenu = () => setIsMobileMenuOpen(false);
+
+  const sidebarmenu = [
+    { path: "/dashboard/admin", name: "Dashboard", icon: <Icon icon="solar:pie-chart-outline" width={20} /> },
+    { path: "/dashboard/admin/user", name: "User", icon: <Icon icon="solar:user-linear" width={20} /> },
+    { path: "/dashboard/admin/withdraw", name: "Withdraw", icon: <Icon icon="solar:banknote-2-linear" width={20} /> },
+    { path: "/dashboard/admin/product", name: "Product", icon: <Icon icon="solar:bag-heart-linear" width={20} /> },
+    { path: "/dashboard/admin/invoice", name: "Invoice", icon: <Icon icon="ri:currency-fill" width={20} /> },
+    { path: "/dashboard/admin/order", name: "Order", icon: <Icon icon="akar-icons:cart" width={20} /> },
+    { path: "/dashboard/admin/vendor", name: "Vendor", icon: <Icon icon="iconoir:bank" width={20} /> },
+    { path: "/dashboard/admin/settings", name: "Settings", icon: <Icon icon="solar:settings-linear" width={20} /> },
+  ];
+
   return (
-    <div className="flex w-full bg-white drop-shadow-1">
-      <Navbar disableAnimation className="bg-white border border-stroke">
-        <NavbarContent className="lg:hidden">
-          <NavbarMenuToggle
-            icon={<Icon icon="material-symbols:menu" width={24} />}
-          />
-        </NavbarContent>
+    <header className="sticky top-0 z-50 w-full bg-white border-b border-gray-100 shadow-sm">
+      <div className="h-16 flex items-center justify-between px-4 lg:px-6">
+        {/* Left: Mobile Menu Toggle & Title */}
+        <div className="flex items-center gap-3 lg:hidden">
+          <button
+            onClick={toggleMenu}
+            className="p-2 text-gray-500 hover:bg-gray-50 rounded-lg transition-colors focus:outline-none"
+            aria-label="Toggle menu"
+          >
+            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
 
-        <NavbarContent className="sm:hidden pr-3" justify="start">
-          <NavbarBrand>
-            <p className="font-bold text-inherit">
-              {currentUser?.personal_information?.firstName}{" "}
-              {currentUser?.personal_information?.lastName}
-            </p>
-          </NavbarBrand>
-        </NavbarContent>
+          <span className="font-bold text-gray-900 truncate max-w-[150px]">
+            {currentUser?.personal_information?.firstName}
+          </span>
+        </div>
 
-        <NavbarContent className="hidden sm:flex" justify="start">
-          <NavbarBrand>
-            <p className="font-bold text-inherit">
-              {currentUser?.personal_information?.firstName}{" "}
-              {currentUser?.personal_information?.lastName}
-            </p>
-          </NavbarBrand>
-        </NavbarContent>
+        {/* Desktop: Title */}
+        <div className="hidden lg:flex items-center">
+          <span className="font-bold text-gray-900">
+            {currentUser?.personal_information?.firstName}{" "}
+            {currentUser?.personal_information?.lastName}
+          </span>
+        </div>
 
-        <NavbarContent justify="end">
-          <NavbarItem>
-            <LogoutButton />
-          </NavbarItem>
-        </NavbarContent>
+        {/* Right: Logout */}
+        <div className="flex items-center gap-4">
+          <LogoutButton />
+        </div>
+      </div>
 
-        <NavbarMenu>
-          <ul>
-            {sidebarmenu.map((item) => (
-              <li key={item.path}>
+      {/* Mobile Menu */}
+      {isMobileMenuOpen && (
+        <div className="lg:hidden fixed left-0 top-16 w-full h-full bg-white border-t border-gray-100 shadow-xl overflow-y-auto z-40">
+          <nav className="flex flex-col p-4 gap-1">
+            {sidebarmenu.map((item) => {
+              const isActive = pathname.includes(item.path);
+              return (
                 <Link
+                  key={item.path}
                   href={item.path}
-                  className={`py-2 px-3 flex justify-start rounded-lg my-3 text-xl 
-              ${
-                pathname.toString().includes(item.path.toString())
-                  ? "bg-primary text-white"
-                  : ""
-              }`}
+                  onClick={closeMenu}
+                  className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all font-medium text-sm ${
+                    isActive
+                      ? "bg-blue-50 text-blue-600"
+                      : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                  }`}
                 >
-                  <span className="text-2xl mr-3">{item.icon}</span>
+                  <span className={isActive ? "text-blue-600" : "text-gray-400"}>{item.icon}</span>
                   {item.name}
                 </Link>
-              </li>
-            ))}
-          </ul>
-          {/* {menuItems?.map((item, index) => (
-            <NavbarMenuItem key={`${item}-${index}`}>
-              <Link
-                className="w-full"
-                color={
-                  index === 2
-                    ? "warning"
-                    : index === menuItems.length - 1
-                    ? "danger"
-                    : "foreground"
-                }
-                href="#"
-              >
-                {item}
-              </Link>
-            </NavbarMenuItem>
-          ))} */}
-        </NavbarMenu>
-      </Navbar>
-    </div>
+              );
+            })}
+          </nav>
+        </div>
+      )}
+    </header>
   );
 }

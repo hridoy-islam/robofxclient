@@ -1,12 +1,14 @@
 "use client";
 
 import React, { useState, ChangeEvent, FormEvent } from "react";
-import { Button, Card, CardBody, CardHeader } from "@nextui-org/react";
+import {  Card, CardBody, CardHeader } from "@nextui-org/react";
 import Axios from "@/utils/axios";
 import { Product } from "@/utils/interfaces";
 import toast from "react-hot-toast";
 import ImageUpload from "@/components/ImageUpload";
 import Cookies from "universal-cookie";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 interface ProductEditProps {
   product: Product;
@@ -81,7 +83,7 @@ const ProductEdit: React.FC<ProductEditProps> = ({ product }) => {
         <form onSubmit={handleSubmit}>
           <div className="flex flex-col">
             <label htmlFor="title">Title</label>
-            <input
+            <Input
               type="text"
               name="title"
               id="title"
@@ -92,7 +94,7 @@ const ProductEdit: React.FC<ProductEditProps> = ({ product }) => {
           </div>
           <div className="flex flex-col">
             <label htmlFor="powerdby">Powerd By</label>
-            <input
+            <Input
               type="text"
               name="powerdby"
               id="powerdby"
@@ -103,7 +105,7 @@ const ProductEdit: React.FC<ProductEditProps> = ({ product }) => {
           </div>
           <div className="flex flex-col">
             <label htmlFor="price">Price</label>
-            <input
+            <Input
               type="text"
               name="price"
               id="price"
@@ -131,10 +133,10 @@ const ProductEdit: React.FC<ProductEditProps> = ({ product }) => {
             />
           </div>
           <h2 className="tex-xl font-semibold my-2">Configurations</h2>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-3 space-y-3">
             <div className="flex flex-col">
               <label htmlFor="motherboard">Motherboard</label>
-              <input
+              <Input
                 type="text"
                 name="motherboard"
                 id="motherboard"
@@ -145,7 +147,7 @@ const ProductEdit: React.FC<ProductEditProps> = ({ product }) => {
             </div>
             <div className="flex flex-col">
               <label htmlFor="processor">Processor</label>
-              <input
+              <Input
                 type="text"
                 name="processor"
                 id="processor"
@@ -156,7 +158,7 @@ const ProductEdit: React.FC<ProductEditProps> = ({ product }) => {
             </div>
             <div className="flex flex-col">
               <label htmlFor="ram">Ram</label>
-              <input
+              <Input
                 type="text"
                 name="ram"
                 id="ram"
@@ -167,7 +169,7 @@ const ProductEdit: React.FC<ProductEditProps> = ({ product }) => {
             </div>
             <div className="flex flex-col">
               <label htmlFor="smps">SMPS</label>
-              <input
+              <Input
                 type="text"
                 name="smps"
                 id="smps"
@@ -178,7 +180,7 @@ const ProductEdit: React.FC<ProductEditProps> = ({ product }) => {
             </div>
             <div className="flex flex-col">
               <label htmlFor="graphicscard">Graphics Card</label>
-              <input
+              <Input
                 type="text"
                 name="graphicscard"
                 id="graphicscard"
@@ -188,7 +190,7 @@ const ProductEdit: React.FC<ProductEditProps> = ({ product }) => {
               />
             </div>
           </div>
-          <div className="border-t border-stroke py-2 flex justify-end">
+          <div className=" py-2 flex justify-end">
             <Button className="bg-primary text-white rounded-sm" type="submit">
               Update
             </Button>

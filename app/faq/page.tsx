@@ -9,7 +9,7 @@ export default function page() {
       <Header />
       <BreadCumb
         title="FAQ"
-        subtitle="Find quick answers to common questions about Algopips capabilities, setup, and support."
+        subtitle="Find quick answers to common questions about CryptoMinerX capabilities, setup, and support."
       />
       <Faq />
       <Footer />

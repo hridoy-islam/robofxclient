@@ -2,7 +2,6 @@
 import { UserData, settingsData } from "@/utils/interfaces";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import {
-  Button,
   Card,
   CardBody,
   Chip,
@@ -23,6 +22,9 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import Cookies from "universal-cookie";
 import { currencyConvert } from "@/utils/currencyConvert";
+import { Button } from "@/components/ui/button";
+import { DialogHeader, DialogFooter } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "@radix-ui/react-dialog";
 
 interface UpdateWithdrawProps {
   withdraw: {
@@ -116,144 +118,184 @@ const UpdateWithdraw = ({
     setBtc(calculateBTC);
   }, [withdraw?.amount]);
 
-  return (
-    <Card className="grid grid-cols-1 md:grid-cols-2 gap-5 p-6">
-      <Card className="bg-stroke">
-        <CardBody className="space-y-4 p-6">
-          <Icon
-            icon="uil:money-withdrawal"
-            width={36}
-            className="text-primary"
-          />
-          <h2 className="text-xl">Withdraw Request Information</h2>
-          <p className="text-md">
-            Full Name : {currentUser?.personal_information?.firstName}{" "}
-            {currentUser?.personal_information?.lastName}
-          </p>
-          <p className="text-md">Email: {currentUser?.email}</p>
-          <p className="text-md">
-            Phone: {currentUser?.personal_information?.phone}
-          </p>
-        </CardBody>
-      </Card>
-      <Card className="bg-stroke">
-        <CardBody className="space-y-4 p-6">
-          <Icon icon="ri:bank-fill" width={36} className="text-primary" />
-          <h2 className="text-xl">Receiving Wallet Details</h2>
-          <p className="text-md">Payment Method: Bank</p>
-          <p className="text-md">
-            Wallet: {currentUser?.currency.toUpperCase()}
-          </p>
-          <p className="text-md">Exchange: {wallet?.exchange}</p>
-          <p className="text-md">Account Address: {wallet?.account}</p>
-        </CardBody>
-      </Card>
-      <Card className="bg-stroke">
-        <CardBody className="space-y-4 p-6">
-          <Icon icon="lucide:file-pen" width={36} className="text-primary" />
-          <h2 className="text-xl">Withdraw Amount Details</h2>
-          <div className="flex items-center gap-2">
-            {" "}
-            <p className="text-md">Amount :</p>
-            <Chip className="rounded-md bg-primary text-white p-5">
-              ${withdraw?.amount}
-            </Chip>
-            {withdraw?.status === "approved" ? (
-              ""
-            ) : (
-              <Button
-                size="md"
-                onPress={onOpen}
-                className="rounded-md bg-primary text-white p-3 cursor-pointer"
-              >
-                Update
-              </Button>
-            )}
+return (
+  <Card className="p-8 rounded-2xl shadow-lg border border-default-200 bg-white space-y-10">
+
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+      {/* USER INFORMATION */}
+      <Card className="rounded-2xl border border-default-200 shadow-sm bg-gradient-to-br from-default-50 to-default-100">
+        <CardBody className="space-y-5 p-6">
+          <div className="flex items-center gap-3">
+            <div className="p-2.5 rounded-xl bg-primary/10 text-primary">
+              <Icon icon="uil:money-withdrawal" width={28} />
+            </div>
+            <h2 className="text-xl font-semibold text-foreground">User Information</h2>
           </div>
-          <div className="flex gap-2">
-            {" "}
-            <p className="text-md">Bitcoin: </p>
-            <Chip className="rounded-md bg-orange text-white p-3">{btc}</Chip>
-          </div>
-          <div className="flex gap-2">
-            <p className="text-md">Status: </p>
-            <Chip
-              color={
-                withdraw?.status === "approved"
-                  ? "success"
-                  : withdraw?.status === "pending"
-                  ? "warning"
-                  : "danger"
-              }
-              className="text-white uppercase"
-            >
-              {withdraw?.status}
-            </Chip>
+
+          <div className="space-y-1.5 text-default-600 leading-relaxed">
+            <p><strong>Name:</strong> {currentUser?.personal_information?.firstName} {currentUser?.personal_information?.lastName}</p>
+            <p><strong>Email:</strong> {currentUser?.email}</p>
+            <p><strong>Phone:</strong> {currentUser?.personal_information?.phone}</p>
           </div>
         </CardBody>
       </Card>
 
-      {admin === "true" && (
-        <Card
-          className={`bg-stroke space-y-4 p-6 ${
-            withdraw?.status === "approved" ? "hidden" : ""
-          }`}
-        >
-          <label>Change Withdraw Status</label>
+      {/* WALLET INFORMATION */}
+      <Card className="rounded-2xl border border-default-200 shadow-sm bg-gradient-to-br from-default-50 to-default-100">
+        <CardBody className="space-y-5 p-6">
+          <div className="flex items-center gap-3">
+            <div className="p-2.5 rounded-xl bg-primary/10 text-primary">
+              <Icon icon="ri:bank-fill" width={28} />
+            </div>
+            <h2 className="text-xl font-semibold text-foreground">Receiving Wallet Details</h2>
+          </div>
+
+          <div className="space-y-1.5 text-default-600 leading-relaxed">
+            <p><strong>Payment Method:</strong> Bank</p>
+            <p><strong>Wallet Type:</strong> {currentUser?.currency?.toUpperCase()}</p>
+            <p><strong>Exchange:</strong> {wallet?.exchange}</p>
+            <p><strong>Account Address:</strong> {wallet?.account}</p>
+          </div>
+        </CardBody>
+      </Card>
+
+      {/* AMOUNT DETAILS */}
+      <Card className="rounded-2xl border border-default-200 shadow-sm bg-gradient-to-br from-default-50 to-default-100">
+        <CardBody className="space-y-5 p-6">
+          <div className="flex items-center gap-3">
+            <div className="p-2.5 rounded-xl bg-primary/10 text-primary">
+              <Icon icon="lucide:file-pen" width={28} />
+            </div>
+            <h2 className="text-xl font-semibold text-foreground">Withdraw Amount Details</h2>
+          </div>
+
+          {/* Amount */}
+          <div className="flex items-center gap-4">
+            <p className="text-default-600 font-medium"><strong>Amount:</strong></p>
+            <Chip className="bg-primary text-white px-4 py-2 rounded-lg shadow-sm">
+              ${withdraw?.amount}
+            </Chip>
+
+            {withdraw?.status !== "approved" && (
+              <Button
+                size="sm"
+                onClick={onOpen}
+                className="bg-primary text-white rounded-lg"
+              >
+                Update Amount
+              </Button>
+            )}
+          </div>
+
+          {/* BTC */}
+          <div className="flex items-center gap-4">
+            <p className="text-default-600 font-medium"><strong>Bitcoin:</strong></p>
+            <Chip className="bg-primary text-white px-4 py-2 rounded-lg shadow-sm">
+              {btc} BTC
+            </Chip>
+          </div>
+
+          {/* Status */}
+          <div className="flex items-center gap-4">
+  <p className="text-default-600 font-medium">
+    <strong>Status:</strong>
+  </p>
+
+  <span
+    className={`
+      px-4 py-1.5 rounded-lg text-xs font-semibold uppercase
+      text-white shadow-sm
+      ${
+        withdraw?.status === "approved"
+          ? "bg-green-600"
+          : withdraw?.status === "pending"
+          ? "bg-yellow-500"
+          : "bg-red-600"
+      }
+    `}
+  >
+    {withdraw?.status}
+  </span>
+</div>
+
+        </CardBody>
+      </Card>
+
+      {/* ADMIN STATUS UPDATE */}
+      {admin === "true" && withdraw?.status !== "approved" && (
+        <Card className="rounded-2xl border border-default-200 shadow-sm bg-gradient-to-br from-default-50 to-default-100 p-6 space-y-4">
+          <label className="text-sm font-medium text-default-700">
+            Change Withdrawal Status
+          </label>
+
           <select
-            onChange={(e) => {
-              setSelectedStatus(e.target.value);
-            }}
-            className="roboinput"
+            onChange={(e) => setSelectedStatus(e.target.value)}
+            className="w-full p-3 border border-default-300 rounded-xl bg-white shadow-sm focus:ring-2 focus:ring-primary"
           >
-            <option>Select</option>
+            <option>Select Status</option>
             {localStatus.map((status) => (
               <option key={status} value={status}>
                 {status}
               </option>
             ))}
           </select>
-          <Button onClick={handleStatus} className="btn-basic w-30 rounded-md">
-            Update
+
+          <Button
+            onClick={handleStatus}
+            className="bg-primary text-white rounded-lg w-fit"
+          >
+            Update Status
           </Button>
         </Card>
       )}
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader className="flex flex-col gap-1"></ModalHeader>
-              <ModalBody>
-                <p className="text-primary">Enter Amount</p>
-                <input
-                  required
-                  type="number"
-                  value={updatedAmount}
-                  onChange={(e) => {
-                    setUpdatedAmount(Number(e.target.value));
-                  }}
-                  className="roboinput"
-                />
-              </ModalBody>
-              <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
-                  Cancel
-                </Button>
-                <Button
-                  color="primary"
-                  className="text-[#fff]"
-                  onPress={onClose}
-                  onClick={handleUpdate}
-                >
-                  Update
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
-    </Card>
-  );
+
+    </div>
+
+    {/* UPDATE AMOUNT DIALOG (SHADCN) */}
+    <Dialog open={isOpen} onOpenChange={onOpenChange}>
+      <DialogContent className="rounded-xl">
+        <DialogHeader>
+          <DialogTitle className="text-lg font-semibold">Update Withdraw Amount</DialogTitle>
+        </DialogHeader>
+
+        <div className="space-y-3">
+          <label className="text-sm font-medium text-default-700">
+            Enter New Amount
+          </label>
+
+          <input
+            required
+            type="number"
+            value={updatedAmount}
+            onChange={(e) => setUpdatedAmount(Number(e.target.value))}
+            className="w-full p-3 border border-default-300 rounded-xl shadow-sm focus:ring-2 focus:ring-primary"
+          />
+        </div>
+
+        <DialogFooter className="mt-4">
+          <Button variant="outline" onClick={() => onOpenChange(false)}>
+            Cancel
+          </Button>
+
+          <Button
+            className="bg-primary text-white"
+            onClick={() => {
+              onOpenChange(false);
+              handleUpdate();
+            }}
+          >
+            Update
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+
+  </Card>
+);
+
+
+
 };
 
 export default UpdateWithdraw;

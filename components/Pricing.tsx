@@ -1,147 +1,161 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { useModal } from "@/context/ModalContext";
-import { Check, TrendingUp, Star, Crown } from "lucide-react";
-import Link from "next/link";
+import { Check, Cpu, Zap, Server, ShieldCheck } from "lucide-react";
 
 export default function Pricing() {
   const { openModal } = useModal();
+
   const plans = [
     {
-      title: "Price Discussion",
-      icon: <TrendingUp className="w-8 h-8 text-blue-600" />,
+      title: "Cloud Starter",
+      description: "Perfect for beginners starting their mining journey.",
+      icon: <Zap className="w-6 h-6 text-blue-600" />,
+      price: "Flexible", // Or specific price if you have one
       features: [
-        "Algopips account Setup",
-        "Trader Account Setup",
-        "VPS Server Setup",
-        "Dedicated Account Manager",
-        "24/7 Account Monitor",
-        "Life Time Maintenance & Support",
+        "CryptoMinerX Dashboard Access",
+        "Shared Hash Power Pool",
+        "Weekly Automated Payouts",
+        "Standard Encryption Security",
+        "Email Support",
+        "99.9% Uptime Guarantee",
       ],
       popular: false,
-      gradient: "from-blue-500 to-purple-500",
     },
     {
-      title: "Price Discussion",
-      icon: <Crown className="w-8 h-8 text-purple-600" />,
+      title: "Pro Mining Farm",
+      description: "Dedicated power for serious investors seeking max yield.",
+      icon: <Server className="w-6 h-6 text-white" />,
+      price: "Custom",
       features: [
-        "Multiple account Setup",
-        "Trader Account Setup",
-        "VPS Server Setup",
-        "Free Buy & Sell Indicator",
-        "Free Signals",
+        "Dedicated Mining Hardware",
+        "Maximum Hash Rate Allocation",
+        "Daily Automated Payouts",
+        "Institutional-Grade Security",
         "Dedicated Account Manager",
-        "24/7 Account Monitor",
-        "Life Time Maintenance & Support",
+        "Real-time Hardware Monitoring",
+        "Zero Maintenance Fees",
       ],
       popular: true,
-      gradient: "from-purple-500 to-pink-500",
     },
   ];
 
   return (
-    <section className="section-padding bg-white relative overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-blue-50 to-transparent"></div>
-      <div className="absolute bottom-0 left-0 w-1/2 h-full bg-gradient-to-r from-purple-50 to-transparent"></div>
-
-      <div className="container mx-auto px-4 relative z-10">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center justify-center mb-6">
-            <div className="flex items-center space-x-3 glass-blue rounded-full px-6 py-3 shadow-blue">
-              <TrendingUp className="w-5 h-5 text-blue-600" />
-              <span className="text-blue-600 font-bold">PRICING PLAN</span>
-            </div>
+    <section className="py-24 bg-gray-50 relative overflow-hidden">
+      <div className="container mx-auto  relative z-10">
+        {/* Minimal Header */}
+        <div className="text-center mb-16 max-w-3xl mx-auto">
+          <div className="inline-flex items-center justify-center mb-4">
+            <span className="bg-blue-50 text-blue-700 text-xs font-bold px-3 py-1 rounded-full tracking-wide uppercase border border-blue-100">
+              Investment Plans
+            </span>
           </div>
 
-          <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-4 leading-tight">
-            Get pricing plans for Hardware &{" "}
-            <span className="text-gradient">Software Installation</span> for
-            Auto Trading Robot.
+          <h2 className="text-4xl font-bold text-gray-900 mb-6 tracking-tight">
+            Transparent pricing for your <br />
+            <span className="text-blue-600">Mining Infrastructure</span>
           </h2>
 
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            One Time Installation & Life Time Benefits.
+          <p className="text-lg text-gray-500 leading-relaxed">
+            Choose the hardware setup that fits your investment goals. 
+            We handle the maintenance, cooling, and security of your machines.
           </p>
         </div>
 
-        {/* Pricing Cards */}
-        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        {/* Pricing Grid */}
+        <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {plans.map((plan, index) => (
             <div
               key={index}
-              className={`relative glass-white rounded-3xl p-8 shadow-blue-lg border transition-all duration-300 card-hover ${
+              className={`relative rounded-3xl p-8 transition-all duration-300 flex flex-col ${
                 plan.popular
-                  ? "border-purple-200 ring-4 ring-purple-100"
-                  : "border-gray-100 hover:border-blue-200"
+                  ? "bg-gray-900 text-white shadow-2xl scale-100 md:scale-105 ring-1 ring-gray-900"
+                  : "bg-white text-gray-900 shadow-lg border border-gray-100 hover:border-blue-200"
               }`}
             >
               {plan.popular && (
-                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                  <div className="bg-gradient-primary text-white px-6 py-2 rounded-full text-sm font-bold shadow-blue flex items-center space-x-2">
-                    <Star className="w-4 h-4 fill-current" />
-                    <span>Most Popular</span>
+                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                  <div className="bg-blue-600 text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider shadow-lg">
+                    Most Popular
                   </div>
                 </div>
               )}
 
-              {/* Header */}
-              <div className="text-center mb-8">
+              {/* Card Header */}
+              <div className="mb-8 border-b border-opacity-10 border-current pb-8">
                 <div
-                  className={`w-20 h-20 bg-gradient-to-br ${plan.gradient} rounded-3xl flex items-center justify-center mx-auto mb-4 shadow-blue`}
+                  className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-6 ${
+                    plan.popular ? "bg-gray-800" : "bg-blue-50"
+                  }`}
                 >
                   {plan.icon}
                 </div>
-                <h3 className="text-3xl font-black text-gray-900">
-                  {plan.title}
-                </h3>
+                <h3 className="text-2xl font-bold mb-2">{plan.title}</h3>
+                <p
+                  className={`text-sm ${
+                    plan.popular ? "text-gray-400" : "text-gray-500"
+                  }`}
+                >
+                  {plan.description}
+                </p>
               </div>
 
-              {/* Features */}
-              <div className="space-y-4 mb-8">
-                {plan.features.map((feature, featureIndex) => (
-                  <div
-                    key={featureIndex}
-                    className="flex items-start space-x-4"
-                  >
-                    <div className="flex-shrink-0 w-6 h-6 bg-gradient-primary rounded-full flex items-center justify-center mt-0.5 shadow-blue">
-                      <Check className="w-3 h-3 text-white" />
+              {/* Features List */}
+              <div className="space-y-5 mb-8 flex-grow">
+                {plan.features.map((feature, idx) => (
+                  <div key={idx} className="flex items-start space-x-3">
+                    <div
+                      className={`flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center mt-0.5 ${
+                        plan.popular ? "bg-blue-600" : "bg-blue-100"
+                      }`}
+                    >
+                      <Check
+                        className={`w-3 h-3 ${
+                          plan.popular ? "text-white" : "text-blue-600"
+                        }`}
+                      />
                     </div>
-                    <span className="text-gray-700 font-medium leading-relaxed">
+                    <span
+                      className={`text-sm font-medium ${
+                        plan.popular ? "text-gray-300" : "text-gray-600"
+                      }`}
+                    >
                       {feature}
                     </span>
                   </div>
                 ))}
               </div>
 
-              {/* CTA Button */}
-
+              {/* Action Button */}
               <Button
                 onClick={() =>
                   openModal({
-                    title: "Get Started with AI Trading",
-                    subtitle:
-                      "Download your trading robot and start your automated trading journey",
-                    buttonText: "Start Trading Now",
-                    type: "download",
+                    title: `Start ${plan.title}`,
+                    subtitle: "Configure your mining preferences below.",
+                    buttonText: "Proceed to Dashboard",
+                    type: "contact", // Adjusted to generic contact or signup
                   })
                 }
-                className={`w-full py-6 rounded-2xl font-bold text-lg transition-all duration-200 ${
+                className={`w-full py-6 rounded-xl font-bold text-base transition-all duration-200 ${
                   plan.popular
-                    ? "btn-gradient text-white shadow-blue-lg hover:shadow-blue"
-                    : "btn-outline-gradient text-gray-700 hover:text-blue-600 bg-white hover:bg-blue-50"
+                    ? "bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-900/20"
+                    : "bg-gray-50 hover:bg-gray-100 text-gray-900 border border-gray-200"
                 }`}
               >
                 Get Started
               </Button>
-
-              {/* Background Glow */}
-              {plan.popular && (
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-50/50 to-pink-50/50 rounded-3xl opacity-50 -z-10"></div>
-              )}
             </div>
           ))}
+        </div>
+
+        {/* Trust/Security Note */}
+        <div className="mt-16 text-center">
+          <div className="inline-flex items-center gap-2 text-gray-500 text-sm bg-white px-4 py-2 rounded-full shadow-sm border border-gray-100">
+            <ShieldCheck className="w-4 h-4 text-green-500" />
+            <span>
+              All plans include SSL encryption and cold wallet storage for your mined assets.
+            </span>
+          </div>
         </div>
       </div>
     </section>

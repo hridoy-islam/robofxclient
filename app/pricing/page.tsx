@@ -11,7 +11,7 @@ export default function PricingPage() {
 
       <BreadCumb
         title="Pricing"
-        subtitle="Choose a plan that suits your trading goals. No hidden fees—just straightforward pricing with powerful"
+        subtitle="Choose a plan that suits your trading goals. No hidden fees just straightforward pricing with powerful"
       />
       <Pricing />
 

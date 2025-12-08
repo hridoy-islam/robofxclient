@@ -1,5 +1,6 @@
 "use client";
 
+import { Input } from "@/components/ui/input";
 import React from "react";
 
 interface InputFieldProps {
@@ -19,7 +20,7 @@ const InputField: React.FC<InputFieldProps> = ({
 }) => (
   <div className="flex flex-col">
     <label htmlFor={id}>{label}</label>
-    <input
+    <Input
       type={type}
       id={id}
       value={value}

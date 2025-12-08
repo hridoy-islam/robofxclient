@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import {
-  Button,
+  
   Card,
   CardBody,
   CardHeader,
@@ -21,6 +21,8 @@ import Cookies from "universal-cookie";
 import { DecodedToken, UserData } from "@/utils/interfaces";
 import { jwtDecode } from "jwt-decode";
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 interface WalletTabProps {
   allWallets: { _id: string; name: string; __v: number }[];
@@ -150,131 +152,120 @@ const WalletTab: React.FC<WalletTabProps> = ({
     onOpen();
   };
 
-  return (
-    <>
-      <Card>
-        <CardHeader className="tableHeader">
-          <div>
-            <h2>Wallet</h2>
-          </div>
-          <div>
-            <Button onPress={openAddModal} className="btn-basic rounded-md">
-              <Icon icon="ic:round-plus" width={24} /> Add New
-            </Button>
-          </div>
-        </CardHeader>
-        <CardBody>
-          <table className="table-fixed">
-            <thead>
+ return (
+  <>
+    <Card className="shadow-md rounded-lg">
+      <CardHeader className="flex justify-between items-center">
+        <h2 className="text-xl font-semibold text-gray-800">Wallets</h2>
+        <Button onClick={openAddModal} className="flex items-center gap-2 bg-blue-600 text-white hover:bg-blue-700">
+          <Icon icon="ic:round-plus" width={20} /> Add New
+        </Button>
+      </CardHeader>
+      <CardBody>
+        <div className="overflow-x-auto">
+          <table className="w-full text-left border border-gray-200">
+            <thead className="bg-gray-50">
               <tr>
-                <th>Exchange</th>
-                <th>Wallet</th>
-                <th>Account Address</th>
-                <th>Actions</th>
+                <th className="py-2 px-4 border-b">Exchange</th>
+                <th className="py-2 px-4 border-b">Wallet</th>
+                <th className="py-2 px-4 border-b">Account Address</th>
+                <th className="py-2 px-4 border-b">Actions</th>
               </tr>
             </thead>
             <tbody>
               {userWallets?.map((wallet, index) => (
-                <tr key={index}>
-                  <td>{wallet?.exchange}</td>
-                  <td>{wallet?.wallet}</td>
-                  <td>{wallet?.account}</td>
-                  <td>
+                <tr key={index} className="hover:bg-gray-50">
+                  <td className="py-2 px-4 border-b">{wallet?.exchange}</td>
+                  <td className="py-2 px-4 border-b">{wallet?.wallet}</td>
+                  <td className="py-2 px-4 border-b break-all">{wallet?.account}</td>
+                  <td className="py-2 px-4 border-b">
                     <Button
-                      className="bg-primary text-white text-md"
-                      onPress={() => openEditModal(index)}
+                      variant="outline"
+                      size="sm"
+                      onClick={() => openEditModal(index)}
+                      className="flex items-center gap-1"
                     >
-                      <Icon icon="uil:edit" className="text-lg" />
-                      <span>Edit</span>
+                      <Icon icon="uil:edit" width={16} />
+                      Edit
                     </Button>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
-        </CardBody>
-      </Card>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader className="flex flex-col gap-1">
-                {modalMode === "add" ? "Add Wallet" : "Edit Wallet"}
-              </ModalHeader>
-              <ModalBody>
-                <div className="flex flex-col">
-                  <label className="text-primary" htmlFor="exchange">
-                    Exchange*
-                  </label>
-                  <select
-                    required
-                    name="exchange"
-                    id="exchange"
-                    className="roboinput"
-                    onChange={(e) =>
-                      handleInputChange("exchange", e.target.value)
-                    }
-                    value={formValues.exchange}
-                  >
-                    {allExchanges?.map((exchange, index) => (
-                      <option key={index}>{exchange?.name}</option>
-                    ))}
-                  </select>
-                </div>
-                <div className="flex flex-col">
-                  <label className="text-primary" htmlFor="wallet">
-                    Wallet*
-                  </label>
-                  <select
-                    required
-                    name="wallet"
-                    id="wallet"
-                    className="roboinput"
-                    onChange={(e) =>
-                      handleInputChange("wallet", e.target.value)
-                    }
-                    value={formValues.wallet}
-                  >
-                    {allWallets?.map((wallet, index) => (
-                      <option key={index}>{wallet?.name}</option>
-                    ))}
-                  </select>
-                </div>
-                <div className="flex flex-col">
-                  <label htmlFor="phone" className="text-primary">
-                    Account Address*
-                  </label>
-                  <input
-                    required
-                    type="text"
-                    name="phone"
-                    className="roboinput"
-                    id="phone"
-                    onChange={(e) =>
-                      handleInputChange("account", e.target.value)
-                    }
-                    value={formValues.account}
-                  />
-                </div>
-              </ModalBody>
-              <ModalFooter>
-                <Button
-                  className="w-full text-white"
-                  color="primary"
-                  onPress={() => {
-                    submitForm();
-                    onClose();
-                  }}
-                >
-                  Save
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
-    </>
-  );
+        </div>
+      </CardBody>
+    </Card>
+
+    <Dialog open={isOpen} onOpenChange={onOpenChange}>
+      <DialogContent className="sm:max-w-lg w-full p-6">
+        <DialogHeader>
+          <DialogTitle>{modalMode === "add" ? "Add Wallet" : "Edit Wallet"}</DialogTitle>
+        </DialogHeader>
+        <div className="flex flex-col gap-4 mt-4">
+          <div className="flex flex-col">
+            <label htmlFor="exchange" className="text-sm font-medium text-gray-700">Exchange*</label>
+            <select
+              id="exchange"
+              className="mt-1 p-2 border rounded-md border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={formValues.exchange}
+              onChange={(e) => handleInputChange("exchange", e.target.value)}
+            >
+              {allExchanges?.map((exchange, idx) => (
+                <option key={idx} value={exchange.name}>{exchange.name}</option>
+              ))}
+            </select>
+          </div>
+
+          <div className="flex flex-col">
+            <label htmlFor="wallet" className="text-sm font-medium text-gray-700">Wallet*</label>
+            <select
+              id="wallet"
+              className="mt-1 p-2 border rounded-md border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={formValues.wallet}
+              onChange={(e) => handleInputChange("wallet", e.target.value)}
+            >
+              {allWallets?.map((wallet, idx) => (
+                <option key={idx} value={wallet.name}>{wallet.name}</option>
+              ))}
+            </select>
+          </div>
+
+          <div className="flex flex-col">
+            <label htmlFor="account" className="text-sm font-medium text-gray-700">Account Address*</label>
+            <input
+              type="text"
+              id="account"
+              className="mt-1 p-2 border rounded-md border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={formValues.account}
+              onChange={(e) => handleInputChange("account", e.target.value)}
+            />
+          </div>
+        </div>
+
+        <DialogFooter className="mt-6">
+          <Button
+        variant="outline"
+        className=" w-full bg-gray-200 text-gray-800 hover:bg-gray-300"
+        onClick={() => onOpenChange(false)}
+      >
+        Cancel
+      </Button>
+          <Button
+            className="w-full bg-blue-600 text-white hover:bg-blue-700"
+            onClick={() => {
+              submitForm();
+              onOpenChange(false);
+            }}
+          >
+            Save
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  </>
+);
+
 };
 
 export default WalletTab;

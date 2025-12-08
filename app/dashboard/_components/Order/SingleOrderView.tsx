@@ -2,15 +2,20 @@
 
 import React, { useState } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
+
+// --- SHADCN/UI Imports ---
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import {
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
-  Chip,
   Select,
+  SelectContent,
   SelectItem,
-} from "@nextui-org/react";
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+// -------------------------
+
+// Custom imports (assuming these paths are correct)
 import { Product, UserData } from "@/utils/interfaces";
 import Axios from "@/utils/axios";
 import toast from "react-hot-toast";
@@ -31,12 +36,15 @@ interface SingleOrderViewProps {
 const SingleOrderView = ({ order }: SingleOrderViewProps) => {
   const router = useRouter();
   const cookies = new Cookies();
+  // Define the possible statuses
   const DecisionStatus = ["pending", "approved", "decline"];
+
   const { _id, createdAt, productid, status } = order;
+
+  // Destructure product details for readability
   const {
     motherboard,
     graphicscard,
-    photo,
     price,
     powerdby,
     processor,
@@ -46,7 +54,35 @@ const SingleOrderView = ({ order }: SingleOrderViewProps) => {
   } = productid;
 
   const [selectedStatus, setSelectedStatus] = useState(status);
+  const [isUpdating, setIsUpdating] = useState(false); // State for loading
+
+  /**
+   * Function to determine Tailwind CSS classes for status background/color
+   * instead of using the shadcn Badge component.
+   */
+  const getStatusClasses = (currentStatus: string): string => {
+    switch (currentStatus.toLowerCase()) {
+      case "approved":
+        // Success color (Green)
+        return "bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300";
+      case "pending":
+        // Warning color (Yellow/Orange)
+        return "bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-300";
+      case "decline":
+        // Danger color (Red)
+        return "bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300";
+      default:
+        // Default/Neutral color
+        return "bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-100";
+    }
+  };
+
   const handleStatusChange = async () => {
+    if (selectedStatus.toLowerCase() === status.toLowerCase()) {
+      toast("Status is already set to the selected value.", { icon: "ℹ️" });
+      return;
+    }
+    setIsUpdating(true);
     try {
       const token = cookies.get("jwt");
 
@@ -61,188 +97,159 @@ const SingleOrderView = ({ order }: SingleOrderViewProps) => {
           },
         }
       );
-      toast.success(response?.data?.message);
+      toast.success(response?.data?.message || "Order status updated successfully!");
       router.refresh();
     } catch (error) {
-      toast.error("Failed to update status");
+      toast.error("Failed to update status. Please try again.");
       console.error("Error updating status:", error);
+      // Revert status on failure
+      setSelectedStatus(status);
+    } finally {
+      setIsUpdating(false);
     }
   };
 
+  // Helper component for uniform detail rows (Order Details)
+  const DetailRow = ({ label, value }: { label: string; value: React.ReactNode }) => (
+    <div className="flex justify-between py-2 border-b last:border-b-0">
+      <span className="text-sm font-medium text-muted-foreground w-1/3">{label}</span>
+      <span className="text-sm font-semibold w-2/3 text-right">{value}</span>
+    </div>
+  );
+  
+  // Helper component for product feature rows (using HTML table structure)
+  const ProductFeatureRow = ({ label, value }: { label: string; value: string }) => (
+    <tr className="border-b last:border-b-0">
+      <td className="w-12 py-3">
+        {/* Checkmark icon consistent with modern UI */}
+        <Icon
+          icon="mdi:check-bold"
+          className="h-5 w-5 p-0.5 text-primary bg-primary/10 rounded-full"
+        />
+      </td>
+      <td className="w-30 text-sm py-3 text-muted-foreground">{label}</td>
+      <td className="text-sm font-medium py-3">{value}</td>
+    </tr>
+  );
+
+
   return (
-    <div className="flex flex-col md:flex-row md:gap-8">
-      <div className="w-full md:w-9/12">
-        <div className="mb-8 md:mb-0">
-          <h2 className="my-4 font-bold text-2xl">Order Details</h2>
+    <div className="flex flex-col md:flex-row md:gap-8 p-4 md:p-6 lg:p-8">
+      {/* Left Column (Order & Product Details) */}
+      <div className="w-full md:w-9/12 space-y-8">
+        {/* Order Details Card */}
+        <div>
+          <h2 className="mb-4 font-bold text-2xl tracking-tight">Order Information</h2>
           <Card>
-            <CardBody>
-              <table className="productview">
-                <tbody>
-                  <tr>
-                    <td className="w-20">Order ID</td>
-                    <td className="w-5">:</td>
-                    <td>{_id}</td>
-                  </tr>
-                  <tr>
-                    <td>Date</td>
-                    <td>:</td>
-                    <td>{moment(createdAt).format("LL")}</td>
-                  </tr>
-                  <tr>
-                    <td>Status</td>
-                    <td>:</td>
-                    <td>
-                      {" "}
-                      <Chip
-                        color={
-                          order?.status === "approved"
-                            ? "success"
-                            : order?.status === "pending"
-                            ? "warning"
-                            : "danger"
-                        }
-                        className="text-white"
-                      >
-                        {status.toLocaleUpperCase()}
-                      </Chip>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </CardBody>
+            <CardContent className="p-6">
+              <DetailRow label="Order ID" value={_id} />
+              <DetailRow label="Date" value={moment(createdAt).format("LL")} />
+              <DetailRow
+                label="Status"
+                value={
+                  <span
+                    className={`inline-flex items-center px-3 py-1 text-xs font-semibold uppercase rounded-full ${getStatusClasses(status)}`}
+                  >
+                    {status}
+                  </span>
+                }
+              />
+            </CardContent>
           </Card>
         </div>
 
+        {/* Product Details Card */}
         <div>
-          <h2 className="my-4 font-bold text-2xl">Product Details</h2>
-          <Card className="p-4 space-y-3">
-            <div className="flex items-center gap-5">
-              <Chip className="bg-primaryLight text-primary">{processor}</Chip>
-              <p className="text-xl font-bold">${price}</p>
-            </div>
+          <h2 className="my-4 font-bold text-2xl tracking-tight">Product Summary</h2>
+          <Card>
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                {/* Styled div for processor (replaces Chip) */}
+                <span className="inline-flex items-center px-4 py-1 text-sm font-medium text-primary border border-primary bg-primary/10 rounded-lg">
+                  {processor}
+                </span>
+                <p className="text-2xl font-bold text-primary">${price}</p>
+              </div>
+            </CardHeader>
 
-            <div className="productview">
+            <CardContent className="pt-0">
+              {/* Standard HTML table for product features */}
               <table className="w-full">
                 <tbody>
-                  <tr>
-                    <td className="w-12">
-                      <Icon
-                        icon="mdi:check-bold"
-                        className="bg-stroke rounded-full h-6 w-6 p-1 text-primary"
-                      />
-                    </td>
-                    <td className="w-30">Name</td>
-                    <td>{title}</td>
-                  </tr>
-                  <tr>
-                    <td className="w-12">
-                      <Icon
-                        icon="mdi:check-bold"
-                        className="bg-stroke rounded-full h-6 w-6 p-1 text-primary"
-                      />
-                    </td>
-                    <td className="w-30">Motherboard</td>
-                    <td>{motherboard}</td>
-                  </tr>
-                  <tr>
-                    <td className="w-12">
-                      <Icon
-                        icon="mdi:check-bold"
-                        className="bg-stroke rounded-full h-6 w-6 p-1 text-primary"
-                      />
-                    </td>
-                    <td className="w-30">Processor</td>
-                    <td>{processor}</td>
-                  </tr>
-                  <tr>
-                    <td className="w-12">
-                      <Icon
-                        icon="mdi:check-bold"
-                        className="bg-stroke rounded-full h-6 w-6 p-1 text-primary"
-                      />
-                    </td>
-                    <td className="w-30">Ram</td>
-                    <td>{ram}</td>
-                  </tr>
-                  <tr>
-                    <td className="w-12">
-                      <Icon
-                        icon="mdi:check-bold"
-                        className="bg-stroke rounded-full h-6 w-6 p-1 text-primary"
-                      />
-                    </td>
-                    <td className="w-30">Graphics Card</td>
-                    <td>{graphicscard}</td>
-                  </tr>
-                  <tr>
-                    <td className="w-12">
-                      <Icon
-                        icon="mdi:check-bold"
-                        className="bg-stroke rounded-full h-6 w-6 p-1 text-primary"
-                      />
-                    </td>
-                    <td className="w-30">Powered By</td>
-                    <td>{powerdby}</td>
-                  </tr>
-                  <tr>
-                    <td className="w-12">
-                      <Icon
-                        icon="mdi:check-bold"
-                        className="bg-stroke rounded-full h-6 w-6 p-1 text-primary"
-                      />
-                    </td>
-                    <td className="w-30">SMPS</td>
-                    <td>{smps}</td>
-                  </tr>
+                  <ProductFeatureRow label="Name" value={title} />
+                  <ProductFeatureRow label="Motherboard" value={motherboard} />
+                  <ProductFeatureRow label="Processor" value={processor} />
+                  <ProductFeatureRow label="Ram" value={ram} />
+                  <ProductFeatureRow label="Graphics Card" value={graphicscard} />
+                  <ProductFeatureRow label="Powered By" value={powerdby} />
+                  <ProductFeatureRow label="SMPS" value={smps} />
                 </tbody>
               </table>
-            </div>
+            </CardContent>
           </Card>
         </div>
       </div>
-      <div className="w-full md:w-3/12">
-        <Card className="mt-8 md:mt-16 p-3">
+
+      {/* Right Column (Summary & Status Update) */}
+      <div className="w-full md:w-3/12 space-y-6">
+        {/* Order Summary Card */}
+        <Card className="mt-8 md:mt-16">
           <CardHeader>
-            <p>Order Summery</p>
+            <CardTitle className="text-lg">Order Summary</CardTitle>
           </CardHeader>
-          <CardBody>
-            <div className="flex justify-between">
-              <h2>Basic Mining</h2>
-              <p>$500</p>
+          <CardContent className="space-y-3">
+            <div className="flex justify-between text-sm">
+              <span className="text-muted-foreground">Basic Mining</span>
+              <span className="font-medium">$500</span>
             </div>
 
-            <div className="flex justify-between border-t border-stroke mt-4 pt-4">
-              <h2>Total</h2>
-              <p>$500</p>
+            <div className="flex justify-between border-t pt-4 text-base font-bold">
+              <span>Total</span>
+              <span>$500</span>
             </div>
-          </CardBody>
+          </CardContent>
         </Card>
 
-        <Card className="mt-6 p-3">
+        {/* Change Order Status Card */}
+        <Card>
           <CardHeader>
-            <p>Change Order Status</p>
+            <CardTitle className="text-lg">Change Order Status</CardTitle>
           </CardHeader>
-          <CardBody>
+          <CardContent>
+            {/* Shadcn Select component */}
             <Select
-              placeholder="Change Status"
               value={selectedStatus}
-              onChange={(event) => setSelectedStatus(event.target.value)}
-              aria-label="Select Order Status"
+              onValueChange={setSelectedStatus}
+              disabled={isUpdating}
             >
-              {DecisionStatus.map((statusOption) => (
-                <SelectItem key={statusOption} value={statusOption}>
-                  {statusOption}
-                </SelectItem>
-              ))}
+              <SelectTrigger aria-label="Select Order Status">
+                <SelectValue placeholder="Change Status" />
+              </SelectTrigger>
+              <SelectContent>
+                {DecisionStatus.map((statusOption) => (
+                  <SelectItem key={statusOption} value={statusOption}>
+                    {statusOption.charAt(0).toUpperCase() + statusOption.slice(1)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
             </Select>
 
+            {/* Shadcn Button component */}
             <Button
               onClick={handleStatusChange}
-              className="btn-basic w-16 rounded-lg my-4"
+              className="w-full my-4"
+              disabled={isUpdating}
             >
-              Update
+              {isUpdating ? (
+                <>
+                  <Icon icon="lucide:loader-2" className="mr-2 h-4 w-4 animate-spin" />
+                  Updating...
+                </>
+              ) : (
+                "Update Status"
+              )}
             </Button>
-          </CardBody>
+          </CardContent>
         </Card>
       </div>
     </div>

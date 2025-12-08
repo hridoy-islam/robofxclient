@@ -1,6 +1,6 @@
 "use client";
 import {
-  Button,
+ 
   Card,
   CardBody,
   CardFooter,
@@ -13,6 +13,9 @@ import Axios from "@/utils/axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import Cookies from "universal-cookie";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 interface InvoiceCrationFromProps {
   allUsers: UserData[];
 }
@@ -164,206 +167,181 @@ const InvoiceCrationFrom = ({ allUsers }: InvoiceCrationFromProps) => {
   };
 
   return (
-    <div>
-      <Card>
-        <CardHeader>
-          <h2>Create Invoice</h2>
-        </CardHeader>
-        <CardBody>
-          <h2 className="mb-4">User Information</h2>
-          <div className="flex flex-col">
-            <label htmlFor="">User Name</label>
-            <select
-              required={true}
-              onChange={(e) => setSelectedUser(e.target.value)}
-              name=""
-              className="roboinput"
-              id=""
+  <div>
+    <Card>
+      <CardHeader>
+        <h2 className="text-xl font-semibold">Create Invoice</h2>
+      </CardHeader>
+
+      <CardBody className="space-y-6">
+        {/* User Information */}
+        <div className="space-y-4">
+          <h2 className="text-lg font-medium">User Information</h2>
+          <div className="flex flex-col gap-2">
+            <label>User Name</label>
+            <Select
+              onValueChange={(value) => setSelectedUser(value)}
+              defaultValue="Select User"
             >
-              <option>Select User</option>{" "}
-              {allUsers?.map((user, index) => (
-                <option key={index} value={user._id}>
-                  {user?.personal_information?.firstName}{" "}
-                  {user?.personal_information?.lastName}
-                </option>
-              ))}
-            </select>
+              <SelectTrigger>
+                <SelectValue placeholder="Select User" />
+              </SelectTrigger>
+              <SelectContent>
+                {allUsers?.map((user, index) => (
+                  <SelectItem key={index} value={user._id}>
+                    {user.personal_information?.firstName}{" "}
+                    {user.personal_information?.lastName}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
-          <div className="flex flex-col">
-            <label htmlFor="">Invoice Type</label>
-            <select
-              required={true}
-              onChange={(e) => setInvoiceType(e.target.value)}
-              name=""
-              className="roboinput"
-              id=""
+          <div className="flex flex-col gap-2">
+            <label>Invoice Type</label>
+            <Select
+              onValueChange={(value) => setInvoiceType(value)}
+              defaultValue="Select Invoice Type"
             >
-              <option>Select Invoice Type</option>
-              <option value="bill">Bill Invoice</option>
-              <option value="addon">Add On Invoice</option>
-              <option value="rigs">Rig Invoice</option>
-            </select>
+              <SelectTrigger>
+                <SelectValue placeholder="Select Invoice Type" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="bill">Bill Invoice</SelectItem>
+                <SelectItem value="addon">Add On Invoice</SelectItem>
+                <SelectItem value="rigs">Rig Invoice</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
-          <h2 className="border-b border-stroke my-6">Informations</h2>
+        </div>
+
+        {/* Items Section */}
+        <div className="space-y-4">
+          <h2 className="text-lg font-medium border-b pb-2">Informations</h2>
           {informations.map((element, index) => (
-            <div key={index} className="my-2 border-1 border-stroke p-2">
-              <div className="flex flex-row justify-between">
-                <h2>Item {index + 1}</h2>
+            <div key={index} className="p-4 border rounded-lg space-y-4">
+              <div className="flex justify-between items-center">
+                <h3 className="font-medium">Item {index + 1}</h3>
                 <Icon
                   onClick={() => removeClick(index)}
                   icon="streamline:delete-1-solid"
-                  className={`rounded-full text-lg text-white bg-red w-10 h-10 p-2 ${
+                  className={`cursor-pointer text-white bg-red-500 w-8 h-8 p-2 rounded-full ${
                     informations.length < 2 ? "hidden" : ""
                   }`}
                 />
               </div>
-              <div className="flex flex-col">
-                <label htmlFor="">Description</label>
-                <input
-                  type="text"
-                  className="roboinput"
-                  name="item"
+
+              <div className="space-y-2">
+                <label>Description</label>
+                <Input
                   value={element.item || ""}
                   onChange={(e) => handleChange(index, e)}
+                  name="item"
+                  placeholder="Enter item description"
                 />
               </div>
-              <div className="grid grid-cols-2 gap-2 items-center">
-                <div>
-                  <div className="flex flex-col">
-                    <label htmlFor="">Rate</label>
-                    <input
-                      type="text"
-                      name="rate"
-                      className="roboinput"
-                      id=""
-                      value={element.rate || ""}
-                      onChange={(e) => handleChange(index, e)}
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <label htmlFor="">Tax %</label>
-                    <input
-                      type="text"
-                      name="tax"
-                      className="roboinput"
-                      id=""
-                      value={element.tax || ""}
-                      onChange={(e) => handleChange(index, e)}
-                    />
-                  </div>
-                </div>
-                <div>
-                  <div className="flex flex-col">
-                    <label htmlFor="">Quantity</label>
 
-                    <input
-                      type="number"
-                      name="quantity"
-                      value={element.quantity}
-                      className="roboinput"
-                      onChange={(e) => handleChange(index, e)}
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <label htmlFor="">Amount</label>
-                    <input
-                      type="text"
-                      name="amount"
-                      className="roboinput"
-                      value={element.amount || ""}
-                      onChange={(e) => handleChange(index, e)}
-                    />
-                  </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label>Rate</label>
+                  <Input
+                    type="number"
+                    value={element.rate || ""}
+                    onChange={(e) => handleChange(index, e)}
+                    name="rate"
+                    placeholder="0.00"
+                  />
+                  <label>Tax %</label>
+                  <Input
+                    type="number"
+                    value={element.tax || ""}
+                    onChange={(e) => handleChange(index, e)}
+                    name="tax"
+                    placeholder="0"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label>Quantity</label>
+                  <Input
+                    type="number"
+                    value={element.quantity}
+                    onChange={(e) => handleChange(index, e)}
+                    name="quantity"
+                    placeholder="0"
+                  />
+                  <label>Amount</label>
+                  <Input
+                    type="text"
+                    value={element.amount || ""}
+                    readOnly
+                  />
                 </div>
               </div>
             </div>
           ))}
-          <Icon
-            onClick={() => addClick()}
-            icon="ic:baseline-plus"
-            className="rounded-full text-lg text-white bg-primary w-10 h-10 p-2"
-          />
-          <div className="flex flex-col gap-5 mt-5">
-            <div className="flex gap-5">
-              <div className="flex flex-col w-full">
-                <label htmlFor="">Discount Type</label>
-                <select
-                  name=""
-                  onChange={(e) => setDiscountType(e.target.value)}
-                  className="roboinput"
-                  id=""
-                >
-                  <option value="">Select Type</option>
-                  <option value="percentage">Percentage</option>
-                  <option value="raw_amount">Raw Amount</option>
-                </select>
-              </div>
-              <div className="flex flex-col w-full">
-                <label htmlFor="" className="text-primary">
-                  Enter Amount
-                </label>
-                <input
-                  type="text"
-                  className="roboinput"
-                  name="item"
-                  value={discountAmount}
-                  onChange={(e) => setDiscountAmount(Number(e.target.value))}
-                />
-              </div>
+
+          <div>
+            <Button
+              onClick={addClick}
+              variant="outline"
+              className="flex items-center gap-2"
+            >
+              <Icon icon="ic:baseline-plus" /> Add Item
+            </Button>
+          </div>
+        </div>
+
+        {/* Discount and Total */}
+        <div className="space-y-4">
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <label>Discount Type</label>
+              <Select
+                onValueChange={(value) => setDiscountType(value)}
+                defaultValue=""
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select Type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="percentage">Percentage</SelectItem>
+                  <SelectItem value="raw_amount">Raw Amount</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
-            <div className="flex gap-5">
-              <div className="flex flex-col w-full">
-                <label htmlFor="" className="text-primary">
-                  Total Amount
-                </label>
-                <input
-                  type="text"
-                  className="roboinput"
-                  name="item"
-                  value={totalAmount}
-                  onChange={(e) => {}}
-                />
-              </div>
-              {/* <div className="flex flex-col w-full">
-                <label htmlFor="" className="text-primary">
-                  Discount
-                </label>
-                <input
-                  type="text"
-                  className="roboinput"
-                  name="item"
-                  value={discountedAmount}
-                  onChange={(e) => {}}
-                />
-              </div> */}
-              <div className="flex flex-col w-full">
-                <label htmlFor="" className="text-primary">
-                  Sub-Total
-                </label>
-                <input
-                  type="text"
-                  className="roboinput"
-                  name="item"
-                  value={discountedAmount}
-                  onChange={(e) => {}}
-                />
-              </div>
+
+            <div className="space-y-2">
+              <label>Discount Amount</label>
+              <Input
+                type="number"
+                value={discountAmount}
+                onChange={(e) => setDiscountAmount(Number(e.target.value))}
+                placeholder="0.00"
+              />
             </div>
           </div>
-        </CardBody>
 
-        <CardFooter className="w-full flex flex-row-reverse gap-3">
-          <Button onClick={handleCreate} className="btn-basic rounded-md">
-            Create
-          </Button>
-          <Button className="bg-white border border-stroke rounded-md shadow-sm">
-            Clear
-          </Button>
-        </CardFooter>
-      </Card>
-    </div>
-  );
+          <div className="grid grid-cols-3 gap-4">
+            <div className="space-y-2">
+              <label>Total Amount</label>
+              <Input type="text" value={totalAmount} readOnly />
+            </div>
+            <div className="space-y-2">
+              <label>Sub-Total</label>
+              <Input type="text" value={discountedAmount} readOnly />
+            </div>
+          </div>
+        </div>
+      </CardBody>
+
+      <CardFooter className="flex justify-end gap-4">
+        <Button onClick={handleCreate}>Create</Button>
+        <Button variant="outline">Clear</Button>
+      </CardFooter>
+    </Card>
+  </div>
+);
+
 };
 
 export default InvoiceCrationFrom;

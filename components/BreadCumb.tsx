@@ -22,7 +22,7 @@ export default function BreadCumb({
       <div className="absolute top-10 left-10 w-16 h-16 bg-gradient-primary rounded-full opacity-10 animate-float"></div>
       <div className="absolute bottom-10 right-20 w-12 h-12 bg-gradient-secondary rounded-full opacity-10 animate-float delay-1000"></div>
 
-      <div className="container mx-auto px-4 relative z-10">
+      <div className="container mx-auto  relative z-10">
         <div className="max-w-4xl">
           {/* Breadcrumb Navigation */}
           {/* {showBreadcrumb && (

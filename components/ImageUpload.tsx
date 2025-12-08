@@ -45,7 +45,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onChange, value }) => {
               className="w-full mx-auto text-black text-sm bg-white border file:cursor-pointer cursor-pointer file:border-0 file:py-2.5 file:px-4 file:bg-gray-100 file:hover:bg-gray-200 file:text-black rounded"
             />{" "} */}
             <div className="flex items-center gap-2 border roboinput cursor-pointer">
-              <p className="font-normal text-sm bg-gray-200 border p-1 rounded-sm ">
+              <p className="font-normal text-sm bg-gray-200 border p-2 rounded-sm ">
                 Choose file
               </p>
               {value ? <p className="flex items-center gap-2">File chosen <BiCheckDouble className="text-green-500 w-6 h-6"/> </p> : <p>No file chosen</p>}

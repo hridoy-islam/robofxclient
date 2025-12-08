@@ -7,7 +7,6 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Button,
   useDisclosure,
 } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
@@ -16,6 +15,16 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import toast from "react-hot-toast";
 import axios from "@/utils/axios";
 import Cookies from "universal-cookie";
+import { Button } from "./ui/button";
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogFooter,
+  DialogTitle,
+  DialogDescription,
+} from "./ui/dialog";
 
 interface DeleteButtonProps {
   id?: string;
@@ -25,6 +34,7 @@ interface DeleteButtonProps {
 const DeleteButton: React.FC<DeleteButtonProps> = ({ id, label }) => {
   const cookie = new Cookies();
   const token = cookie.get("jwt");
+const [open, setOpen] = useState(false);
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const router = useRouter();
@@ -96,44 +106,47 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({ id, label }) => {
     }
   };
 
-  return (
-    <>
-      <Button
-        onPress={onOpen}
-        className="text-red border-red border-1 bg-white ml-2 px-3 text-md"
-      >
-        <Icon icon="system-uicons:trash" className="text-lg" />{" "}
-        <span>Delete</span>
-      </Button>
+ return (
+   <Dialog open={open} onOpenChange={setOpen}>
+  <DialogTrigger asChild>
+    <Button
+      className="text-red-500 border-red-500 border-1 bg-white ml-2 px-3 text-md hover:bg-red-500 hover:text-white"
+      onClick={() => setOpen(true)}
+    >
+      <Icon icon="system-uicons:trash" className="text-lg" /> <span>Delete</span>
+    </Button>
+  </DialogTrigger>
 
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false}>
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader className="flex flex-col gap-1">
-                <p></p>
-              </ModalHeader>
-              <ModalBody>
-                <h3>Are you sure you want to delete this?</h3>
-              </ModalBody>
-              <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
-                  Cancel
-                </Button>
-                <Button
-                  color="primary"
-                  className="text-white"
-                  onClick={handleDelete}
-                  // onPress={onClose}
-                >
-                  Yes
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
-    </>
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle>Confirm Delete</DialogTitle>
+      <DialogDescription>
+        Are you sure you want to delete this {label?.slice(0, -1)}?
+      </DialogDescription>
+    </DialogHeader>
+
+    <DialogFooter className="flex gap-2">
+      <Button
+        variant="outline"
+        color="secondary"
+        onClick={() => setOpen(false)} // ✅ Close dialog properly
+      >
+        Cancel
+      </Button>
+      <Button
+        color="destructive"
+        onClick={async () => {
+          await handleDelete();
+          setOpen(false); // close after delete
+        }}
+        className="bg-red-500 text-white hover:bg-red-500/90"
+      >
+        Yes, Delete
+      </Button>
+    </DialogFooter>
+  </DialogContent>
+</Dialog>
+
   );
 };
 

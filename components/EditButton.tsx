@@ -1,9 +1,9 @@
 "use client";
 
-import { Button } from "@nextui-org/react";
 import { Icon } from "@iconify/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { Button } from "./ui/button";
 
 interface EditButonPorps {
   userId?: string;

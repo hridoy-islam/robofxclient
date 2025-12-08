@@ -17,7 +17,7 @@ const nunito = Nunito({
 });
 
 export const metadata: Metadata = {
-  title: "Algo Pips",
+  title: "CRYPTOMINERX",
   description: "",
 };
 
@@ -29,12 +29,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${nunito.variable} light`}>
       <head>
-        <link rel="icon" href="/robofxicon.png" type="image/png" />
-        <title>Algo Pips</title>
+        <link rel="icon" href="/cryptominerx.png" type="image/png" />
+        <title>CRYPTOMINERX</title>
       </head>
       <body>
         <ModalProvider>
-          <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+          <div className="min-h-screen bg-gray-50">
             {children}
           </div>
           <GlobalModal />

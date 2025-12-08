@@ -1,12 +1,12 @@
 "use client";
 import Pagination from "@/components/Pagination";
+import { Button } from "@/components/ui/button";
 import ViewButton from "@/components/ViewButton";
 import Axios from "@/utils/axios";
 import { currencyConvert } from "@/utils/currencyConvert";
 import { DecodedToken, UserData, settingsData } from "@/utils/interfaces";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import {
-  Button,
   Card,
   CardBody,
   CardHeader,
@@ -25,6 +25,17 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import Cookies from "universal-cookie";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogFooter,
+  DialogTitle,
+  DialogTrigger,
+  DialogClose,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 interface WithdrawObject {
   _id: string;
@@ -138,70 +149,122 @@ const Withdraw = ({ withdrawsData, currentUser, settings }: WithdrawProps) => {
   return (
     <>
       <Card className="mb-6">
-        <CardHeader className="tableHeader">
+        <CardHeader className="tableHeader flex justify-start gap-4 items-center">
           <div>
             <h2>Recent Withdraw</h2>
           </div>
           <div>
-            <Button
-              onPress={onOpen}
-              className="bg-white text-primary border border-primary rounded-md"
-            >
-              Request Withdraw
-            </Button>
+          <Dialog>
+  <DialogTrigger asChild>
+    <Button>Request Withdraw</Button>
+  </DialogTrigger>
+
+  <DialogContent className="sm:max-w-md">
+    <DialogHeader>
+      <DialogTitle>Request Withdraw</DialogTitle>
+    </DialogHeader>
+
+    <div className="flex flex-col gap-4 py-4">
+      {/* BTC Input */}
+      <div className="flex flex-col">
+        <label htmlFor="btc" className="text-primary">
+          BTC*
+        </label>
+        <Input
+          id="btc"
+          name="btc"
+          value={btc}
+          readOnly
+          className="border border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+        />
+      </div>
+
+      {/* Amount Input */}
+      <div className="flex flex-col">
+        <label htmlFor="amount" className="text-primary">
+          Amount*
+        </label>
+        <Input
+          id="amount"
+          name="amount"
+          type="number"
+          required
+          onChange={(e) => setAmount(Number(e.target.value))}
+          className="border border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+        />
+      </div>
+    </div>
+
+    <DialogFooter className="flex justify-between gap-2">
+      {/* Cancel Button */}
+      <DialogClose asChild>
+        <Button variant="outline" className="w-1/2">
+          Cancel
+        </Button>
+      </DialogClose>
+
+      {/* Save Button */}
+      <Button className="w-1/2" onClick={handleSubmit}>
+        Save
+      </Button>
+    </DialogFooter>
+  </DialogContent>
+</Dialog>
+
           </div>
         </CardHeader>
-        <CardBody>
-          <table className="table-auto">
-            <thead>
-              <tr>
-                <th>Requested By</th>
-                <th>Status</th>
-                <th>BTC</th>
-                <th>Amount</th>
-                <th>Requested Date</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {withdrawData?.map((withdraw, index) => (
-                <tr key={index}>
-                  <td>
-                    {withdraw?.userid?.personal_information?.firstName}{" "}
-                    {withdraw?.userid?.personal_information?.lastName}
-                  </td>{" "}
-                  <td>
-                    <Chip
-                      color={
-                        withdraw?.status === "pending"
-                          ? "warning"
-                          : withdraw?.status === "approved"
-                          ? "success"
-                          : "danger"
-                      }
-                      className="text-white uppercase"
-                    >
-                      {withdraw?.status}
-                    </Chip>
-                  </td>
-                  <td>{withdraw?.btc}</td>
-                  <td>${withdraw?.amount}</td>
-                  <td>{withdraw?.requestDate}</td>
-                  <td>
-                    <Link href={`/dashboard/user/withdraw/${withdraw?._id}`}>
-                      <Button className="text-primary border-primary border-1 bg-white ml-2 px-3 text-md">
-                        <Icon icon="solar:eye-linear" className="text-lg" />
-                        <span>View</span>
-                      </Button>
-                    </Link>{" "}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </CardBody>
+        <CardBody className="overflow-x-auto">
+  <table className="min-w-full divide-y divide-gray-200">
+    <thead className="bg-gray-50">
+      <tr>
+        <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">Requested By</th>
+        <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">Status</th>
+        <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">BTC</th>
+        <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">Amount</th>
+        <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">Requested Date</th>
+        <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">Actions</th>
+      </tr>
+    </thead>
+    <tbody className="divide-y divide-gray-200">
+      {withdrawData?.map((withdraw, index) => (
+        <tr key={index} className="hover:bg-gray-50 transition-colors duration-150">
+          <td className="px-4 py-3 text-sm text-gray-800">
+            {withdraw?.userid?.personal_information?.firstName}{" "}
+            {withdraw?.userid?.personal_information?.lastName}
+          </td>
+          <td className="px-4 py-3">
+            <Chip
+              color={
+                withdraw?.status === "pending"
+                  ? "warning"
+                  : withdraw?.status === "approved"
+                  ? "success"
+                  : "danger"
+              }
+              className="text-white uppercase text-xs font-medium px-2 py-1 rounded-full"
+            >
+              {withdraw?.status}
+            </Chip>
+          </td>
+          <td className="px-4 py-3 text-sm text-gray-700">{withdraw?.btc}</td>
+          <td className="px-4 py-3 text-sm text-gray-700">${withdraw?.amount}</td>
+          <td className="px-4 py-3 text-sm text-gray-700">{withdraw?.requestDate}</td>
+          <td className="px-4 py-3">
+            <Link href={`/dashboard/user/withdraw/${withdraw?._id}`}>
+              <Button className="flex items-center gap-2 px-3 py-1 border border-blue-500 text-blue-500 hover:bg-blue-50 text-sm rounded-md">
+                <Icon icon="solar:eye-linear" className="text-base" />
+                View
+              </Button>
+            </Link>
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</CardBody>
+
       </Card>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+      {/* <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
           {(onClose) => (
             <>
@@ -245,7 +308,7 @@ const Withdraw = ({ withdrawsData, currentUser, settings }: WithdrawProps) => {
                 <Button
                   className="w-full text-white"
                   color="primary"
-                  onPress={() => {
+                  onClick={() => {
                     handleSubmit();
                     onClose();
                   }}
@@ -256,7 +319,7 @@ const Withdraw = ({ withdrawsData, currentUser, settings }: WithdrawProps) => {
             </>
           )}
         </ModalContent>
-      </Modal>
+      </Modal> */}
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}

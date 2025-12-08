@@ -99,7 +99,7 @@ export default function OfficeLocations() {
           </div>
 
           <h2 className="text-5xl md:text-6xl font-black text-white mb-6 leading-tight">
-            Our <span className="text-gradient">Worldwide</span>
+            Our <span className="text-blue-800">Worldwide</span>
             <br />
             Presence
           </h2>
