@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from "axios";
 
-// const API_URL = "https://api.algopips.net/api";
-const API_URL = "http://localhost:4000/api";
+const API_URL = "https://api.algopips.net/api";
+// const API_URL = "http://localhost:4000/api";
 
 const Axios: AxiosInstance = axios.create({
   baseURL: API_URL,
