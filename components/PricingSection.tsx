@@ -8,6 +8,7 @@ const plans = [
     period: "/month",
     description: "Perfect for beginners exploring crypto mining",
     icon: Zap,
+    image: "/p1.jpg", // Bitcoin/Chip image
     features: [
       "1 TH/s Hash Power",
       "Basic Dashboard",
@@ -23,6 +24,7 @@ const plans = [
     period: "/month",
     description: "Most popular choice for serious miners",
     icon: Crown,
+    image: "/p2.jpg", // GPU/Mining Rig image
     features: [
       "10 TH/s Hash Power",
       "Advanced Analytics",
@@ -39,6 +41,7 @@ const plans = [
     period: "/month",
     description: "Maximum power for professional operations",
     icon: Rocket,
+    image: "/p1.jpg", // Server Farm image
     features: [
       "50 TH/s Hash Power",
       "Custom Dashboard",
@@ -69,7 +72,7 @@ const cardVariants = {
     y: 0,
     transition: {
       duration: 0.6,
-      ease: "easeOut" as const
+      ease: "easeOut"
     }
   }
 };
@@ -105,60 +108,75 @@ const PricingSection = () => {
               key={plan.name}
               variants={cardVariants}
               whileHover={{ y: -10, transition: { duration: 0.3 } }}
-              className={`relative rounded-3xl p-8 ${
-                plan.popular
-                  ? "btn-gradient shadow-glow"
-                  : "bg-card border border-border"
-              }`}
+              className={`relative rounded-3xl p-8 overflow-hidden isolate border`}
             >
-              {plan.popular && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-card text-foreground text-sm font-semibold">
-                  Most Popular
-                </div>
-              )}
-
-              <div className={`w-14 h-14 rounded-xl flex items-center justify-center mb-6 ${
-                plan.popular ? "bg-white/20" : "btn-gradient"
-              }`}>
-                <plan.icon className={`w-7 h-7 ${plan.popular ? "text-white" : "text-primary-foreground"}`} />
+              {/* --- Background Image Layer --- */}
+              <div className="absolute inset-0 -z-20">
+                <img 
+                  src={plan.image} 
+                  alt={plan.name} 
+                  className="w-full h-full object-cover transition-transform duration-700 hover:scale-110" 
+                />
               </div>
 
-              <h3 className={`text-2xl font-bold mb-2 ${plan.popular ? "text-white" : "text-foreground"}`}>
-                {plan.name}
-              </h3>
-              <p className={`text-sm mb-4 ${plan.popular ? "text-white/70" : "text-muted-foreground"}`}>
-                {plan.description}
-              </p>
+              {/* --- Overlay Layer (Darken image for text readability) --- */}
+              <div className={`absolute inset-0 -z-10 ${
+                plan.popular 
+                  ? "bg-gradient-to-b from-primary/70 to-black/90" // Colored tint for popular
+                  : "bg-black/80" // Standard dark overlay
+              }`} />
 
-              {/* <div className="mb-6">
-                <span className={`text-4xl font-bold ${plan.popular ? "text-white" : "text-gradient"}`}>
-                  {plan.price}
-                </span>
-                <span className={plan.popular ? "text-white/70" : "text-muted-foreground"}>
-                  {plan.period}
-                </span>
-              </div> */}
+              {/* --- Content --- */}
+              <div className="relative z-10">
+                {plan.popular && (
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-white  text-sm font-semibold shadow-lg">
+                    Most Popular
+                  </div>
+                )}
 
-              <ul className="space-y-3 mb-8">
-                {plan.features.map((feature) => (
-                  <li key={feature} className={`flex items-center gap-3 ${plan.popular ? "text-white/90" : "text-foreground"}`}>
-                    <Check className={`w-5 h-5 ${plan.popular ? "text-white" : "text-primary"}`} />
-                    {feature}
-                  </li>
-                ))}
-              </ul>
+                <div className={`w-14 h-14 rounded-xl flex items-center justify-center mb-6 ${
+                  plan.popular ? "bg-white/10" : "bg-white/10 backdrop-blur-sm"
+                }`}>
+                  <plan.icon className="w-7 h-7 text-white" />
+                </div>
 
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className={`w-full py-4 rounded-xl font-semibold transition-colors ${
-                  plan.popular
-                    ? "bg-white text-foreground hover:bg-white/90"
-                    : "btn-gradient text-primary-foreground"
-                }`}
-              >
-                Get Started
-              </motion.button>
+                <h3 className="text-2xl font-bold mb-2 text-white">
+                  {plan.name}
+                </h3>
+                <p className="text-sm mb-4 text-gray-300">
+                  {plan.description}
+                </p>
+
+                 {/* <div className="mb-6">
+                   <span className="text-4xl font-bold text-white">
+                     {plan.price}
+                   </span>
+                   <span className="text-white/70">
+                     {plan.period}
+                   </span>
+                 </div> */}
+
+                <ul className="space-y-3 mb-8">
+                  {plan.features.map((feature) => (
+                    <li key={feature} className="flex items-center gap-3 text-gray-200">
+                      <Check className={`w-5 h-5 ${plan.popular ? "text-white" : "text-primary"}`} />
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className={`w-full py-4 rounded-xl font-semibold transition-colors ${
+                    plan.popular
+                      ? "bg-white text-black hover:bg-gray-100"
+                      : "btn-gradient text-white"
+                  }`}
+                >
+                  Get Started
+                </motion.button>
+              </div>
             </motion.div>
           ))}
         </motion.div>

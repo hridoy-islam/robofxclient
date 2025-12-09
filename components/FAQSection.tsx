@@ -35,8 +35,20 @@ const faqs = [
 
 const FAQSection = () => {
   return (
-    <section className="py-24 bg-secondary/30">
-      <div className="container mx-auto">
+   <section className="py-24 relative overflow-hidden isolate">
+      {/* --- Background Image --- */}
+      <div className="absolute inset-0 -z-20">
+        <img
+          src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=2832&auto=format&fit=crop"
+          alt="Abstract Network Background"
+          className="w-full h-full object-cover"
+        />
+      </div>
+
+      {/* --- Overlay for Readability --- */}
+      <div className="absolute inset-0 bg-slate-950/85 -z-10" />
+
+      <div className="container mx-auto relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -44,10 +56,10 @@ const FAQSection = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl lg:text-5xl font-bold mb-4">
+          <h2 className="text-4xl lg:text-5xl font-bold mb-4 text-white">
             Frequently Asked <span className="text-gradient">Questions</span>
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-lg text-gray-300 max-w-2xl mx-auto">
             Everything you need to know about crypto mining with CryptoMinerX
           </p>
         </motion.div>
@@ -57,6 +69,7 @@ const FAQSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
+          className="max-w-3xl mx-auto"
         >
           <Accordion type="single" collapsible className="space-y-4">
             {faqs.map((faq, index) => (
@@ -69,12 +82,13 @@ const FAQSection = () => {
               >
                 <AccordionItem
                   value={`item-${index}`}
-                  className="bg-card border border-border rounded-2xl px-6 overflow-hidden"
+                  // Updated to Glassmorphism style for dark background
+                  className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl px-6 overflow-hidden data-[state=open]:bg-white/10 transition-all"
                 >
-                  <AccordionTrigger className="text-left text-foreground hover:text-primary transition-colors py-6 text-lg font-medium">
+                  <AccordionTrigger className="text-left text-white hover:text-blue-100 transition-colors py-6 text-lg font-medium">
                     {faq.question}
                   </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground pb-6 leading-relaxed">
+                  <AccordionContent className="text-gray-300 pb-6 leading-relaxed text-base">
                     {faq.answer}
                   </AccordionContent>
                 </AccordionItem>
@@ -90,11 +104,11 @@ const FAQSection = () => {
           transition={{ delay: 0.6, duration: 0.5 }}
           className="text-center mt-12"
         >
-          <p className="text-muted-foreground mb-4">Still have questions?</p>
+          <p className="text-gray-400 mb-4">Still have questions?</p>
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="btn-gradient px-8 py-3 rounded-xl text-primary-foreground font-semibold"
+            className="px-8 py-3 rounded-xl bg-white text-slate-900 font-bold hover:bg-gray-100 transition-colors"
           >
             Contact Support
           </motion.button>

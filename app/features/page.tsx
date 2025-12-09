@@ -364,44 +364,67 @@ const imageVariants = {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 bg-white border-t border-slate-100">
-        <div className="container mx-auto  text-center">
-          <div className="max-w-3xl mx-auto animate-fade-up">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">
-              Ready to automate your success?
-            </h2>
-            <p className="text-lg text-slate-600 mb-10">
-              Join thousands of successful traders who are already using CryptoMinerX to maximize their profits with zero stress.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <button
-                onClick={() =>
-                  openModal({
-                    title: "Get Started",
-                    type: "download",
-                  })
-                }
-                className="btn-gradient text-white font-bold px-8 py-4 rounded-full min-w-[200px] flex items-center justify-center gap-2"
-              >
-                Start Trading
-                <ArrowRight className="w-4 h-4" />
-              </button>
-              
-              <button
-                onClick={() =>
-                    openModal({
-                      title: "Get Started",
-                      type: "download",
-                    })
-                  }
-                className="bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 font-semibold px-8 py-4 rounded-full min-w-[200px] transition-colors"
-              >
-                View Live Results
-              </button>
-            </div>
+  <section className="relative py-24 overflow-hidden isolate">
+      {/* --- Background Image --- */}
+      <div className="absolute inset-0 -z-20">
+        <img
+          src="/feature.webp"
+          alt="Trading Automation Background"
+          className="w-full h-full object-cover"
+        />
+      </div>
+      
+      {/* --- Dark Overlay for Readability --- */}
+      <div className="absolute inset-0 bg-slate-950/70 -z-10" />
+
+      {/* --- Content --- */}
+      <div className="container mx-auto text-center relative z-10">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="max-w-3xl mx-auto"
+        >
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+            Ready to automate your success?
+          </h2>
+          <p className="text-lg text-slate-300 mb-10 leading-relaxed">
+            Join thousands of successful traders who are already using
+            CryptoMinerX to maximize their profits with zero stress.
+          </p>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <button
+              onClick={() =>
+                openModal({
+                  title: "Get Started",
+                  type: "download",
+                })
+              }
+              // Kept btn-gradient, ensured text is white
+              className="btn-gradient text-white font-bold px-8 py-4 rounded-full min-w-[200px] flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/40 transition-all hover:scale-105"
+            >
+              Start Trading
+              <ArrowRight className="w-4 h-4" />
+            </button>
+
+            <button
+              onClick={() =>
+                openModal({
+                  title: "Get Started",
+                  type: "download",
+                })
+              }
+              // Changed to Glassmorphic style for dark background
+              className="bg-white/10 backdrop-blur-md border border-white/10 text-white hover:bg-white/20 font-semibold px-8 py-4 rounded-full min-w-[200px] transition-all"
+            >
+              View Live Results
+            </button>
           </div>
-        </div>
-      </section>
+        </motion.div>
+      </div>
+    </section>
 
       <Footer />
     </div>
