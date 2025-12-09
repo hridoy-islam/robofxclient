@@ -99,7 +99,6 @@ export default function Header() {
                     title: "Create your account",
                     subtitle: "Join the world's largest crypto exchange",
                     buttonText: "Sign Up",
-                    type: "signup",
                   })
                 }
                 className="hidden md:flex rounded-full bg-[#0052FF] hover:bg-[#0040CC] text-white font-semibold px-5 h-10 shadow-none border-none"
@@ -191,7 +190,7 @@ export default function Header() {
               <Button
                 onClick={() => {
                    setIsMenuOpen(false);
-                   openModal({ type: "signup" })
+                   openModal()
                 }}
                 className="btn-gradient"
               >

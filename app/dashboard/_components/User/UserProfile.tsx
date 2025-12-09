@@ -84,7 +84,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ user }) => {
                 />
                 <AvatarFallback className="text-2xl bg-muted">{initials}</AvatarFallback>
               </Avatar>
-              <div className="absolute bottom-0 right-2 px-2 py-1" variant="secondary">
+              <div className="absolute bottom-0 right-2 px-2 py-1" >
                 Active
               </div>
             </div>

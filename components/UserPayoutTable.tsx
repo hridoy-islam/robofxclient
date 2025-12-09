@@ -37,7 +37,8 @@ interface UserRigsTableProps {
 
 const UserPayoutTable = ({ payouts, settings }: UserRigsTableProps) => {
   const router = useRouter();
-  const btcRate = settings[0]?.btc || 1; // Default rate to prevent error
+ const btcRate = settings?.[0]?.btc ?? 1;
+ // Default rate to prevent error
 
   return (
     <Card className="mt-5 shadow-sm border border-gray-100">

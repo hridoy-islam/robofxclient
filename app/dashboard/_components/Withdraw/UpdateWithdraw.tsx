@@ -274,14 +274,14 @@ return (
         </div>
 
         <DialogFooter className="mt-4">
-          <Button variant="outline" onClick={() => onOpenChange(false)}>
+          <Button variant="outline" onClick={() => onOpenChange()}>
             Cancel
           </Button>
 
           <Button
             className="bg-primary text-white"
             onClick={() => {
-              onOpenChange(false);
+              onOpenChange();
               handleUpdate();
             }}
           >

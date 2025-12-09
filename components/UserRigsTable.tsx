@@ -73,7 +73,7 @@ const UserRigsTable = ({ rigs }: UserRigsTableProps) => {
               <tr 
                 key={index} 
                 className="border-b transition-colors hover:bg-gray-50 cursor-pointer"
-                onClick={() => router.push(`/dashboard/user/rigs/${rig.id}`)} // Assuming rig has an ID
+                onClick={() => router.push(`/dashboard/user/rigs/${rig?._id}`)} // Assuming rig has an ID
               >
                 <td className="px-4 py-3 text-sm font-medium text-gray-900">{rig?.rigName}</td>
                 <td className="px-4 py-3 text-sm text-gray-700">{rig?.efficiency}</td>

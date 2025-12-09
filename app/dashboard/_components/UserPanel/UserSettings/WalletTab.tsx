@@ -247,7 +247,7 @@ const WalletTab: React.FC<WalletTabProps> = ({
           <Button
         variant="outline"
         className=" w-full bg-gray-200 text-gray-800 hover:bg-gray-300"
-        onClick={() => onOpenChange(false)}
+        onClick={() => onOpenChange()}
       >
         Cancel
       </Button>
@@ -255,7 +255,7 @@ const WalletTab: React.FC<WalletTabProps> = ({
             className="w-full bg-blue-600 text-white hover:bg-blue-700"
             onClick={() => {
               submitForm();
-              onOpenChange(false);
+              onOpenChange();
             }}
           >
             Save
