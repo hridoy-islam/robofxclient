@@ -285,12 +285,12 @@ export default function Mining({
             <BarChart data={chartData}>
               <Bar
                 dataKey="pv"
-                fill="#2C929C"
+                fill="#007BFF"
                 activeBar={<Rectangle fill="#e3eeef" stroke="#2C929C" />}
               />
               <Bar
                 dataKey="uv"
-                fill="#e3eeef"
+                fill="#CCE5FF"
                 activeBar={<Rectangle fill="#2C929C" stroke="#e3eeef" />}
               />
             </BarChart>

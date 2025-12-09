@@ -5,15 +5,12 @@ import { Button } from "@/components/ui/button";
 import {
   Menu,
   X,
-  Search,
-  Globe,
-  Home,
-  Settings,
-  HelpCircle,
-  DollarSign,
-  Headphones,
-  Mail,
-  ChevronRight,
+  LayoutDashboard,
+  LifeBuoy,
+  Lightbulb,
+  Send,
+  Zap,
+  Layers,
 } from "lucide-react";
 import Link from "next/link";
 import { useModal } from "@/context/ModalContext";
@@ -22,77 +19,69 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { openModal } = useModal();
 
-  // Restored your specific Nav Items
   const navItems = [
-    { name: "Home", href: "/", icon: <Home className="w-4 h-4" /> },
+    { name: "Home", href: "/", icon: <LayoutDashboard className="w-4 h-4" /> },
     {
       name: "Features",
       href: "features",
-      icon: <Settings className="w-4 h-4" />,
+      icon: <Lightbulb className="w-4 h-4" />,
     },
-    { name: "FAQ", href: "faq", icon: <HelpCircle className="w-4 h-4" /> },
+    { name: "FAQ", href: "faq", icon: <Layers className="w-4 h-4" /> },
     {
       name: "Pricing",
       href: "pricing",
-      icon: <DollarSign className="w-4 h-4" />,
+      icon: <Zap className="w-4 h-4" />,
     },
     {
       name: "Support",
       href: "support",
-      icon: <Headphones className="w-4 h-4" />,
+      icon: <LifeBuoy className="w-4 h-4" />,
     },
-    { name: "Contact", href: "contact", icon: <Mail className="w-4 h-4" /> },
+    { name: "Contact", href: "contact", icon: <Send className="w-4 h-4" /> },
   ];
 
   return (
     <>
-      {/* Main Header */}
-      <header className="bg-white border-b border-slate-100 sticky top-0 z-50 font-sans">
+     
+      <header className="bg-white border-b border-slate-100 fixed top-0 w-full z-50 font-sans transition-all duration-200">
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex items-center justify-between h-[72px]">
-            
-            {/* Left Section: Logo & Nav */}
-            <div className="flex items-center gap-8 lg:gap-12">
-              {/* Logo - Blue 'C' */}
-              <Link href={"/"} className="flex-shrink-0">
-                             <Image src="/logo.png" alt="" width={200} height={100} />
-
+            {/* Left Section: Logo */}
+            <div className="flex-shrink-0">
+              <Link href={"/"}>
+                <Image src="/logo.png" alt="" width={200} height={100} />
               </Link>
+            </div>
 
-              {/* Desktop Navigation */}
-              <nav className="hidden lg:flex items-center gap-6 xl:gap-8">
+            {/* Center Section: Desktop Navigation */}
+            <nav className="hidden lg:flex items-center justify-center flex-grow">
+              <div className="flex items-center gap-6 xl:gap-8">
                 {navItems.map((item) => (
                   <Link
                     key={item.name}
                     href={item.href}
                     className="flex items-center gap-2 text-sm font-semibold text-slate-900 hover:text-[#0052FF] transition-colors"
                   >
-                    {/* Render Icon */}
                     <span className="text-slate-500 group-hover:text-[#0052FF]">
-                        {item.icon}
+                      {item.icon}
                     </span>
                     {item.name}
                   </Link>
                 ))}
-              </nav>
-            </div>
+              </div>
+            </nav>
 
             {/* Right Section: Actions */}
-            <div className="flex items-center gap-2 md:gap-4">
-              
-              
-
-              {/* Sign In (Replaces Live Trading) */}
+            <div className="flex items-center gap-2 md:gap-4 flex-shrink-0">
               <Link href="/login">
                 <Button
-                    variant="ghost"
-                    className="hidden md:flex rounded-full bg-slate-100 hover:bg-slate-200 text-slate-900 font-semibold px-5 h-10"
+                  variant="ghost"
+                  className="hidden md:flex rounded-full bg-slate-100 hover:bg-slate-200 text-slate-900 font-semibold px-5 h-10"
                 >
-                    Sign in
+                  Sign in
                 </Button>
               </Link>
 
-              {/* Sign Up Button */}
               <Button
                 onClick={() =>
                   openModal({
@@ -122,6 +111,12 @@ export default function Header() {
         </div>
       </header>
 
+      {/* IMPORTANT:
+         Since the header is now 'fixed', it is removed from the document flow. 
+         This spacer div pushes your page content down so it doesn't get hidden behind the header.
+      */}
+      <div className="h-[72px] w-full bg-white"></div>
+
       {/* Mobile Slide-out Menu */}
       <div
         className={`fixed inset-0 z-40 lg:hidden transition-opacity duration-300 ${
@@ -136,27 +131,14 @@ export default function Header() {
           onClick={() => setIsMenuOpen(false)}
         ></div>
 
-        {/* Menu Panel (Light Theme) */}
+        {/* Menu Panel */}
+        {/* Added 'pt-0' to ensure clean alignment */}
         <div
-          className={`absolute right-0 top-0 h-full w-full sm:w-80 bg-white shadow-2xl transform transition-transform duration-300 ${
+          className={`absolute right-0 top-[72px] h-[calc(100vh-72px)] w-full sm:w-80 bg-white shadow-2xl transform transition-transform duration-300 ${
             isMenuOpen ? "translate-x-0" : "translate-x-full"
           }`}
         >
-          {/* Mobile Header */}
-          <div className="flex items-center justify-between p-4 border-b border-slate-100 h-[72px]">
-             <div className="w-8 h-8 bg-[#0052FF] rounded-full flex items-center justify-center">
-                <span className="text-white font-bold text-lg pb-[2px] pr-[1px]">C</span>
-             </div>
-            <button
-              onClick={() => setIsMenuOpen(false)}
-              className="p-2 text-slate-900 hover:bg-slate-100 rounded-full transition-colors"
-            >
-              <X className="w-6 h-6" />
-            </button>
-          </div>
-
-          {/* Mobile Menu Items */}
-          <div className="flex flex-col h-[calc(100%-72px)] overflow-y-auto">
+          <div className="flex flex-col h-full overflow-y-auto">
             <nav className="p-4 space-y-1">
               {navItems.map((item) => (
                 <Link
@@ -167,32 +149,34 @@ export default function Header() {
                 >
                   <div className="flex items-center gap-3">
                     <span className="text-slate-500 group-hover:text-[#0052FF]">
-                        {item.icon}
+                      {item.icon}
                     </span>
                     <span className="text-base">{item.name}</span>
                   </div>
-                  {/* <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-slate-900" /> */}
                 </Link>
               ))}
             </nav>
 
-            {/* Mobile Footer Buttons */}
-            <div className="mt-auto p-6 space-y-3 border-t border-slate-100">
-               <Link href="/login" onClick={() => setIsMenuOpen(false)} className="block w-full">
-                  <Button
-                    variant="outline"
-                    className="w-full rounded-full border-slate-300 text-slate-900 font-bold h-12 hover:bg-slate-50"
-                  >
-                    Sign in
-                  </Button>
-               </Link>
-              
+            <div className="mt-auto p-6 space-y-3 border-t border-slate-100 pb-10">
+              <Link
+                href="/login"
+                onClick={() => setIsMenuOpen(false)}
+                className="block w-full"
+              >
+                <Button
+                  variant="outline"
+                  className="w-full rounded-full border-slate-300 text-slate-900 font-bold h-12 hover:bg-slate-50"
+                >
+                  Sign in
+                </Button>
+              </Link>
+
               <Button
                 onClick={() => {
-                   setIsMenuOpen(false);
-                   openModal()
+                  setIsMenuOpen(false);
+                  openModal();
                 }}
-                className="btn-gradient"
+                className="w-full rounded-full bg-[#0052FF] hover:bg-[#0040CC] text-white font-bold h-12"
               >
                 Sign up
               </Button>

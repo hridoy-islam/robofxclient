@@ -36,7 +36,7 @@ const faqs = [
 const FAQSection = () => {
   return (
     <section className="py-24 bg-secondary/30">
-      <div className="max-w-4xl mx-auto">
+      <div className="container mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}

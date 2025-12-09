@@ -7,7 +7,7 @@ import { BiLogoFacebook, BiLogoInstagram } from "react-icons/bi";
 export default function Footer() {
   return (
     <footer className="bg-slate-50 border-t border-slate-200">
-      <div className="container mx-auto py-16 px-4">
+      <div className="container mx-auto py-16 ">
         <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-8">
           {/* Company Info */}
           <div className="lg:col-span-2">

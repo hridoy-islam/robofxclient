@@ -614,36 +614,32 @@ export default function GlobalModal() {
   const successData = getSuccessMessage();
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      {/* Backdrop */}
+    <div className="fixed inset-0 z-50 overflow-y-auto">
       <div
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        className="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity"
         onClick={handleClose}
-      ></div>
+      />
 
-      {/* Modal - Made much wider and optimized for single screen */}
-      <div className="relative w-full max-w-6xl h-fit">
-        <div className="glass-white rounded-3xl shadow-blue-lg border border-gray-100 relative">
-          {/* Close Button */}
+      <div className="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+        <div className="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 w-full max-w-5xl border border-slate-100">
           <button
             onClick={handleClose}
             disabled={isLoading}
-            className="absolute top-6 right-6 p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-50 rounded-xl transition-colors z-10 disabled:opacity-50"
+            className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors z-10 disabled:opacity-50"
           >
-            <X className="w-6 h-6" />
+            <X className="w-5 h-5" />
           </button>
 
-          {/* Success State */}
           {isSubmitted ? (
-            <div className="p-12 text-center">
-              <CheckCircle className="w-20 h-20 text-green-600 mx-auto mb-6" />
-              <h3 className="text-3xl font-bold text-green-600 mb-4">
+            <div className="p-8 md:p-12 text-center">
+              <CheckCircle className="w-16 h-16 md:w-20 md:h-20 text-green-600 mx-auto mb-6" />
+              <h3 className="text-2xl md:text-3xl font-bold text-green-600 mb-4">
                 {successData.title}
               </h3>
-              <p className="text-gray-600 text-lg leading-relaxed mb-6">
+              <p className="text-gray-600 text-base md:text-lg leading-relaxed mb-8">
                 {successData.message}
               </p>
-              <div className="flex items-center justify-center space-x-6">
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
                 {successData.actions.map((action, index) => (
                   <div
                     key={index}
@@ -656,26 +652,20 @@ export default function GlobalModal() {
               </div>
             </div>
           ) : (
-            <div className="p-8">
-              {/* Header */}
+            <div className="p-6 md:p-10">
               <div className="text-center mb-8">
-                {/* <div className="w-16 h-16 bg-gradient-primary rounded-2xl flex items-center justify-center mx-auto mb-4">
-                  {getModalIcon()}
-                </div> */}
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
                   {config.title}
                 </h3>
-                <p className="text-gray-600">{config.subtitle}</p>
+                <p className="text-gray-600 text-sm md:text-base">{config.subtitle}</p>
               </div>
 
-              {/* Form - Redesigned for single screen */}
-              <form onSubmit={handleSubmit} className="space-y-1">
-                {/* Row 1: Name and Email */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
                   <div>
                     <label
                       htmlFor="modal-name"
-                      className="block text-gray-900 font-medium mb-2"
+                      className="block text-gray-900 font-medium mb-2 text-sm"
                     >
                       <User className="w-4 h-4 inline mr-2" />
                       Full Name *
@@ -686,7 +676,7 @@ export default function GlobalModal() {
                       name="name"
                       value={formData.name}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm md:text-base"
                       placeholder="Enter your full name"
                       required
                     />
@@ -695,7 +685,7 @@ export default function GlobalModal() {
                   <div>
                     <label
                       htmlFor="modal-email"
-                      className="block text-gray-900 font-medium mb-2"
+                      className="block text-gray-900 font-medium mb-2 text-sm"
                     >
                       <Mail className="w-4 h-4 inline mr-2" />
                       Email Address *
@@ -706,7 +696,7 @@ export default function GlobalModal() {
                       name="email"
                       value={formData.email}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm md:text-base"
                       placeholder="your@email.com"
                       required
                     />
@@ -715,7 +705,7 @@ export default function GlobalModal() {
                   <div>
                     <label
                       htmlFor="modal-phone"
-                      className="block text-gray-900 font-medium mb-2"
+                      className="block text-gray-900 font-medium mb-2 text-sm"
                     >
                       <Phone className="w-4 h-4 inline mr-2" />
                       Phone Number *
@@ -726,19 +716,18 @@ export default function GlobalModal() {
                       name="phone"
                       value={formData.phone}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm md:text-base"
                       placeholder="+1 (555) 123-4567"
                       required
                     />
                   </div>
                 </div>
 
-                {/* Row 2: Phone, City, Country */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 md:gap-6">
                   <div>
                     <label
                       htmlFor="modal-city"
-                      className="block text-gray-900 font-medium mb-2"
+                      className="block text-gray-900 font-medium mb-2 text-sm"
                     >
                       <MapPin className="w-4 h-4 inline mr-2" />
                       City *
@@ -749,7 +738,7 @@ export default function GlobalModal() {
                       name="city"
                       value={formData.city}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm md:text-base"
                       placeholder="Your city"
                       required
                     />
@@ -758,7 +747,7 @@ export default function GlobalModal() {
                   <div>
                     <label
                       htmlFor="modal-country"
-                      className="block text-gray-900 font-medium mb-2"
+                      className="block text-gray-900 font-medium mb-2 text-sm"
                     >
                       <MapPin className="w-4 h-4 inline mr-2" />
                       Country *
@@ -769,28 +758,24 @@ export default function GlobalModal() {
                       name="country"
                       value={formData.country}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm md:text-base"
                       placeholder="Your country"
                       required
                     />
                   </div>
                 </div>
 
-                {/* Row 3: Experience and Message */}
-
-                {/* Row 4: Consent and Submit */}
-                <div className="space-y-4">
-                  {/* Consent Checkbox */}
+                <div className="space-y-6 pt-2">
                   <div className="flex items-start space-x-3">
                     <input
                       type="checkbox"
                       id="modal-consent"
-                      className="mt-1 w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                      className="mt-1 w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 shrink-0"
                       required
                     />
                     <label
                       htmlFor="modal-consent"
-                      className="text-gray-600 text-sm leading-relaxed"
+                      className="text-gray-600 text-xs md:text-sm leading-relaxed"
                     >
                       I agree to receive communications from algopips including
                       setup instructions, trading tips, and product updates. I
@@ -798,39 +783,37 @@ export default function GlobalModal() {
                     </label>
                   </div>
 
-                  {/* Submit Button */}
-                  <div className="flex justify-center pt-2">
+                  <div className="flex justify-center">
                     <Button
                       type="submit"
                       disabled={isLoading}
-                      className="btn-gradient text-white font-bold px-12 py-4 rounded-2xl text-lg shadow-blue-lg hover:shadow-blue disabled:opacity-50 disabled:cursor-not-allowed group transition-all duration-200"
+                      className="w-full md:w-auto btn-gradient text-white font-bold px-8 md:px-12 py-3 md:py-4 rounded-xl md:rounded-2xl text-base md:text-lg shadow-blue-lg hover:shadow-blue disabled:opacity-50 disabled:cursor-not-allowed group transition-all duration-200"
                     >
                       {isLoading ? (
                         <div className="flex items-center justify-center">
-                          <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin mr-3"></div>
+                          <div className="w-5 h-5 md:w-6 md:h-6 border-2 border-white border-t-transparent rounded-full animate-spin mr-3"></div>
                           Processing...
                         </div>
                       ) : (
                         <div className="flex items-center justify-center">
                           {config.type === "results" ? (
-                            <Eye className="w-6 h-6 mr-3 group-hover:scale-110 transition-transform" />
+                            <Eye className="w-5 h-5 md:w-6 md:h-6 mr-2 md:mr-3 group-hover:scale-110 transition-transform" />
                           ) : config.type === "demo" ? (
-                            <Play className="w-6 h-6 mr-3 group-hover:scale-110 transition-transform" />
+                            <Play className="w-5 h-5 md:w-6 md:h-6 mr-2 md:mr-3 group-hover:scale-110 transition-transform" />
                           ) : config.type === "contact" ? (
-                            <Mail className="w-6 h-6 mr-3 group-hover:scale-110 transition-transform" />
+                            <Mail className="w-5 h-5 md:w-6 md:h-6 mr-2 md:mr-3 group-hover:scale-110 transition-transform" />
                           ) : (
-                            <Download className="w-6 h-6 mr-3 group-hover:scale-110 transition-transform" />
+                            <Download className="w-5 h-5 md:w-6 md:h-6 mr-2 md:mr-3 group-hover:scale-110 transition-transform" />
                           )}
                           {config.buttonText}
-                          <ArrowRight className="w-5 h-5 ml-3 group-hover:translate-x-1 transition-transform" />
+                          <ArrowRight className="w-4 h-4 md:w-5 md:h-5 ml-2 md:ml-3 group-hover:translate-x-1 transition-transform" />
                         </div>
                       )}
                     </Button>
                   </div>
 
-                  {/* Security Notice */}
                   <div className="text-center">
-                    <p className="text-gray-500 text-sm leading-relaxed">
+                    <p className="text-gray-400 text-xs leading-relaxed">
                       🔒 Your information is secure and encrypted. We respect
                       your privacy and will never share your data with third
                       parties.

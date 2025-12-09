@@ -13,20 +13,22 @@ export default function Page() {
   return (
     <div className="min-h-screen bg-white overflow-hidden">
       <Header />
-      <section className="relative pt-20 pb-32 px-6 lg:px-8">
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-br from-primary/5 to-accent/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-        
+      <section className="relative pt-12 pb-20 md:pt-20 md:pb-32 px-4 sm:px-6 lg:px-8 overflow-hidden">
+        {/* Background Blob - Scaled down for mobile */}
+        <div className="absolute top-0 right-0 w-[300px] h-[300px] md:w-[600px] md:h-[600px] bg-gradient-to-br from-primary/5 to-accent/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+
         <div className="container mx-auto">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             {/* Left Content */}
-            <div className="space-y-8 relative z-10">
+            <div className="space-y-6 md:space-y-8 relative z-10 text-center lg:text-left">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
+                className="flex justify-center lg:justify-start"
               >
-                <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary text-sm font-medium text-foreground">
-                  <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                <span className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-secondary text-xs md:text-sm font-medium text-foreground">
+                  <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-green-500 animate-pulse" />
                   Mining Active — 99.9% Uptime
                 </span>
               </motion.div>
@@ -35,7 +37,7 @@ export default function Page() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 }}
-                className="text-5xl lg:text-7xl font-bold leading-tight tracking-tight"
+                className="text-4xl md:text-5xl lg:text-7xl font-bold leading-tight tracking-tight"
               >
                 <span className="text-gradient">Mine Crypto</span>
                 <br />
@@ -46,22 +48,23 @@ export default function Page() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
-                className="text-lg lg:text-xl text-muted-foreground max-w-lg leading-relaxed"
+                className="text-base md:text-lg lg:text-xl text-muted-foreground max-w-lg mx-auto lg:mx-0 leading-relaxed"
               >
-                Join the next generation of crypto mining. Professional-grade infrastructure, 
-                maximized returns, zero complexity.
+                Join the next generation of crypto mining. Professional-grade
+                infrastructure, maximized returns, zero complexity.
               </motion.p>
 
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.3 }}
-                className="flex flex-wrap gap-4"
+                // Buttons stack on mobile, side-by-side on tablet+
+                className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
               >
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="btn-gradient px-8 py-4 rounded-xl text-primary-foreground font-semibold flex items-center gap-2 group"
+                  className="btn-gradient w-full sm:w-auto px-8 py-3.5 md:py-4 rounded-xl text-primary-foreground font-semibold flex items-center justify-center gap-2 group"
                 >
                   Start Mining
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -69,29 +72,40 @@ export default function Page() {
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="px-8 py-4 rounded-xl border border-border text-foreground font-semibold hover:bg-secondary transition-colors"
+                  className="w-full sm:w-auto px-8 py-3.5 md:py-4 rounded-xl border border-border text-foreground font-semibold hover:bg-secondary transition-colors"
                 >
                   View Dashboard
                 </motion.button>
               </motion.div>
 
-              {/* Stats inline */}
+              {/* Stats inline - Grids on mobile, flex on desktop */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.4 }}
-                className="flex gap-12 pt-8 border-t border-border"
+                className="grid grid-cols-2 md:flex gap-y-6 gap-x-8 md:gap-12 pt-8 border-t border-border justify-center lg:justify-start"
               >
                 <div>
-                  <p className="text-3xl font-bold text-gradient">$42M+</p>
-                  <p className="text-sm text-muted-foreground mt-1">Total Mined</p>
+                  <p className="text-2xl md:text-3xl font-bold text-gradient">
+                    $42M+
+                  </p>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    Total Mined
+                  </p>
                 </div>
                 <div>
-                  <p className="text-3xl font-bold text-gradient">15K+</p>
-                  <p className="text-sm text-muted-foreground mt-1">Active Miners</p>
+                  <p className="text-2xl md:text-3xl font-bold text-gradient">
+                    15K+
+                  </p>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    Active Miners
+                  </p>
                 </div>
-                <div>
-                  <p className="text-3xl font-bold text-gradient">99.9%</p>
+                {/* Uptime spans 2 columns on mobile to center it, or fits naturally on desktop */}
+                <div className="col-span-2 md:col-span-1">
+                  <p className="text-2xl md:text-3xl font-bold text-gradient">
+                    99.9%
+                  </p>
                   <p className="text-sm text-muted-foreground mt-1">Uptime</p>
                 </div>
               </motion.div>
@@ -102,35 +116,54 @@ export default function Page() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="relative"
+              className="relative mt-8 lg:mt-0"
             >
-              <div className="relative">
-                {/* hero image */}
-                <img 
-                  src='/hero.jpg' 
-                  alt="Crypto trading chart showing upward trend" 
+              <div className="relative mx-auto max-w-md lg:max-w-full">
+                {/* Main Image */}
+                <img
+                  src="/hero.jpg"
+                  alt="Crypto trading chart showing upward trend"
                   className="w-full h-auto rounded-3xl shadow-elevated"
                 />
-                
-                {/* Floating Bitcoin */}
+
+                {/* Floating Bitcoin - Hidden on very small screens or scaled down */}
                 <motion.div
                   animate={{ y: [-10, 10, -10] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                  className="absolute -left-8 top-1/4"
+                  transition={{
+                    duration: 4,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                  // Adjusted positioning for mobile to prevent overflow
+                  className="absolute -left-4 top-[15%] md:-left-8 md:top-1/4"
                 >
-                  <div className="w-24 h-24 rounded-2xl bg-card shadow-card p-2 pulse-glow">
-                    <img src='/bitcoin.jpg' alt="Bitcoin" className="w-full h-full object-contain" />
+                  <div className="w-16 h-16 md:w-24 md:h-24 rounded-2xl bg-card shadow-card p-2 pulse-glow bg-white">
+                    <img
+                      src="/bitcoin.jpg"
+                      alt="Bitcoin"
+                      className="w-full h-full object-contain"
+                    />
                   </div>
                 </motion.div>
 
                 {/* Floating Ethereum */}
                 <motion.div
                   animate={{ y: [10, -10, 10] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                  className="absolute -right-6 bottom-1/4"
+                  transition={{
+                    duration: 4,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: 1,
+                  }}
+                  // Adjusted positioning for mobile
+                  className="absolute -right-3 bottom-[20%] md:-right-6 md:bottom-1/4"
                 >
-                  <div className="w-20 h-20 rounded-2xl bg-card shadow-card p-2 pulse-glow">
-                    <img src='/etherium.jpg' alt="Ethereum" className="w-full h-full object-contain" />
+                  <div className="w-14 h-14 md:w-20 md:h-20 rounded-2xl bg-card shadow-card p-2 pulse-glow bg-white">
+                    <img
+                      src="/etherium.jpg"
+                      alt="Ethereum"
+                      className="w-full h-full object-contain"
+                    />
                   </div>
                 </motion.div>
 
@@ -139,15 +172,22 @@ export default function Page() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.5, duration: 0.5 }}
-                  className="absolute -bottom-6 left-1/2 -translate-x-1/2 card-glass rounded-2xl px-6 py-4 shadow-card"
+                  className="absolute -bottom-4 left-4 md:-bottom-6 md:left-1/2 md:-translate-x-1/2 bg-white/80 backdrop-blur-md rounded-xl md:rounded-2xl px-3 py-2 md:px-6 md:py-4 shadow-card border border-white/20"
                 >
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-xl btn-gradient flex items-center justify-center">
-                      <TrendingUp className="w-6 h-6 text-primary-foreground" />
+                  <div className="flex items-center gap-2 md:gap-4">
+                    {/* Icon Container: Smaller on mobile (8x8) -> Larger on desktop (12x12) */}
+                    <div className="w-8 h-8 md:w-12 md:h-12 rounded-lg md:rounded-xl btn-gradient flex items-center justify-center shrink-0">
+                      <TrendingUp className="w-4 h-4 md:w-6 md:h-6 text-white" />
                     </div>
+
                     <div>
-                      <p className="text-sm text-muted-foreground">Today's Profit</p>
-                      <p className="text-xl font-bold text-gradient">+$2,847.32</p>
+                      {/* Text: Smaller fonts on mobile */}
+                      <p className="text-[10px] md:text-sm text-slate-500 font-medium uppercase tracking-wide">
+                        Today's Profit
+                      </p>
+                      <p className="text-sm md:text-xl font-bold text-slate-800 leading-tight">
+                        +$2,847.32
+                      </p>
                     </div>
                   </div>
                 </motion.div>
@@ -171,7 +211,8 @@ export default function Page() {
               Why Choose <span className="text-gradient">CryptoMinerX</span>
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Enterprise-grade mining infrastructure designed for maximum efficiency and returns
+              Enterprise-grade mining infrastructure designed for maximum
+              efficiency and returns
             </p>
           </motion.div>
 
@@ -180,23 +221,27 @@ export default function Page() {
               {
                 icon: Zap,
                 title: "Lightning Fast",
-                description: "Optimized algorithms for maximum hash rates and minimal latency"
+                description:
+                  "Optimized algorithms for maximum hash rates and minimal latency",
               },
               {
                 icon: Shield,
                 title: "Bank-Grade Security",
-                description: "Multi-layer encryption and cold storage for your assets"
+                description:
+                  "Multi-layer encryption and cold storage for your assets",
               },
               {
                 icon: TrendingUp,
                 title: "High Returns",
-                description: "Competitive payouts with real-time profit tracking"
+                description:
+                  "Competitive payouts with real-time profit tracking",
               },
               {
                 icon: Cpu,
                 title: "Latest Hardware",
-                description: "State-of-the-art ASIC miners with energy efficiency"
-              }
+                description:
+                  "State-of-the-art ASIC miners with energy efficiency",
+              },
             ].map((feature, index) => (
               <motion.div
                 key={feature.title}
@@ -211,8 +256,12 @@ export default function Page() {
                   <div className="w-14 h-14 rounded-xl btn-gradient flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                     <feature.icon className="w-7 h-7 text-primary-foreground" />
                   </div>
-                  <h3 className="text-xl font-semibold mb-3 text-foreground">{feature.title}</h3>
-                  <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
+                  <h3 className="text-xl font-semibold mb-3 text-foreground">
+                    {feature.title}
+                  </h3>
+                  <p className="text-muted-foreground leading-relaxed">
+                    {feature.description}
+                  </p>
                 </div>
               </motion.div>
             ))}
@@ -243,18 +292,21 @@ export default function Page() {
               {
                 step: "01",
                 title: "Create Account",
-                description: "Sign up in seconds with just your email. No complex verification needed."
+                description:
+                  "Sign up in seconds with just your email. No complex verification needed.",
               },
               {
                 step: "02",
                 title: "Choose Your Plan",
-                description: "Select a mining plan that fits your goals. Start small or go big."
+                description:
+                  "Select a mining plan that fits your goals. Start small or go big.",
               },
               {
                 step: "03",
                 title: "Watch Profits Grow",
-                description: "Sit back and watch your earnings accumulate in real-time."
-              }
+                description:
+                  "Sit back and watch your earnings accumulate in real-time.",
+              },
             ].map((item, index) => (
               <motion.div
                 key={item.step}
@@ -268,15 +320,19 @@ export default function Page() {
                 {index < 2 && (
                   <div className="hidden md:block absolute top-12 left-1/2 w-full h-px bg-gradient-to-r from-primary/30 to-primary/5" />
                 )}
-                
+
                 <div className="relative text-center p-8">
                   <motion.div
                     whileHover={{ scale: 1.1, rotate: 5 }}
                     className="inline-flex items-center justify-center w-24 h-24 rounded-2xl gradient-border bg-card mb-6"
                   >
-                    <span className="text-3xl font-bold text-gradient">{item.step}</span>
+                    <span className="text-3xl font-bold text-gradient">
+                      {item.step}
+                    </span>
                   </motion.div>
-                  <h3 className="text-xl font-semibold mb-3 text-foreground">{item.title}</h3>
+                  <h3 className="text-xl font-semibold mb-3 text-foreground">
+                    {item.title}
+                  </h3>
                   <p className="text-muted-foreground">{item.description}</p>
                 </div>
               </motion.div>
@@ -284,7 +340,6 @@ export default function Page() {
           </div>
         </div>
       </section>
-
 
       <PricingSection />
 
@@ -305,13 +360,13 @@ export default function Page() {
             {/* Decorative elements */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
             <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
-            
+
             <div className="relative z-10">
               <h2 className="text-3xl lg:text-5xl font-bold text-primary-foreground mb-4">
                 Ready to Start Mining?
               </h2>
               <p className="text-lg text-primary-foreground/80 mb-8 max-w-xl mx-auto">
-                Join thousands of miners already earning with CryptoMinerX. 
+                Join thousands of miners already earning with CryptoMinerX.
                 Start your journey to passive crypto income today.
               </p>
               <motion.button
@@ -348,7 +403,9 @@ export default function Page() {
             </div>
             <div className="w-px h-12 bg-border hidden lg:block" />
             <div className="text-center">
-              <p className="text-2xl font-bold text-gradient">Instant Payouts</p>
+              <p className="text-2xl font-bold text-gradient">
+                Instant Payouts
+              </p>
               <p className="text-sm">No Waiting Period</p>
             </div>
             <div className="w-px h-12 bg-border hidden lg:block" />
@@ -359,9 +416,9 @@ export default function Page() {
           </motion.div>
         </div>
       </section>
-            {/* <OfficeLocations /> */}
+      {/* <OfficeLocations /> */}
 
-      <Footer/>
+      <Footer />
     </div>
   );
 }

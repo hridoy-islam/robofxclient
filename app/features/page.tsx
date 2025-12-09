@@ -16,11 +16,42 @@ import {
   XCircle,
   AlertTriangle,
   Zap,
+  TrendingUp,
 } from "lucide-react";
 import { useModal } from "@/context/ModalContext";
-
+import { motion } from "framer-motion";
 export default function FeaturesPage() {
   const { openModal } = useModal();
+
+
+
+  const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1, delayChildren: 0.2 },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, x: -20 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.5, ease: "easeOut" },
+  },
+};
+
+const imageVariants = {
+  hidden: { opacity: 0, x: 20, scale: 0.95 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    scale: 1,
+    transition: { duration: 0.8, ease: "easeOut" },
+  },
+};
+
 
   const features = [
     {
@@ -102,40 +133,107 @@ export default function FeaturesPage() {
       />
 
       {/* Intro & Benefits Section */}
-      <section className="py-20 lg:py-28 relative overflow-hidden">
-        {/* Background Decorative Elements */}
-        <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-            <div className="absolute top-10 right-0 w-96 h-96 bg-blue-200/20 rounded-full blur-3xl"></div>
-            <div className="absolute bottom-0 left-0 w-96 h-96 bg-indigo-200/20 rounded-full blur-3xl"></div>
-        </div>
+<section className="py-20 lg:py-28 relative overflow-hidden bg-white">
+      {/* Background Decorative Elements */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+        <div className="absolute top-10 right-0 w-[500px] h-[500px] bg-blue-100/40 rounded-full blur-[100px]"></div>
+        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-indigo-100/40 rounded-full blur-[100px]"></div>
+      </div>
 
-        <div className="container mx-auto  relative z-10">
-          <div className="text-center max-w-3xl mx-auto mb-20 animate-fade-up">
-            <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-900 mb-6">
-              Powerful Features for {" "}
-              <span className="text-gradient">Modern Traders</span>
-            </h2>
-            <p className="text-lg text-slate-600 leading-relaxed">
+      <div className="container mx-auto relative z-10">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          {/* Left Column: Text & List */}
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+          >
+            <motion.h2 variants={itemVariants} className="text-4xl md:text-5xl font-bold tracking-tight text-slate-900 mb-6">
+              Powerful Features for <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
+                Modern Traders
+              </span>
+            </motion.h2>
+            
+            <motion.p variants={itemVariants} className="text-lg text-slate-600 leading-relaxed mb-8 max-w-lg">
               Experience the power of advanced AI-driven trading. We combine precision engineering with user-friendly design to maximize your trading potential.
-            </p>
-          </div>
+            </motion.p>
 
-          {/* Benefits Grid - Minimal Style */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 animate-fade-up animate-delay-200">
-            {benefits.map((benefit, index) => (
-              <div
-                key={index}
-                className="flex items-center gap-3 p-4 bg-white border border-slate-100 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300"
+            {/* The List */}
+            <ul className="space-y-5">
+              {benefits.map((benefit, index) => (
+                <motion.li
+                  key={index}
+                  variants={itemVariants}
+                  className="flex items-center gap-4 group"
+                >
+                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-blue-50 flex items-center justify-center group-hover:bg-blue-100 transition-colors">
+                    <CheckCircle className="w-4 h-4 text-blue-600" />
+                  </div>
+                  <span className="text-base font-medium text-slate-700 group-hover:text-slate-900 transition-colors">
+                    {benefit}
+                  </span>
+                </motion.li>
+              ))}
+            </ul>
+            
+            {/* CTA Button (Optional) */}
+            <motion.div variants={itemVariants} className="mt-10">
+              <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-full font-semibold transition-all shadow-lg shadow-blue-600/20 hover:shadow-blue-600/30">
+                Start Trading Now
+              </button>
+            </motion.div>
+          </motion.div>
+
+          {/* Right Column: Image Div */}
+          <motion.div
+            variants={imageVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            className="relative"
+          >
+            {/* Main Image Container */}
+            <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-slate-200 bg-slate-50 group">
+              {/* Gradient overlay for "shine" effect */}
+              <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none z-20"></div>
+              
+              {/* Replace src with your actual dashboard screenshot */}
+              <img 
+                src="/trading.jpg" 
+                alt="Trading Dashboard Interface" 
+                className="w-full h-auto object-cover transform transition-transform duration-700 group-hover:scale-105"
+              />
+
+              {/* Decorative Floating Element (Glass Card) */}
+              <motion.div 
+                initial={{ y: 20, opacity: 0 }}
+                whileInView={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.6, duration: 0.5 }}
+                className="absolute bottom-6 left-6 right-6 md:right-auto md:w-64 bg-white/90 backdrop-blur-md p-4 rounded-xl border border-white/50 shadow-xl z-30"
               >
-                <CheckCircle className="w-5 h-5 text-blue-600 flex-shrink-0" />
-                <span className="text-sm font-medium text-slate-700">
-                  {benefit}
-                </span>
-              </div>
-            ))}
-          </div>
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="p-2 bg-green-100 rounded-lg">
+                    <TrendingUp className="w-5 h-5 text-green-600" />
+                  </div>
+                  <div>
+                    <p className="text-xs text-slate-500 font-semibold uppercase">Daily Profit</p>
+                    <p className="text-lg font-bold text-slate-900">+12.4%</p>
+                  </div>
+                </div>
+                <div className="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+                  <div className="bg-green-500 h-full w-[75%] rounded-full"></div>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Decorative Background Blob behind image */}
+            <div className="absolute -inset-4 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl opacity-10 blur-2xl -z-10"></div>
+          </motion.div>
         </div>
-      </section>
+      </div>
+    </section>
 
       {/* Main Features Grid */}
       <section className="py-20 bg-white">
