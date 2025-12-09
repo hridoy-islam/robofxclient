@@ -66,7 +66,7 @@ const Agreement = ({ id }: AgreementProps) => {
     }
   };
 
-  const API_URL = "https://api.algopips.net";
+  const API_URL = "https://api.cryptominerx.com/api";
 
   const downloadLink = `${API_URL + "/" + agreementFile}`;
 

@@ -130,14 +130,14 @@ const PricingSection = () => {
                 {plan.description}
               </p>
 
-              <div className="mb-6">
+              {/* <div className="mb-6">
                 <span className={`text-4xl font-bold ${plan.popular ? "text-white" : "text-gradient"}`}>
                   {plan.price}
                 </span>
                 <span className={plan.popular ? "text-white/70" : "text-muted-foreground"}>
                   {plan.period}
                 </span>
-              </div>
+              </div> */}
 
               <ul className="space-y-3 mb-8">
                 {plan.features.map((feature) => (

@@ -45,7 +45,7 @@ const InfoRow = ({
 
 const UserProfile: React.FC<UserProfileProps> = ({ user }) => {
   const agreement = user?.agreement;
-  const API_URL = "https://api.algopips.net";
+  const API_URL = "https://api.cryptominerx.com/api";
   const downloadLink = `${API_URL}/${agreement}`;
 
   // Generate Initials for Avatar Fallback

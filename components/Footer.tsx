@@ -121,11 +121,11 @@ export default function Footer() {
                 <div className="flex items-start space-x-3">
                   <MapPin className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
                   <div className="text-slate-600 text-sm font-medium">
-                    <div>Park Lane Tower </div>
-                    <div>Business Bay, Dubai, UAE</div>
+                    <div>530 Fifth Ave,</div>
+                    <div>New York, NY 10036</div>
                   </div>
                 </div>
-                <div className="flex items-center space-x-3">
+                {/* <div className="flex items-center space-x-3">
                   <Phone className="w-5 h-5 text-blue-600" />
                   <a
                     href="tel:971542819321"
@@ -133,7 +133,7 @@ export default function Footer() {
                   >
                     +971 54 281 9321
                   </a>
-                </div>
+                </div> */}
                 <div className="flex items-center space-x-3">
                   <Mail className="w-5 h-5 text-blue-600" />
                   <a

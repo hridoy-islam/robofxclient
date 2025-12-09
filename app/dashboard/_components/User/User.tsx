@@ -169,8 +169,6 @@ export default function User({ allUsers }: UserProps) {
               <thead className="text-xs text-gray-700 uppercase bg-gray-50 border-b border-gray-200">
                 <tr>
                   <th scope="col" className="px-6 py-3">Name</th>
-                  <th scope="col" className="px-6 py-3">Phone</th>
-                  <th scope="col" className="px-6 py-3">Email Address</th>
                   <th scope="col" className="px-6 py-3">Status</th>
                   <th scope="col" className="px-6 py-3 text-right">Actions</th>
                 </tr>
@@ -191,11 +189,16 @@ export default function User({ allUsers }: UserProps) {
                           <span className="font-semibold">
                             {user?.personal_information?.firstName} {user?.personal_information?.lastName}
                           </span>
+                          <span className="text-gray-400">
+                            +987438438
+                          </span>
+                          <span className="text-gray-400">
+                            {user?.email}
+                          </span>
                         </div>
+                        
                       </div>
                     </td>
-                    <td className="px-6 py-4">+987438438</td>
-                    <td className="px-6 py-4">{user?.email}</td>
                     <td className="px-6 py-4">
                       {/* Standard DIV for Status */}
                       <div
