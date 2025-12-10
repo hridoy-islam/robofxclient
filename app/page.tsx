@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import PricingSection from "@/components/PricingSection";
 import ReviewsSection from "@/components/ReviewsSection";
+import { useModal } from "@/context/ModalContext";
 import { motion } from "framer-motion";
 import {
   Zap,
@@ -17,32 +18,32 @@ import {
 } from "lucide-react";
 
 export default function Page() {
+   const { openModal } = useModal();
   return (
     <div className="min-h-screen bg-white overflow-x-hidden">
       <Header />
+
       
-      {/* HERO SECTION FIX: 
-         1. Changed to flex-col to manage vertical rhythm.
-         2. min-h-screen ensures full height.
-      */}
+      
       <section className="relative min-h-screen flex flex-col pt-20">
-        
         {/* --- Background Layer --- */}
         <div className="absolute inset-0 z-0">
-          <img
-            src="https://images.unsplash.com/photo-1591994843349-f415893b3a6b?q=80&w=2600&auto=format&fit=crop"
-            alt="Crypto Mining Hardware"
+          <video
+            src="/cryptominerx.mp4"
+            autoPlay
+            loop
+            muted
+            playsInline
             className="w-full h-full object-cover"
           />
           {/* Dark Overlay for text contrast */}
-          <div className="absolute inset-0 bg-slate-950/85" />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/60 to-transparent" />
+          <div className="absolute inset-0" />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/20 via-slate-900/60 to-transparent" />
         </div>
 
         {/* --- Main Content --- */}
         {/* Added flex-1 and justify-center to center content vertically in the available space */}
         <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 flex-1 flex flex-col justify-center items-center text-center py-12 md:py-20">
-          
           {/* Status Badge */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -92,6 +93,13 @@ export default function Page() {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              onClick={() =>
+                  openModal({
+                    title: "Create your account",
+                    subtitle: "Join the world's largest crypto exchange",
+                    buttonText: "Sign Up",
+                  })
+                }
               className="w-full sm:w-auto px-8 py-4 btn-gradient text-white rounded-xl font-bold text-base shadow-lg transition-all"
             >
               Start Mining Today
@@ -99,11 +107,7 @@ export default function Page() {
           </motion.div>
         </div>
 
-        {/* --- Stats Section (Bottom Glass Bar) --- */}
-        {/* FIX: Removed 'absolute bottom-0'. 
-            Added 'mt-auto' to push it to the bottom of the flex container properly.
-            This prevents overlap on small screens.
-        */}
+     
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
@@ -113,7 +117,6 @@ export default function Page() {
           <div className="container mx-auto">
             {/* Glassmorphism Container */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 bg-slate-900/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6 md:p-8 shadow-2xl">
-              
               {/* Stat 1: Total Mined */}
               <div className="flex flex-col items-center md:items-start text-center md:text-left">
                 <div className="mb-3 flex items-center gap-2">
@@ -148,7 +151,7 @@ export default function Page() {
               </div>
 
               {/* Stat 3: Uptime */}
-               {/* Added responsive border logic */}
+              {/* Added responsive border logic */}
               <div className="flex flex-col items-center md:items-start text-center md:text-left border-t border-white/10 pt-6 md:pt-0 md:border-t-0 md:border-l md:pl-8">
                 <div className="mb-3 flex items-center gap-2">
                   <div className="p-1.5 rounded-lg bg-purple-500/20">
@@ -245,8 +248,8 @@ export default function Page() {
         {/* --- Background Image --- */}
         <div className="absolute inset-0 -z-20">
           <img
-            src="/hashpower.jpg"
-            alt="Crypto mining hashpower"
+            src="https://images.unsplash.com/photo-1591994843349-f415893b3a6b?q=80&w=2600&auto=format&fit=crop"
+            alt="Crypto Mining Hardware"
             className="w-full h-full object-cover"
           />
         </div>
@@ -325,61 +328,67 @@ export default function Page() {
         </div>
       </section>
 
-      <PricingSection />
 
       <ReviewsSection />
+      <PricingSection />
 
       <FAQSection />
 
       {/* CTA Section */}
-      <section className="py-24">
-      <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          // Removed 'btn-gradient', added 'isolate' to manage stacking context
-          className="relative overflow-hidden rounded-3xl bg-black/80 p-12 lg:p-16 text-center isolate"
-        >
-          {/* --- Background Image & Overlay --- */}
-          <div className="absolute inset-0 -z-20">
-            <img
-              // Using a dark crypto/tech related image placeholder
-              src="/cto.jpg"
-              alt="Start Mining Crypto"
-              className="w-full h-full object-cover opacity-50"
-            />
-          </div>
-          {/* Strong dark overlay for text readability */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/60 to-black/90 -z-10" />
+      <section >
+        <div className="">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            // Removed 'btn-gradient', added 'isolate' to manage stacking context
+            className="relative overflow-hidden  bg-black/80 p-24 lg:p-24 text-center isolate"
+          >
+            {/* --- Background Image & Overlay --- */}
+            <div className="absolute inset-0 -z-20">
+              <img
+                // Using a dark crypto/tech related image placeholder
+                src="/cto.jpg"
+                alt="Start Mining Crypto"
+                className="w-full h-full object-cover opacity-50"
+              />
+            </div>
+            {/* Strong dark overlay for text readability */}
+            <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/60 to-black/90 -z-10" />
 
-          {/* --- Decorative elements (Adjusted colors to pop against dark bg) --- */}
-          <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/30 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 -z-10" />
-          <div className="absolute bottom-0 left-0 w-48 h-48 bg-cyan-500/30 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2 -z-10" />
+            {/* --- Decorative elements (Adjusted colors to pop against dark bg) --- */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/30 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 -z-10" />
+            <div className="absolute bottom-0 left-0 w-48 h-48 bg-cyan-500/30 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2 -z-10" />
 
-          {/* --- Content --- */}
-          <div className="relative z-10">
-            <h2 className="text-3xl lg:text-5xl font-bold text-white mb-4">
-              Ready to Start Mining?
-            </h2>
-            <p className="text-lg text-gray-300 mb-8 max-w-xl mx-auto">
-              Join thousands of miners already earning with CryptoMinerX. Start
-              your journey to passive crypto income today.
-            </p>
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              // Adjusted button styling to pop against the dark image background
-              className="px-10 py-4 rounded-xl btn-gradient text-white font-bold shadow-lg transition-all flex items-center gap-2 mx-auto group"
-            >
-              Get Started Now
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </motion.button>
-          </div>
-        </motion.div>
-      </div>
-    </section>
+            {/* --- Content --- */}
+            <div className="relative z-10">
+              <h2 className="text-3xl lg:text-5xl font-bold text-white mb-4">
+                Ready to Start Mining?
+              </h2>
+              <p className="text-lg text-gray-300 mb-8 max-w-xl mx-auto">
+                Join thousands of miners already earning with CryptoMinerX.
+                Start your journey to passive crypto income today.
+              </p>
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() =>
+                  openModal({
+                    title: "Create your account",
+                    subtitle: "Join the world's largest crypto exchange",
+                    buttonText: "Sign Up",
+                  })
+                }
+                className="px-10 py-4 rounded-xl btn-gradient text-white font-bold shadow-lg transition-all flex items-center gap-2 mx-auto group"
+              >
+                Get Started Now
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </motion.button>
+            </div>
+          </motion.div>
+        </div>
+      </section>
 
       {/* Trust Badges */}
       <section className="py-16  border-t border-border">

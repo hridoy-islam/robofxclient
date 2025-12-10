@@ -5,6 +5,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import Link from "next/link";
 
 const faqs = [
   {
@@ -35,86 +36,85 @@ const faqs = [
 
 const FAQSection = () => {
   return (
-   <section className="py-24 relative overflow-hidden isolate">
-      {/* --- Background Image --- */}
-      <div className="absolute inset-0 -z-20">
-        <img
-          src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=2832&auto=format&fit=crop"
-          alt="Abstract Network Background"
-          className="w-full h-full object-cover"
-        />
-      </div>
+  <section className="py-24 relative overflow-hidden isolate bg-gray-50">
+  <div className="container mx-auto relative z-10">
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6 }}
+      className="text-center mb-16"
+    >
+      {/* Changed text-white to text-slate-900 */}
+      <h2 className="text-4xl lg:text-5xl font-bold mb-4 text-slate-900">
+        Frequently Asked <span className="text-gradient">Questions</span>
+      </h2>
+      {/* Changed text-gray-300 to text-gray-600 */}
+      <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+        Everything you need to know about crypto mining with CryptoMinerX
+      </p>
+    </motion.div>
 
-      {/* --- Overlay for Readability --- */}
-      <div className="absolute inset-0 bg-slate-950/85 -z-10" />
-
-      <div className="container mx-auto relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl lg:text-5xl font-bold mb-4 text-white">
-            Frequently Asked <span className="text-gradient">Questions</span>
-          </h2>
-          <p className="text-lg text-gray-300 max-w-2xl mx-auto">
-            Everything you need to know about crypto mining with CryptoMinerX
-          </p>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="max-w-3xl mx-auto"
-        >
-          <Accordion type="single" collapsible className="space-y-4">
-            {faqs.map((faq, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1, duration: 0.5 }}
-              >
-                <AccordionItem
-                  value={`item-${index}`}
-                  // Updated to Glassmorphism style for dark background
-                  className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl px-6 overflow-hidden data-[state=open]:bg-white/10 transition-all"
-                >
-                  <AccordionTrigger className="text-left text-white hover:text-blue-100 transition-colors py-6 text-lg font-medium">
-                    {faq.question}
-                  </AccordionTrigger>
-                  <AccordionContent className="text-gray-300 pb-6 leading-relaxed text-base">
-                    {faq.answer}
-                  </AccordionContent>
-                </AccordionItem>
-              </motion.div>
-            ))}
-          </Accordion>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.6, duration: 0.5 }}
-          className="text-center mt-12"
-        >
-          <p className="text-gray-400 mb-4">Still have questions?</p>
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className="px-8 py-3 rounded-xl bg-white text-slate-900 font-bold hover:bg-gray-100 transition-colors"
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6, delay: 0.2 }}
+      className="max-w-3xl mx-auto"
+    >
+      <Accordion type="single" collapsible className="space-y-4">
+        {faqs.map((faq, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: index * 0.1, duration: 0.5 }}
           >
-            Contact Support
-          </motion.button>
-        </motion.div>
-      </div>
-    </section>
+            {/* Changed bg/border to fit light mode */}
+            <AccordionItem
+              value={`item-${index}`}
+              className="bg-white border border-gray-200 
+              rounded-2xl px-6 overflow-hidden shadow-sm
+              data-[state=open]:border-blue-200 transition-all"
+            >
+              {/* Changed text to dark, hover to blue */}
+              <AccordionTrigger className="text-left text-slate-900 hover:text-blue-600 hover:no-underline
+                transition-colors py-6 text-lg font-medium">
+                {faq.question}
+              </AccordionTrigger>
+              {/* Changed content text to gray-600 */}
+              <AccordionContent className="text-gray-600 pb-6 leading-relaxed text-base">
+                {faq.answer}
+              </AccordionContent>
+            </AccordionItem>
+          </motion.div>
+        ))}
+      </Accordion>
+    </motion.div>
+
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay: 0.6, duration: 0.5 }}
+      className="text-center mt-12"
+    >
+      <p className="text-gray-600 mb-4">Still have questions?</p>
+       <Link href="/contact">
+      <motion.button
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+        className="px-8 py-3 rounded-xl  text-white 
+        font-bold btn-gradient transition-colors shadow-lg"
+      >
+        Contact Support
+      </motion.button>
+      </Link>
+    </motion.div>
+  </div>
+</section>
+
   );
 };
 
