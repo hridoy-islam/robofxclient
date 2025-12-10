@@ -195,14 +195,14 @@ export default function Home() {
               </button>
             </form>
 
-            <div className="mt-6 text-center">
+            {/* <div className="mt-6 text-center">
                <p className="text-sm text-gray-500">
                   Don't have an account?{" "}
                   <Link href="/register" className="font-semibold text-primary hover:text-indigo-700">
                     Create account
                   </Link>
                </p>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
