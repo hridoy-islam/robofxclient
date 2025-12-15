@@ -63,13 +63,8 @@ export default function ContactPage() {
       action: "+1 (800) 555-0199",
       link: "tel:+18005550199",
     },
-    {
-      icon: <ShieldCheck className="w-6 h-6" />,
-      title: "Client Portal",
-      description: "Secure file upload and case tracking.",
-      action: "Login to Portal",
-      link: "#",
-    },
+    
+   
   ];
 
   return (
@@ -101,7 +96,7 @@ export default function ContactPage() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto relative z-10">
+          <div className="grid md:grid-cols-2 gap-6 max-w-6xl mx-auto relative z-10">
             {contactMethods.map((method, index) => (
               <div
                 key={index}
