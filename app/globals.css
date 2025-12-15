@@ -56,7 +56,7 @@
 body {
   color: hsl(var(--foreground));
   background: hsl(var(--background));
-  font-family: "Inter", sans-serif;
+  font-family: var(--font-lato), sans-serif;
   line-height: 1.6;
 }
 
