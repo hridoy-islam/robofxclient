@@ -112,7 +112,7 @@ export default function Page() {
   };
 
   return (
-    <div className="min-h-screen bg-primary text-white selection:bg-gold selection:text-black">
+    <div className=" bg-primary text-white selection:bg-gold selection:text-black overflow-hidden">
       <Header />
 
       <Hero/>
