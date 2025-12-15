@@ -7,182 +7,125 @@ import {
   X,
   LayoutDashboard,
   LifeBuoy,
-  Lightbulb,
   Send,
-  Zap,
   Layers,
+  Info,
+  Home,
+  Building2,
+  HelpCircle,
+  Mail,
+  ScrollText,
 } from "lucide-react";
 import Link from "next/link";
-import { useModal } from "@/context/ModalContext";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { openModal } = useModal();
 
-  const navItems = [
-    { name: "Home", href: "/", icon: <LayoutDashboard className="w-4 h-4" /> },
-    {
-      name: "Features",
-      href: "features",
-      icon: <Lightbulb className="w-4 h-4" />,
-    },
-    { name: "FAQ", href: "faq", icon: <Layers className="w-4 h-4" /> },
-    {
-      name: "Pricing",
-      href: "pricing",
-      icon: <Zap className="w-4 h-4" />,
-    },
-    {
-      name: "Support",
-      href: "support",
-      icon: <LifeBuoy className="w-4 h-4" />,
-    },
-    { name: "Contact", href: "contact", icon: <Send className="w-4 h-4" /> },
-  ];
-
+const navItems = [
+  { name: "Home", href: "/", icon: <Home className="w-4 h-4" /> },
+  { name: "FAQ", href: "/faq", icon: <HelpCircle className="w-4 h-4" /> }, // FAQ or common questions
+  { name: "Support", href: "/support", icon: <ScrollText className="w-4 h-4" /> }, // Reflects documentation or legal text
+  { name: "About Us", href: "/about-us", icon: <Building2 className="w-4 h-4" /> }, // Reflects corporate/firm identity
+  { name: "Contact", href: "/contact", icon: <Mail className="w-4 h-4" /> }, // Standard contact method
+];
   return (
     <>
-     
-      <header className="bg-white border-b border-slate-100 fixed top-0 w-full z-50 font-sans transition-all duration-200">
-        <div className="container mx-auto px-4 md:px-6">
+      {/* Header */}
+      <header className="fixed top-0 w-full z-50 bg-primary/80 border-b border-white/5 backdrop-blur-sm">
+        <div className="container mx-auto ">
           <div className="flex items-center justify-between h-[72px]">
-            {/* Left Section: Logo */}
-            <div className="flex-shrink-0">
-              <Link href={"/"}>
-                <Image src="/logo.png" alt="" width={200} height={100} />
-              </Link>
-            </div>
+            {/* Logo */}
+            <Link href="/" className="flex items-center gap-2">
+              <Image
+                src="/visara-white.png"
+                alt="Company Logo"
+                width={110}
+                height={40}
+                priority
+              />
+            </Link>
 
-            {/* Center Section: Desktop Navigation */}
-            <nav className="hidden lg:flex items-center justify-center flex-grow">
-              <div className="flex items-center gap-6 xl:gap-8">
+            {/* Desktop Nav */}
+            <nav className="hidden lg:flex flex-1 justify-center">
+              <ul className="flex items-center gap-8">
                 {navItems.map((item) => (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    className="flex items-center gap-2 text-sm font-semibold text-slate-900 hover:text-[#0052FF] transition-colors"
-                  >
-                    <span className="text-slate-500 group-hover:text-[#0052FF]">
-                      {item.icon}
-                    </span>
-                    {item.name}
-                  </Link>
+                  <li key={item.name}>
+                    <Link
+                      href={item.href}
+                      className="group relative flex items-center gap-2 text-sm font-semibold text-gold-light hover:text-gold transition"
+                    >
+                      <span className="text-gold-light group-hover:text-gold transition">
+                        {item.icon}
+                      </span>
+                      {item.name}
+                      <span className="absolute -bottom-2 left-0 h-[2px] w-0 bg-gold transition-all duration-300 group-hover:w-full" />
+                    </Link>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </nav>
 
-            {/* Right Section: Actions */}
-            <div className="flex items-center gap-2 md:gap-4 flex-shrink-0">
-              <Link href="/login">
-                <Button
-                  variant="ghost"
-                  className="hidden md:flex rounded-full bg-slate-100 hover:bg-slate-200 text-slate-900 font-semibold px-5 h-10"
-                >
-                  Sign in
+            {/* Actions */}
+            <div className="flex items-center gap-3">
+              <Link href="/contact" className="hidden md:block">
+                <Button className="rounded-full px-6 h-10 font-semibold text-primary bg-gradient-gold hover:shadow-gold-glow transition-all">
+                  Get Consultation
                 </Button>
               </Link>
 
-              <Button
-                onClick={() =>
-                  openModal({
-                    title: "Create your account",
-                    subtitle: "Join the world's largest crypto exchange",
-                    buttonText: "Sign Up",
-                  })
-                }
-                className="hidden md:flex rounded-full bg-[#0052FF] hover:bg-[#0040CC] text-white font-semibold px-5 h-10 shadow-none border-none"
-              >
-                Sign up
-              </Button>
-
-              {/* Mobile Menu Button */}
+              {/* Mobile Toggle */}
               <button
-                className="lg:hidden p-2 text-slate-900 hover:bg-slate-100 rounded-full transition-colors"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="lg:hidden p-2 rounded-full text-white hover:bg-white/10 transition"
               >
-                {isMenuOpen ? (
-                  <X className="w-6 h-6" />
-                ) : (
-                  <Menu className="w-6 h-6" />
-                )}
+                {isMenuOpen ? <X /> : <Menu />}
               </button>
             </div>
           </div>
         </div>
       </header>
 
-      {/* IMPORTANT:
-         Since the header is now 'fixed', it is removed from the document flow. 
-         This spacer div pushes your page content down so it doesn't get hidden behind the header.
-      */}
-      <div className="h-[72px] w-full bg-white"></div>
+      {/* Spacer */}
+      <div className="h-[72px]" />
 
-      {/* Mobile Slide-out Menu */}
+      {/* Mobile Menu */}
       <div
-        className={`fixed inset-0 z-40 lg:hidden transition-opacity duration-300 ${
-          isMenuOpen
-            ? "opacity-100 pointer-events-auto"
-            : "opacity-0 pointer-events-none"
+        className={`fixed inset-0 z-40 lg:hidden transition ${
+          isMenuOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
       >
-        {/* Backdrop */}
         <div
-          className="absolute inset-0 bg-black/20 backdrop-blur-sm"
+          className="absolute inset-0 bg-black/40 backdrop-blur-sm"
           onClick={() => setIsMenuOpen(false)}
-        ></div>
+        />
 
-        {/* Menu Panel */}
-        {/* Added 'pt-0' to ensure clean alignment */}
-        <div
-          className={`absolute right-0 top-[72px] h-[calc(100vh-72px)] w-full sm:w-80 bg-white shadow-2xl transform transition-transform duration-300 ${
+        <aside
+          className={`absolute right-0 top-[72px] h-[calc(100vh-72px)] w-full sm:w-80 bg-gradient-dark border-l border-white/10 transform transition-transform duration-300 ${
             isMenuOpen ? "translate-x-0" : "translate-x-full"
           }`}
         >
-          <div className="flex flex-col h-full overflow-y-auto">
-            <nav className="p-4 space-y-1">
-              {navItems.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className="flex items-center justify-between px-4 py-4 rounded-lg text-slate-900 hover:bg-slate-50 font-semibold group"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  <div className="flex items-center gap-3">
-                    <span className="text-slate-500 group-hover:text-[#0052FF]">
-                      {item.icon}
-                    </span>
-                    <span className="text-base">{item.name}</span>
-                  </div>
-                </Link>
-              ))}
-            </nav>
-
-            <div className="mt-auto p-6 space-y-3 border-t border-slate-100 pb-10">
+          <nav className="p-6 space-y-2">
+            {navItems.map((item) => (
               <Link
-                href="/login"
+                key={item.name}
+                href={item.href}
                 onClick={() => setIsMenuOpen(false)}
-                className="block w-full"
+                className="flex items-center gap-4 px-4 py-4 rounded-lg text-gold-light hover:text-gold hover:bg-white/5 font-semibold transition"
               >
-                <Button
-                  variant="outline"
-                  className="w-full rounded-full border-slate-300 text-slate-900 font-bold h-12 hover:bg-slate-50"
-                >
-                  Sign in
-                </Button>
+                <span className="text-gold">{item.icon}</span>
+                {item.name}
               </Link>
+            ))}
+          </nav>
 
-              <Button
-                onClick={() => {
-                  setIsMenuOpen(false);
-                  openModal();
-                }}
-                className="w-full rounded-full bg-[#0052FF] hover:bg-[#0040CC] text-white font-bold h-12"
-              >
-                Sign up
+          <div className="mt-auto p-6 border-t border-white/10">
+            <Link href="/contact" onClick={() => setIsMenuOpen(false)}>
+              <Button className="w-full h-12 rounded-full bg-gradient-gold text-primary font-bold hover:shadow-gold-glow-lg transition">
+                Get Consultation
               </Button>
-            </div>
+            </Link>
           </div>
-        </div>
+        </aside>
       </div>
     </>
   );

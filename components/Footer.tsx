@@ -2,88 +2,57 @@
 import { Clock, Mail, MapPin, Phone } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { BiLogoFacebook, BiLogoInstagram } from "react-icons/bi";
+import { BiLogoFacebook, BiLogoInstagram, BiLogoLinkedin, BiLogoTwitter } from "react-icons/bi";
 
 export default function Footer() {
   return (
-    <footer className="bg-slate-50 border-t border-slate-200">
-      <div className="container mx-auto py-16 ">
-        <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-8">
-          {/* Company Info */}
-          <div className="lg:col-span-2">
-            <div className="flex items-center space-x-2 mb-6">
-              {/* Replaced Logo Image with Gradient Text for demo, or keep Image if you have the file */}
-              {/* <Image src="/logo.png" alt="logo" width={250} height={100} /> */}
+    <footer className="bg-primary text-gold border-t border-gold/10 font-sans">
+      <div className="container mx-auto py-16 px-4 md:px-6">
+        <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-10">
+          
+          {/* 1. Company Info & Logo */}
+          <div className="lg:col-span-1">
+            <Link href="/" className="inline-block mb-6">
+              <Image 
+                src="/visara-white.png" 
+                alt="Visara Migration" 
+                width={160} 
+                height={60} 
+               
+              />
+            </Link>
 
-              <div className="flex items-center gap-2">
-                <div className="w-10 h-10 text-gradient rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/20">
-                  <img src="/cryptominerx.png" alt=""  className="p-1"/>{" "}
-                </div>
-                <div>
-                  <h2 className="font-black text-2xl text-gradient bg-clip-text text-transparent">
-                    CRYPTOMINERX
-                  </h2>
-                </div>
-              </div>
-            </div>
-
-            <p className="text-slate-600 leading-relaxed mb-6 max-w-md font-medium">
-              CryptoMinerX provides cutting-edge cloud mining solutions and
-              automated trading infrastructure. maximize your digital asset
-              growth with our expert-managed ecosystem.
+            <p className="text-gold-light leading-relaxed mb-6 text-sm font-medium opacity-90">
+              Visara Migration provides expert visa processing and immigration services. 
+              We simplify your journey across borders with our professional and reliable ecosystem.
             </p>
 
-            {/* Business Hours */}
-            <div className="space-y-3">
-              <div className="flex items-center space-x-3 text-slate-600">
-                <div className="p-2 bg-blue-50 rounded-full text-blue-600">
-                  <Clock className="w-4 h-4" />
-                </div>
-                <span className="text-sm font-semibold">
-                  Mon - Fri : 09:00AM - 06:00PM
-                </span>
-              </div>
-              <div className="flex items-center space-x-3 text-slate-600">
-                <div className="p-2 bg-blue-50 rounded-full text-blue-600">
-                  <Clock className="w-4 h-4" />
-                </div>
-                <span className="text-sm font-semibold">
-                  Saturday : 09:00AM - 05:00PM
-                </span>
-              </div>
-            </div>
-
-            <div className="mt-8">
-              <div className="flex items-center space-x-4">
+            {/* Social Media Icons */}
+            <div className="flex items-center space-x-3">
+              {[BiLogoFacebook, BiLogoInstagram, BiLogoLinkedin, BiLogoTwitter].map((Icon, index) => (
                 <a
+                  key={index}
                   href="#"
                   target="_blank"
-                  className="bg-white p-2 rounded-full shadow-sm border border-slate-100 hover:scale-110 transition-transform duration-200 group"
+                  className="bg-gold/10 p-2.5 rounded-full hover:bg-gold hover:text-primary transition-all duration-300 group backdrop-blur-sm"
                 >
-                  <BiLogoFacebook className="w-6 h-6 text-slate-600 group-hover:text-blue-600 transition-colors" />
+                  <Icon className="w-5 h-5 text-gold group-hover:text-primary transition-colors" />
                 </a>
-                <a
-                  href="#"
-                  target="_blank"
-                  className="bg-white p-2 rounded-full shadow-sm border border-slate-100 hover:scale-110 transition-transform duration-200 group"
-                >
-                  <BiLogoInstagram className="w-6 h-6 text-slate-600 group-hover:text-pink-600 transition-colors" />
-                </a>
-              </div>
+              ))}
             </div>
           </div>
 
-          {/* Company Links */}
+          {/* 2. Quick Links */}
           <div>
-            <h3 className="font-bold text-lg mb-6 text-gradient bg-clip-text text-transparent inline-block">
-              Company
+            <h3 className="font-bold text-lg mb-6 text-gold">
+              Quick Links
             </h3>
-            <ul className="space-y-4">
-              {["Features", "FAQ", "Pricing", "Contact"].map((item) => (
+            <ul className="space-y-3">
+              {["Home", "About Us", "Support", "Contact","FAQ"].map((item) => (
                 <li key={item}>
                   <Link
-                    href={item.toLowerCase()}
-                    className="text-slate-600 hover:text-blue-600 hover:translate-x-1 transition-all duration-200 font-medium inline-block"
+                    href={item === "Home" ? "/" : item.toLowerCase().replace(" ", "-")}
+                    className="text-gold-light hover:text-gold hover:translate-x-1 transition-all duration-200 text-sm font-medium inline-block"
                   >
                     {item}
                   </Link>
@@ -92,67 +61,77 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Other Links & Contact */}
+          {/* 3. Support & Legal */}
           <div>
-            <h3 className="font-bold text-lg mb-6 text-gradient bg-clip-text text-transparent inline-block">
-              Other Links
+            <h3 className="font-bold text-lg mb-6 text-gold">
+              Support
             </h3>
-            <ul className="space-y-4 mb-8">
+            <ul className="space-y-3">
               {[
-                "Support",
-                "Terms and Conditions",
-                "Refund Policy",
+               
                 "Privacy Policy",
+                "Terms & Conditions",
+                "Refund Policy",
               ].map((item) => (
                 <li key={item}>
-                  <a
+                  <Link
                     href="#"
-                    className="text-slate-600 hover:text-blue-600 hover:translate-x-1 transition-all duration-200 font-medium inline-block"
+                    className="text-gold-light hover:text-gold hover:translate-x-1 transition-all duration-200 text-sm font-medium inline-block"
                   >
                     {item}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
+          </div>
 
-            <div>
-              <h4 className="font-bold text-slate-900 mb-4">Contact Us</h4>
-              <div className="space-y-4">
-                <div className="flex items-start space-x-3">
-                  <MapPin className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
-                  <div className="text-slate-600 text-sm font-medium">
-                    <div>530 Fifth Ave,</div>
-                    <div>New York, NY 10036</div>
-                  </div>
+          {/* 4. Contact Info */}
+          <div>
+            <h3 className="font-bold text-lg mb-6 text-gold">Get in Touch</h3>
+            <div className="space-y-4">
+              
+              {/* Address */}
+              <div className="flex items-start space-x-3">
+                <div className="mt-1 bg-gold/10 p-1.5 rounded-md">
+                   <MapPin className="w-4 h-4 text-gold" />
                 </div>
-                {/* <div className="flex items-center space-x-3">
-                  <Phone className="w-5 h-5 text-blue-600" />
-                  <a
-                    href="tel:971542819321"
-                    className="text-slate-600 hover:text-blue-600 transition-colors text-sm font-medium"
-                  >
-                    +971 54 281 9321
-                  </a>
-                </div> */}
-                <div className="flex items-center space-x-3">
-                  <Mail className="w-5 h-5 text-blue-600" />
-                  <a
-                    href="mailto:support@cryptominerx.com"
-                    className="text-slate-600 hover:text-blue-600 transition-colors text-sm font-medium"
-                  >
-                    support@cryptominerx.com
-                  </a>
+                <div className="text-gold-light text-sm font-medium leading-relaxed">
+                  530 Fifth Ave, <br /> New York, NY 10036
                 </div>
               </div>
+
+              {/* Email */}
+              <div className="flex items-center space-x-3">
+                <div className="bg-gold/10 p-1.5 rounded-md">
+                    <Mail className="w-4 h-4 text-gold" />
+                </div>
+                <a
+                  href="mailto:support@visara.com"
+                  className="text-gold-light hover:text-gold transition-colors text-sm font-medium"
+                >
+                  support@visara.com
+                </a>
+              </div>
+
+              {/* Hours */}
+              <div className="flex items-start space-x-3">
+                 <div className="mt-1 bg-gold/10 p-1.5 rounded-md">
+                    <Clock className="w-4 h-4 text-gold" />
+                 </div>
+                 <div className="text-gold-light text-sm font-medium">
+                    <p>Mon - Fri : 9 AM - 6 PM</p>
+                    <p>Sat : 10 AM - 4 PM</p>
+                 </div>
+              </div>
+
             </div>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-slate-200 mt-16 pt-8 text-center">
-          <p className="text-slate-500 text-sm font-medium">
-            Copyright © {new Date().getFullYear()} All Rights Reserved by{" "}
-            <span className="text-blue-600 font-bold">CryptoMinerX</span>.
+        <div className="border-t border-gold/10 mt-14 pt-8 text-center">
+          <p className="text-slate-400 text-sm">
+            Copyright © {new Date().getFullYear()} <span className="text-gold font-semibold">Visara Migration</span>. All Rights Reserved.
           </p>
         </div>
       </div>

@@ -17,7 +17,7 @@ const nunito = Nunito({
 });
 
 export const metadata: Metadata = {
-  title: "CRYPTOMINERX",
+  title: "Visara",
   description: "",
 };
 
@@ -29,8 +29,8 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${nunito.variable} light`}>
       <head>
-        <link rel="icon" href="/cryptominerx.png" type="image/png" />
-        <title>CRYPTOMINERX</title>
+        <link rel="icon" href="/visara.png" type="image/png" />
+        <title>VISARA</title>
       </head>
       <body>
         <ModalProvider>

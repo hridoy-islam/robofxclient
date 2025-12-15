@@ -2,70 +2,65 @@
 import { useState } from "react";
 import { ChevronDown, HelpCircle, MessageCircle } from "lucide-react";
 import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Faq() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const faqs = [
     {
-      question: "What is crypto mining and how does it work?",
+      question: "Which countries do you provide immigration services for?",
       answer:
-        "Crypto mining is the process of validating blockchain transactions using computational power. With CryptoMinerX, we handle all the technical complexity - you simply invest in hash power and earn rewards from the mining operations we perform on your behalf.",
+        "Visara specializes in immigration pathways for major destinations including Canada, the UK, Australia, New Zealand, USA, and various European Schengen countries. We handle skilled migration, business investor visas, study permits, and family sponsorship programs.",
     },
     {
-      question: "How much can I earn from mining?",
+      question: "How long does the visa application process typically take?",
       answer:
-        "Earnings depend on your chosen plan, current cryptocurrency prices, and network difficulty. Our Pro plan users typically see returns of 8-15% monthly. You can track your real-time earnings in your dashboard.",
+        "Processing times vary significantly depending on the country and visa category. A standard skilled worker visa might take 6-12 months, while investor programs can take longer. During your initial consultation, we provide a realistic timeline based on the latest government processing data.",
     },
     {
-      question: "When and how do I receive my payouts?",
+      question: "Do you guarantee a successful visa application?",
       answer:
-        "Payouts are processed automatically based on your plan - daily for Pro and Enterprise, weekly for Starter. You can withdraw to any compatible wallet address. There's no minimum withdrawal threshold.",
+        "While no honest consultant can guarantee a 100% success rate as the final decision lies with government authorities, Visara boasts a 98% approval rate. We pre-screen all applications rigorously and only take on cases that meet the eligibility criteria to maximize your chances of success.",
     },
     {
-      question: "Is my investment secure?",
+      question: "What are your service fees?",
       answer:
-        "Absolutely. We use bank-grade 256-bit encryption, cold storage for assets, and multi-signature wallets. Our infrastructure is audited regularly by third-party security firms, ensuring your investment is protected.",
+        "Our fee structure is transparent and competitive. Costs vary based on the complexity of the case and the specific visa category. We provide a detailed breakdown of all costs—including government fees and our professional charges—before you sign any agreement.",
     },
     {
-      question: "Can I upgrade or downgrade my plan?",
+      question: "Can you help if my previous visa application was refused?",
       answer:
-        "Yes! You can change your plan at any time from your dashboard. Upgrades take effect immediately, and downgrades apply at the start of your next billing cycle. All your mining progress is preserved.",
+        "Yes, we specialize in refusal cases. Our legal team will analyze the reasons for your previous rejection and help you prepare a stronger re-application or appeal, addressing all the concerns raised by the immigration officers.",
     },
     {
-      question: "What cryptocurrencies can I mine?",
+      question: "How do I get started with Visara?",
       answer:
-        "Depending on your plan, you can mine Bitcoin, Ethereum, Litecoin, and other major cryptocurrencies. Enterprise users have access to our full portfolio of 20+ mineable cryptocurrencies.",
+        "The best way to start is by booking a free initial assessment on our website. One of our consultants will review your profile, discuss your goals, and recommend the most suitable immigration pathways for you.",
     },
   ];
 
   return (
-    <section className="section-padding py-24 bg-gray-50 relative overflow-hidden">
-      {/* Background Pattern - subtle gradient glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-7xl pointer-events-none">
-        <div className="absolute top-20 left-20 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl pulse-glow"></div>
-        <div className="absolute bottom-20 right-20 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pulse-glow animation-delay-2000"></div>
+    <section className="py-24 bg-primary relative overflow-hidden">
+      {/* Background Ambience */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-gold/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-accent/10 rounded-full blur-3xl" />
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-4xl mx-auto">
+          
           {/* Header */}
-          <div className="text-center mb-16 animate-fade-up">
-            <div className="inline-flex items-center justify-center mb-6">
-              <div className="flex items-center space-x-3 glass-blue rounded-full px-6 py-3">
-                <HelpCircle className="w-5 h-5 text-blue-600" />
-                <span className="text-blue-600 font-bold">FAQ</span>
-              </div>
-            </div>
-
-            <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-4 leading-tight">
-              Mining Queries? Find{" "}
-              <span className="text-gradient">Answers Here</span>
+          <div className="text-center mb-16 space-y-4">
+            <span className="text-gold text-sm tracking-[0.3em] uppercase font-light">
+              Common Queries
+            </span>
+            <h2 className="text-4xl md:text-5xl font-light text-white mb-4 leading-tight">
+              Frequently Asked <span className="text-gold font-normal">Questions</span>
             </h2>
-
-            <p className="text-xl text-gray-600 leading-relaxed max-w-2xl mx-auto">
-              Everything you need to know about earning passive income with
-              CryptoMinerX infrastructure.
+            <p className="text-xl text-white/60 font-light leading-relaxed max-w-2xl mx-auto">
+              Everything you need to know about navigating your global mobility journey with Visara.
             </p>
           </div>
 
@@ -74,68 +69,78 @@ export default function Faq() {
             {faqs.map((faq, index) => (
               <div
                 key={index}
-                className={`card-glass rounded-2xl overflow-hidden transition-all duration-300 animate-fade-up`}
-                style={{ animationDelay: `${index * 100}ms` }}
+                className={`rounded-xl overflow-hidden border transition-all duration-300 ${
+                  openIndex === index 
+                    ? "bg-white/5 border-gold/40 shadow-[0_0_15px_rgba(212,175,55,0.1)]" 
+                    : "bg-white/5 border-white/10 hover:border-gold/20"
+                }`}
               >
                 <button
-                  className="w-full px-8 py-6 text-left flex items-center justify-between hover:bg-blue-50/50 transition-colors group"
-                  onClick={() =>
-                    setOpenIndex(openIndex === index ? null : index)
-                  }
+                  className="w-full px-6 md:px-8 py-5 text-left flex items-center justify-between group"
+                  onClick={() => setOpenIndex(openIndex === index ? null : index)}
                 >
-                  <span className="text-lg font-bold text-gray-900 pr-4 group-hover:text-blue-600 transition-colors">
+                  <span className={`text-lg font-medium pr-4 transition-colors ${
+                    openIndex === index ? "text-gold" : "text-white/90 group-hover:text-gold"
+                  }`}>
                     {faq.question}
                   </span>
                   <ChevronDown
-                    className={`w-6 h-6 text-blue-600 transition-transform duration-300 ${
-                      openIndex === index ? "rotate-180" : ""
+                    className={`w-5 h-5 text-gold/70 transition-transform duration-300 ${
+                      openIndex === index ? "rotate-180 text-gold" : ""
                     }`}
                   />
                 </button>
-                <div
-                  className={`transition-all duration-300 ease-in-out overflow-hidden ${
-                    openIndex === index
-                      ? "max-h-96 opacity-100"
-                      : "max-h-0 opacity-0"
-                  }`}
-                >
-                  <div className="px-8 pb-8 pt-2 border-t border-gray-100/50">
-                    <p className="text-gray-600 leading-relaxed">
-                      {faq.answer}
-                    </p>
-                  </div>
-                </div>
+                
+                <AnimatePresence>
+                  {openIndex === index && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="px-6 md:px-8 pb-6 pt-0">
+                        <p className="text-white/60 leading-relaxed font-light border-t border-white/10 pt-4">
+                          {faq.answer}
+                        </p>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             ))}
           </div>
 
           {/* Bottom CTA */}
-          <div className="text-center mt-16 animate-fade-up animate-delay-500">
-            <div className="card-glass rounded-2xl p-10 relative overflow-hidden group">
-              {/* Hover effect gradient background */}
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-50 to-indigo-50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          <div className="text-center mt-16">
+            <div className="bg-gradient-dark rounded-2xl p-10 relative overflow-hidden group border border-gold/10 hover:border-gold/30 transition-colors">
               
-              <div className="relative z-10">
-                <div className="floating mb-6">
-                  <MessageCircle className="w-14 h-14 text-blue-600 mx-auto drop-shadow-lg" />
+              {/* Decorative Glow */}
+              <div className="absolute inset-0 bg-gold/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+              
+              <div className="relative z-10 space-y-6">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gold/10 text-gold mb-2">
+                  <MessageCircle className="w-8 h-8" />
                 </div>
                 
-                <h3 className="text-2xl font-bold text-gray-900 mb-3">
-                  Still have questions regarding mining?
+                <h3 className="text-2xl md:text-3xl font-light text-white">
+                  Still have specific questions?
                 </h3>
                 
-                <p className="text-gray-600 mb-8 max-w-lg mx-auto">
-                  Our expert mining support team is available 24/7 to help you optimize your hash rate and earnings.
+                <p className="text-white/60 font-light max-w-lg mx-auto">
+                  Our dedicated consultants are ready to provide clarity on your specific immigration case.
                 </p>
                 
-                <Link href={"contact"}>
-                  <button className="btn-gradient text-white font-bold px-10 py-4 rounded-xl shadow-lg transition-all duration-300 hover:shadow-blue-500/30">
-                    Contact Mining Support
+                <Link href="/contact" className="inline-block pt-2">
+                  <button className="px-8 py-3 bg-gold text-primary font-semibold rounded-full hover:bg-gold-light transition-colors duration-300 shadow-lg shadow-gold/10">
+                    Contact Support
                   </button>
                 </Link>
               </div>
             </div>
           </div>
+          
         </div>
       </div>
     </section>

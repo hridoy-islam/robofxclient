@@ -5,12 +5,12 @@ import Faq from "@/components/Faq";
 
 export default function page() {
   return (
-    <div>
+    <div className="bg-primary">
       <Header />
-      <BreadCumb
-        title="FAQ"
-        subtitle="Find quick answers to common questions about CryptoMinerX capabilities, setup, and support."
-      />
+     <BreadCumb
+  title="FAQ"
+  subtitle="Find quick answers regarding our visa application process, legal services, client eligibility, and global immigration policies."
+/>
       <Faq />
       <Footer />
     </div>
