@@ -165,7 +165,7 @@ export default function CanadaStartupVisa() {
       </section>
 
       {/* --- BENEFITS GRID --- */}
-      <section className="py-20 bg-primary-light border-t border-white/5">
+      <section className="py-20 bg-primary border-t border-white/5">
         <div className="container mx-auto ">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold mb-4">Immigration <span className="text-gold">Benefits</span></h2>
@@ -214,7 +214,7 @@ export default function CanadaStartupVisa() {
             </div>
 
             {/* Funds */}
-            <div className="bg-primary-light p-8 rounded-sm border-l-4 border-gold">
+            <div className="bg-primary p-8 rounded-sm border-l-4 border-gold">
                <div className="flex items-center gap-4 mb-6">
                   <Wallet className="w-8 h-8 text-gold" />
                   <h3 className="text-2xl font-bold text-white">Settlement Funds</h3>
@@ -231,7 +231,7 @@ export default function CanadaStartupVisa() {
       </section>
 
       {/* --- PROCESS SECTION --- */}
-      <section className="py-20 bg-primary-light border-t border-white/5">
+      <section className="py-20 bg-primary border-t border-white/5">
         <div className="container mx-auto ">
           <div className="text-center mb-16">
              <h2 className="text-3xl font-bold text-white">Visa Application <span className="text-gold">Process</span></h2>

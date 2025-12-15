@@ -57,8 +57,8 @@ export default function Hero() {
           <motion.div variants={itemVariants} className="space-y-4">
             <h1 className="text-6xl md:text-8xl font-bold leading-tight tracking-tight text-white">
               <span className="block text-gold mb-2 drop-shadow-lg">VISARA</span>
-              <span className="block text-3xl md:text-5xl font-light text-white/95">
-                An Immigration Solution For <span className=" font-normal bg-gradient-gold bg-clip-text text-transparent">Everyone</span>
+              <span className="block text-3xl md:text-5xl  text-gray-200">
+                An Immigration Solution For <span className="  bg-gradient-gold bg-clip-text text-transparent">Everyone</span>
               </span>
             </h1>
           </motion.div>
@@ -68,8 +68,8 @@ export default function Hero() {
             className="border-l-2 border-gold pl-6 space-y-4"
             variants={itemVariants}
           >
-            <p className="text-xl md:text-2xl text-gray-200 font-light leading-relaxed max-w-2xl">
-              Best Immigration and Visa Consultants for <span className="text-white font-medium">USA, UK, Canada & Australia</span>.
+            <p className="text-xl md:text-2xl text-gray-200  leading-relaxed max-w-2xl">
+              Best Immigration and Visa Consultants for <span className="bg-gradient-gold bg-clip-text text-transparent">USA, UK, Canada & Australia</span>.
             </p>
             
            

@@ -100,7 +100,7 @@ export default function WorkInEurope() {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                  className="bg-[#0a0a0a] border border-white/10 p-6 rounded-sm flex items-start gap-4 hover:border-gold/30 transition-all group"
+                  className="bg-primary-light border border-white/10 p-6 rounded-sm flex items-start gap-4 hover:border-gold/30 transition-all group"
                 >
                   <div className="bg-gold/10 p-3 rounded-full group-hover:bg-gold transition-colors">
                     <item.icon className="w-6 h-6 text-gold group-hover:text-black transition-colors" />
@@ -116,7 +116,7 @@ export default function WorkInEurope() {
       </section>
 
       {/* --- EU BLUE CARD HIGHLIGHT (Value Add) --- */}
-      <section className="py-20 bg-white/5 relative overflow-hidden">
+      <section className="py-20  relative overflow-hidden">
          <div className="container mx-auto  relative z-10">
             <div className="flex flex-col md:flex-row items-center gap-12">
                 <div className="md:w-1/2 relative h-[300px] w-full rounded-sm overflow-hidden border border-white/10">
@@ -165,7 +165,7 @@ export default function WorkInEurope() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: idx * 0.1 }}
-                className="bg-[#0a0a0a] border border-white/10 p-8 rounded-sm hover:border-gold/40 transition-all text-center group"
+                className="bg-primary-light border border-white/10 p-8 rounded-sm hover:border-gold/40 transition-all text-center group"
               >
                 <div className="w-16 h-16 bg-primary border border-white/10 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
                     <req.icon className="w-8 h-8 text-gold" />

@@ -97,7 +97,7 @@ export default function LMIAPage() {
                    whileInView={{ opacity: 1, x: 0 }}
                    viewport={{ once: true }}
                    transition={{ delay: idx * 0.1 }}
-                   className="bg-[#0a0a0a] border border-white/10 p-6 rounded-sm flex gap-4 hover:border-gold/30 transition-all"
+                   className="bg-primary-light border border-white/10 p-6 rounded-sm flex gap-4 hover:border-gold/30 transition-all"
                  >
                    <div className="bg-gold/10 p-3 h-fit rounded-full">
                      <item.icon className="w-6 h-6 text-gold" />
@@ -143,7 +143,7 @@ export default function LMIAPage() {
       </section>
 
       {/* --- THE PROCESS SECTION --- */}
-      <section className="py-20 bg-[#0a0a0a] relative overflow-hidden">
+      <section className="py-20 bg-primary-light relative overflow-hidden">
         <div className="container mx-auto  relative z-10">
           <div className="flex flex-col md:flex-row gap-16">
             

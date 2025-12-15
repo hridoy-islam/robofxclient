@@ -114,14 +114,14 @@ export default function BusinessVisaHub() {
       </section>
 
       {/* --- COUNTRY SELECTION GRID --- */}
-      <section className="py-24 bg-primary-light border-t border-white/5 relative overflow-hidden">
+      <section className="py-24 bg-primary border-t border-white/5 relative overflow-hidden">
         {/* Decorative BG */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gold/5 blur-[120px] rounded-full pointer-events-none" />
 
         <div className="container mx-auto  relative z-10">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Choose Your <span className="text-gold">Destination</span></h2>
-            <p className="text-gray-400">
+            <p className="text-gray-300 text-md">
               Navigate the specific requirements and opportunities available in top global economies.
             </p>
           </div>

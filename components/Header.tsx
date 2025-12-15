@@ -86,7 +86,7 @@ export default function Header() {
     { name: "Visit Visa", href: "/visit-visa", type: "link" },
     {
       name: "Resources",
-      href: "/resources",
+      href: "#",
       type: "dropdown",
       subItems: [
         { name: "FAQ", href: "/faq", type: "link" },
@@ -96,7 +96,7 @@ export default function Header() {
     { name: "Contact Us", href: "/contact", type: "link" },
   ];
 
-  // --- MOBILE HANDLERS (Fixed Types) ---
+  // --- MOBILE HANDLERS ---
   const handleMobileMenuToggle = (itemName: string) => {
     if (activeSubMenu === itemName) {
       setActiveSubMenu(null);
@@ -122,7 +122,7 @@ export default function Header() {
     <div className="relative group/parent h-full flex items-center">
       <Link
         href={item.href}
-        className="flex items-center gap-1 cursor-pointer text-sm font-semibold text-white/80 hover:text-gold transition-colors relative h-full"
+        className="flex items-center gap-1 cursor-pointer text-sm uppercase tracking-wider font-semibold text-gray-300 hover:text-gold transition-colors relative h-full"
       >
         {item.name}
         <ChevronDown className="w-3 h-3 transition-transform duration-300 group-hover/parent:rotate-180" />
@@ -135,21 +135,21 @@ export default function Header() {
             <div key={sub.name} className="relative group/child">
               {sub.type === "nested" ? (
                 <div className="block">
-                  <div className="flex items-center justify-between px-5 py-3 text-sm text-white/90 hover:bg-primary-lighter hover:text-gold transition-colors cursor-pointer">
+                  <div className="flex items-center justify-between px-5 py-3 text-sm uppercase tracking-wider text-white/90 hover:bg-primary-lighter hover:text-gold transition-colors cursor-pointer">
                     <Link href={sub.href} className="flex-1">
                       {sub.name}
                     </Link>
-                    <ChevronRight className="w-3 h-3 ml-2" />
+                    <ChevronRight className="w-3 h-3 ml-1" />
                   </div>
 
                   {/* 3rd Level Dropdown */}
-                  <div className="absolute top-0 left-full pl-2 hidden group-hover/child:block w-60">
+                  <div className="absolute top-0 left-full pl-0 hidden group-hover/child:block w-60">
                     <div className="bg-primary-light border border-white/10 rounded-lg shadow-xl shadow-black/40 overflow-hidden py-2">
                       {sub.subItems?.map((nested) => (
                         <Link
                           key={nested.name}
                           href={nested.href}
-                          className="block px-5 py-3 text-sm text-white/90 hover:bg-primary-lighter hover:text-gold transition-colors"
+                          className="block px-5 py-3 text-sm uppercase tracking-wider text-white/90 hover:bg-primary-lighter hover:text-gold transition-colors"
                         >
                           {nested.name}
                         </Link>
@@ -160,7 +160,7 @@ export default function Header() {
               ) : (
                 <Link
                   href={sub.href}
-                  className="block px-5 py-3 text-sm text-white/90 hover:bg-primary-lighter hover:text-gold transition-colors"
+                  className="block px-5 py-3 text-sm uppercase tracking-wider text-white/90 hover:bg-primary-lighter hover:text-gold transition-colors"
                 >
                   {sub.name}
                 </Link>
@@ -183,12 +183,12 @@ export default function Header() {
             setIsMenuOpen(false);
             setActiveSubMenu(null);
           }}
-          className="flex-1 py-2 font-semibold hover:text-gold"
+          className="flex-1 py-2 font-semibold hover:text-gold uppercase tracking-wider"
         >
           {item.name}
         </Link>
 
-        {/* RIGHT: Click to Toggle Dropdown (Fixed: Changed div to button for A11y) */}
+        {/* RIGHT: Click to Toggle Dropdown */}
         <button
           type="button"
           onClick={() => handleMobileMenuToggle(item.name)}
@@ -217,12 +217,11 @@ export default function Header() {
                     <Link
                       href={sub.href}
                       onClick={() => setIsMenuOpen(false)}
-                      className="flex-1 py-1"
+                      className="flex-1 py-1 uppercase tracking-wider"
                     >
                       {sub.name}
                     </Link>
 
-                    {/* Fixed: Changed div to button */}
                     <button
                       type="button"
                       onClick={(e) => handleMobileNestedToggle(e, sub.name)}
@@ -249,7 +248,7 @@ export default function Header() {
                         key={nested.name}
                         href={nested.href}
                         onClick={() => setIsMenuOpen(false)}
-                        className="block px-4 py-2 text-sm text-gray-400 hover:text-gold transition-colors"
+                        className="block px-4 py-2 text-sm uppercase tracking-wider text-gray-400 hover:text-gold transition-colors"
                       >
                         — {nested.name}
                       </Link>
@@ -260,7 +259,7 @@ export default function Header() {
                 <Link
                   href={sub.href}
                   onClick={() => setIsMenuOpen(false)}
-                  className="flex items-center gap-3 px-4 py-3 text-sm text-gray-300 hover:text-gold hover:bg-white/5 transition-colors rounded-md"
+                  className="flex items-center gap-3 px-4 py-3 text-sm uppercase tracking-wider text-gray-300 hover:text-gold hover:bg-white/5 transition-colors rounded-md"
                 >
                   {sub.name}
                 </Link>
@@ -275,14 +274,14 @@ export default function Header() {
   return (
     <>
       <header className="fixed top-0 w-full z-50 bg-primary/90 border-b border-white/5 backdrop-blur-md supports-[backdrop-filter]:bg-primary/60">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-[72px]">
+        <div className="container mx-auto ">
+          <div className="flex items-center justify-between h-[82px]">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 z-50">
               <Image
                 src="/visara-white.png"
                 alt="Visara Company Logo"
-                width={110}
+                width={130}
                 height={40}
                 priority
               />
@@ -298,7 +297,7 @@ export default function Header() {
                     ) : (
                       <Link
                         href={item.href}
-                        className="group relative flex items-center gap-1 text-sm font-semibold text-white/80 hover:text-gold transition h-full"
+                        className="group relative flex items-center gap-1 text-sm uppercase tracking-wider font-semibold text-gray-300 hover:text-gold transition h-full"
                       >
                         {item.name}
                         <span className="absolute bottom-0 left-0 h-[2px] w-0 bg-gold transition-all duration-300 group-hover:w-full" />
@@ -312,7 +311,7 @@ export default function Header() {
             {/* Actions */}
             <div className="flex items-center gap-3">
               <Link href="/contact" className="hidden md:block">
-                <Button className="rounded-full px-6 h-10 font-semibold text-primary bg-gold hover:bg-gold-light transition-all shadow-md shadow-black/20 hover:translate-y-[-1px]">
+                <Button className="rounded-full px-6 h-10 font-semibold text-primary bg-gold hover:bg-gold-light transition-all shadow-md shadow-black/20 hover:translate-y-[-1px] uppercase tracking-wider">
                   Get Consultation
                 </Button>
               </Link>
@@ -335,7 +334,7 @@ export default function Header() {
       </header>
 
       {/* Spacer */}
-      <div className="h-[72px]" />
+      <div className="h-[80px]" />
 
       {/* Mobile Menu Overlay */}
       <div
@@ -367,7 +366,7 @@ export default function Header() {
                       setIsMenuOpen(false);
                       setActiveSubMenu(null);
                     }}
-                    className="flex items-center gap-4 px-4 py-4 rounded-lg text-white/90 hover:text-gold hover:bg-white/5 font-semibold transition"
+                    className="flex items-center gap-4 px-4 py-4 rounded-lg text-white/90 hover:text-gold hover:bg-white/5 font-semibold transition uppercase tracking-wider"
                   >
                     {item.name}
                   </Link>
@@ -378,7 +377,7 @@ export default function Header() {
 
           <div className="p-4 border-t border-white/10 mt-4 pb-10">
             <Link href="/contact" onClick={() => setIsMenuOpen(false)}>
-              <Button className="w-full h-12 rounded-full bg-gold text-primary font-bold hover:bg-gold-light transition shadow-lg shadow-black/20">
+              <Button className="w-full h-12 rounded-full bg-gold text-primary font-bold hover:bg-gold-light transition shadow-lg shadow-black/20 uppercase tracking-wider">
                 Get Consultation
               </Button>
             </Link>

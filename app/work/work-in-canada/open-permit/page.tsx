@@ -138,7 +138,7 @@ export default function OpenWorkPermitPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: idx * 0.1 }}
-                className="bg-black border border-white/10 p-8 rounded-sm hover:border-gold/50 transition-all group"
+                className="bg-primary-light border border-white/10 p-8 rounded-sm hover:border-gold/50 transition-all group"
               >
                 <item.icon className="w-10 h-10 text-gold mb-6 group-hover:scale-110 transition-transform" />
                 <h3 className="text-xl font-bold text-white mb-3">{item.title}</h3>

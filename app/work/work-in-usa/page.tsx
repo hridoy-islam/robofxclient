@@ -1,18 +1,18 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
-import { 
-  Award, 
-  Globe2, 
-  CheckCircle2, 
-  FileText, 
-  Clock, 
-  Scale, 
+import { AnimatePresence, motion } from "framer-motion";
+import {
+  Award,
+  Globe2,
+  CheckCircle2,
+  FileText,
+  Clock,
+  Scale,
   Briefcase,
   ChevronDown,
   ChevronUp,
-  User
+  User,
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -27,26 +27,28 @@ const visaTypes = [
     id: "eb1a",
     title: "EB1A Visa",
     subtitle: "Extraordinary Ability",
-    description: "A prestigious green card for individuals demonstrating extraordinary ability in sciences, arts, education, business, or athletics. No employer sponsorship is required.",
+    description:
+      "A prestigious green card for individuals demonstrating extraordinary ability in sciences, arts, education, business, or athletics. No employer sponsorship is required.",
     benefits: [
       "Self-petition: No employer needed",
       "Permanent residency for you & dependents",
-      "Expedited processing options available"
+      "Expedited processing options available",
     ],
-    icon: Award
+    icon: Award,
   },
   {
     id: "eb2",
     title: "EB2 NIW Visa",
     subtitle: "National Interest Waiver",
-    description: "Designed for exceptional professionals whose work has a substantial impact on U.S. national interests. Allows self-petition without labor certification.",
+    description:
+      "Designed for exceptional professionals whose work has a substantial impact on U.S. national interests. Allows self-petition without labor certification.",
     benefits: [
       "Ideal for researchers & scientists",
       "Flexible qualifications",
-      "No employer or job offer required"
+      "No employer or job offer required",
     ],
-    icon: Globe2
-  }
+    icon: Globe2,
+  },
 ];
 
 // --- DATA: Requirements Comparison ---
@@ -57,8 +59,8 @@ const requirements = [
       "Demonstrated extraordinary ability in sciences, arts, business, or athletics.",
       "Must meet at least 3/10 criteria (e.g., Awards, Associations, Leading Roles).",
       "Significant contributions (patents, innovations, scholarly articles).",
-      "Evidence of high salary or commercial success in performing arts."
-    ]
+      "Evidence of high salary or commercial success in performing arts.",
+    ],
   },
   {
     title: "EB2 NIW Requirements",
@@ -66,9 +68,9 @@ const requirements = [
       "Advanced Degree (Master’s or equivalent) OR Exceptional Ability.",
       "Proposed endeavor has substantial merit and national importance.",
       "Applicant is well-positioned to advance the proposed endeavor.",
-      "Beneficial to the U.S. to waive the job offer/labor certification."
-    ]
-  }
+      "Beneficial to the U.S. to waive the job offer/labor certification.",
+    ],
+  },
 ];
 
 // --- DATA: Process Steps ---
@@ -76,30 +78,32 @@ const processSteps = [
   {
     step: "01",
     title: "File I-140 Petition",
-    desc: "Submit comprehensive evidence proving eligibility (awards, achievements, contributions) to USCIS."
+    desc: "Submit comprehensive evidence proving eligibility (awards, achievements, contributions) to USCIS.",
   },
   {
     step: "02",
     title: "Processing",
-    desc: "Wait for approval. Premium processing takes ~15 days; Regular processing takes 8–10 months."
+    desc: "Wait for approval. Premium processing takes ~15 days; Regular processing takes 8–10 months.",
   },
   {
     step: "03",
     title: "Adjustment of Status",
-    desc: "Once approved and priority date is current, file for residency (Green Card) processing."
-  }
+    desc: "Once approved and priority date is current, file for residency (Green Card) processing.",
+  },
 ];
 
 // --- DATA: FAQs ---
 const faqs = [
   {
     question: "Who can apply for EB1A and EB2 NIW visas?",
-    answer: "Anyone meeting the required qualifications can apply. EB1A focuses on individuals with extraordinary global talent, while EB2 NIW benefits professionals whose specific work has intrinsic national importance to the United States."
+    answer:
+      "Anyone meeting the required qualifications can apply. EB1A focuses on individuals with extraordinary global talent, while EB2 NIW benefits professionals whose specific work has intrinsic national importance to the United States.",
   },
   {
     question: "Do I need a U.S. employer to apply?",
-    answer: "No. Both EB1A and EB2 NIW allow for 'Self-Petitioning,' meaning you do not need a specific job offer or a U.S. employer to sponsor your application."
-  }
+    answer:
+      "No. Both EB1A and EB2 NIW allow for 'Self-Petitioning,' meaning you do not need a specific job offer or a U.S. employer to sponsor your application.",
+  },
 ];
 
 export default function WorkInUSA() {
@@ -116,7 +120,7 @@ export default function WorkInUSA() {
       <BreadCumb
         title="Work in the USA"
         subtitle="Pathways to the American Dream for Extraordinary Professionals."
-        backgroundImage="https://images.unsplash.com/photo-1501594907352-04cda38ebc29?q=80&w=2670&auto=format&fit=crop" 
+        backgroundImage="https://images.unsplash.com/photo-1501594907352-04cda38ebc29?q=80&w=2670&auto=format&fit=crop"
       />
 
       {/* --- INTRO SECTION --- */}
@@ -127,29 +131,33 @@ export default function WorkInUSA() {
               Employment-Based Green Cards
             </span>
             <h2 className="text-3xl md:text-5xl font-bold mb-6 leading-tight">
-              Advance Your Career in the <span className="text-gold">United States</span>
+              Advance Your Career in the{" "}
+              <span className="text-gold">United States</span>
             </h2>
             <p className="text-gray-300 text-lg leading-relaxed mb-6">
-              The United States offers diverse opportunities for professionals to make a global impact. 
-              Whether you’re an individual of extraordinary ability or a professional contributing to the national interest, 
-              the <strong>EB1A</strong> and <strong>EB2 NIW</strong> visa categories provide pathways to work, reside, and thrive in the USA.
+              The United States offers diverse opportunities for professionals
+              to make a global impact. Whether you’re an individual of
+              extraordinary ability or a professional contributing to the
+              national interest, the <strong>EB1A</strong> and{" "}
+              <strong>EB2 NIW</strong> visa categories provide pathways to work,
+              reside, and thrive in the USA.
             </p>
           </div>
           <div className="lg:w-1/2 relative h-[400px] w-full rounded-sm overflow-hidden border border-white/10">
-             <Image 
-               src="https://images.unsplash.com/photo-1485738422979-f5c462d49f74?q=80&w=2699&auto=format&fit=crop" 
-               alt="USA City" 
-               fill 
-               className="object-cover" 
-             />
-             <div className="absolute inset-0 bg-primary/20" />
+            <Image
+              src="https://images.unsplash.com/photo-1485738422979-f5c462d49f74?q=80&w=2699&auto=format&fit=crop"
+              alt="USA City"
+              fill
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-primary/20" />
           </div>
         </div>
 
         {/* Visa Types Comparison */}
         <div className="grid md:grid-cols-2 gap-8">
           {visaTypes.map((visa, idx) => (
-            <motion.div 
+            <motion.div
               key={idx}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -161,21 +169,34 @@ export default function WorkInUSA() {
                   <visa.icon className="w-8 h-8 text-gold group-hover:text-black transition-colors" />
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold text-white">{visa.title}</h3>
-                  <p className="text-gold text-sm uppercase tracking-wider">{visa.subtitle}</p>
+                  <h3 className="text-2xl font-bold text-white">
+                    {visa.title}
+                  </h3>
+                  <p className="text-gold text-sm uppercase tracking-wider">
+                    {visa.subtitle}
+                  </p>
                 </div>
               </div>
-              <p className="text-gray-300 mb-6 min-h-[80px]">{visa.description}</p>
+              <p className="text-gray-300 mb-6 min-h-[80px]">
+                {visa.description}
+              </p>
               <ul className="space-y-3 mb-8">
                 {visa.benefits.map((benefit, i) => (
-                  <li key={i} className="flex items-start gap-3 text-sm text-gray-400">
+                  <li
+                    key={i}
+                    className="flex items-start gap-3 text-sm text-gray-400"
+                  >
                     <CheckCircle2 className="w-4 h-4 text-gold shrink-0 mt-0.5" />
                     {benefit}
                   </li>
                 ))}
               </ul>
-              <button 
-                onClick={() => document.getElementById('application-form')?.scrollIntoView({ behavior: 'smooth' })}
+              <button
+                onClick={() =>
+                  document
+                    .getElementById("application-form")
+                    ?.scrollIntoView({ behavior: "smooth" })
+                }
                 className="w-full py-3 border border-white/20 rounded-sm hover:bg-gold hover:text-black hover:border-gold font-bold transition-all"
               >
                 Check My Eligibility
@@ -189,19 +210,30 @@ export default function WorkInUSA() {
       <section className="py-20 bg-primary border-t border-white/5">
         <div className="container mx-auto ">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Detailed <span className="text-gold">Requirements</span></h2>
-            <p className="text-gray-400">Understanding the criteria for approval.</p>
+            <h2 className="text-3xl font-bold mb-4">
+              Detailed <span className="text-gold">Requirements</span>
+            </h2>
+            <p className="text-gray-400">
+              Understanding the criteria for approval.
+            </p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-12">
             {requirements.map((req, idx) => (
-              <div key={idx} className="bg-[#0a0a0a] p-8 rounded-sm border border-white/10">
-                <h3 className="text-xl font-bold text-white mb-6 border-b border-gold/30 pb-4">{req.title}</h3>
+              <div
+                key={idx}
+                className="bg-primary-light p-8 rounded-sm border border-white/10"
+              >
+                <h3 className="text-xl font-bold text-white mb-6 border-b border-gold/30 pb-4">
+                  {req.title}
+                </h3>
                 <ul className="space-y-4">
                   {req.points.map((point, i) => (
                     <li key={i} className="flex gap-4">
                       <Scale className="w-5 h-5 text-gold shrink-0" />
-                      <span className="text-gray-300 text-sm leading-relaxed">{point}</span>
+                      <span className="text-gray-300 text-sm leading-relaxed">
+                        {point}
+                      </span>
                     </li>
                   ))}
                 </ul>
@@ -212,23 +244,29 @@ export default function WorkInUSA() {
       </section>
 
       {/* --- APPLICATION PROCESS --- */}
-      <section className="py-20 bg-white/5">
+      <section className="py-20">
         <div className="container mx-auto ">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold">The Application <span className="text-gold">Process</span></h2>
+            <h2 className="text-3xl font-bold">
+              The Application <span className="text-gold">Process</span>
+            </h2>
           </div>
-          
+
           <div className="grid md:grid-cols-3 gap-8 relative">
             {/* Connecting Line (Desktop) */}
             <div className="hidden md:block absolute top-12 left-[16%] right-[16%] h-[2px] bg-white/10 -z-0" />
-            
+
             {processSteps.map((step, idx) => (
               <div key={idx} className="relative z-10 text-center">
                 <div className="w-24 h-24 bg-primary border-2 border-gold rounded-full flex items-center justify-center mx-auto mb-6 text-2xl font-bold text-gold shadow-xl">
                   {step.step}
                 </div>
-                <h3 className="text-xl font-bold text-white mb-3">{step.title}</h3>
-                <p className="text-gray-400 text-sm max-w-xs mx-auto">{step.desc}</p>
+                <h3 className="text-xl font-bold text-white mb-3">
+                  {step.title}
+                </h3>
+                <p className="text-gray-400 text-sm max-w-xs mx-auto">
+                  {step.desc}
+                </p>
               </div>
             ))}
           </div>
@@ -237,7 +275,7 @@ export default function WorkInUSA() {
 
       {/* --- FORM SECTION --- */}
       {/* <section id="application-form" className="py-24 container mx-auto ">
-        <div className="max-w-4xl mx-auto bg-[#0a0a0a] border border-gold/30 rounded-sm p-8 md:p-12 shadow-2xl">
+        <div className="max-w-4xl mx-auto bg-primary-light border border-gold/30 rounded-sm p-8 md:p-12 shadow-2xl">
           <div className="text-center mb-10">
             <h2 className="text-3xl font-bold text-white mb-2">Apply Now</h2>
             <p className="text-gray-400">If you meet the above criteria, submit your details for a preliminary assessment.</p>
@@ -378,42 +416,81 @@ export default function WorkInUSA() {
       {/* --- HOW WE HELP & FAQ --- */}
       <section className="py-20 bg-primary border-t border-white/5">
         <div className="container mx-auto  flex flex-col lg:flex-row gap-16">
-          
           {/* How we help */}
           <div className="lg:w-1/2">
-            <h3 className="text-2xl font-bold text-white mb-6">How <span className="text-gold">Visara</span> Can Help</h3>
+            <h3 className="text-2xl font-bold text-white mb-6">
+              How <span className="text-gold">Visara</span> Can Help
+            </h3>
             <p className="text-gray-300 leading-relaxed mb-6">
-              At Visara, we specialize in high-merit immigration cases. We assess your eligibility for EB1A or EB2 NIW, 
-              guide you through the complex document preparation, and craft a compelling narrative to maximize your success.
+              At Visara, we specialize in high-merit immigration cases. We
+              assess your eligibility for EB1A or EB2 NIW, guide you through the
+              complex document preparation, and craft a compelling narrative to
+              maximize your success.
             </p>
             <div className="bg-white/5 border-l-4 border-gold p-6">
-              <p className="text-white italic">"We turn your professional achievements into a winning immigration strategy."</p>
+              <p className="text-white italic">
+                "We turn your professional achievements into a winning
+                immigration strategy."
+              </p>
             </div>
           </div>
 
           {/* FAQ */}
           <div className="lg:w-1/2">
-            <h3 className="text-2xl font-bold text-white mb-6">Frequently Asked Questions</h3>
+            <h3 className="text-2xl font-bold text-white mb-6">
+              Frequently Asked Questions
+            </h3>
             <div className="space-y-4">
               {faqs.map((faq, idx) => (
-                <div key={idx} className="border border-white/10 rounded-sm overflow-hidden">
-                  <button 
+                <div
+                  key={idx}
+                  className={`rounded-xl overflow-hidden border transition-all duration-300 ${
+                    openFaq === idx
+                      ? "bg-white/5 border-gold/40 shadow-[0_0_15px_rgba(212,175,55,0.1)]"
+                      : "bg-white/5 border-white/10 hover:border-gold/20"
+                  }`}
+                >
+                  <button
                     onClick={() => toggleFaq(idx)}
-                    className="w-full flex justify-between items-center p-4 bg-white/5 hover:bg-white/10 transition-colors text-left"
+                    className="w-full px-6 md:px-8 py-5 text-left flex items-center justify-between group"
                   >
-                    <span className="font-bold text-gray-200">{faq.question}</span>
-                    {openFaq === idx ? <ChevronUp className="text-gold" /> : <ChevronDown className="text-gold" />}
+                    <span
+                      className={`text-lg font-medium pr-4 transition-colors ${
+                        openFaq === idx
+                          ? "text-gold"
+                          : "text-white/90 group-hover:text-gold"
+                      }`}
+                    >
+                      {faq.question}
+                    </span>
+                    <ChevronDown
+                      className={`w-5 h-5 text-gold/70 transition-transform duration-300 ${
+                        openFaq === idx ? "rotate-180 text-gold" : ""
+                      }`}
+                    />
                   </button>
-                  {openFaq === idx && (
-                    <div className="p-4 bg-black/20 text-gray-400 text-sm leading-relaxed border-t border-white/5">
-                      {faq.answer}
-                    </div>
-                  )}
+
+                  <AnimatePresence>
+                    {openFaq === idx && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3, ease: "easeInOut" }}
+                        className="overflow-hidden"
+                      >
+                        <div className="px-6 md:px-8 pb-6 pt-0">
+                          <p className="text-gray-300 leading-relaxed font-light border-t border-white/10 pt-4 text-sm">
+                            {faq.answer}
+                          </p>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               ))}
             </div>
           </div>
-
         </div>
       </section>
 

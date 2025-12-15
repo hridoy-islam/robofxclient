@@ -134,7 +134,7 @@ export default function WorkInUK() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: idx * 0.1 }}
-                className="bg-[#0a0a0a] border border-white/10 p-8 rounded-sm hover:border-gold/40 transition-all"
+                className="bg-primary-light border border-white/10 p-8 rounded-sm hover:border-gold/40 transition-all"
               >
                 <div className="flex items-center gap-4 mb-4">
                   <req.icon className="w-8 h-8 text-gold" />

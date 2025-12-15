@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { 
   Landmark, 
   Briefcase, 
@@ -166,7 +166,7 @@ export default function CanadaInvestorVisa() {
       </section>
 
       {/* --- BENEFITS GRID --- */}
-      <section className="py-20 bg-primary-light border-t border-white/5">
+      <section className="py-20 bg-primary ">
         <div className="container mx-auto ">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold mb-4">Immigration <span className="text-gold">Benefits</span></h2>
@@ -216,7 +216,7 @@ export default function CanadaInvestorVisa() {
       </section>
 
       {/* --- PROCESS SECTION --- */}
-      <section className="py-20 bg-primary-light border-t border-white/5">
+      <section className="py-20 bg-primary ">
         <div className="container mx-auto ">
           <div className="text-center mb-16">
              <h2 className="text-3xl font-bold text-white">Application <span className="text-gold">Process</span></h2>
@@ -277,21 +277,53 @@ export default function CanadaInvestorVisa() {
             <h3 className="text-2xl font-bold text-white mb-6">Frequently Asked Questions</h3>
             <div className="space-y-4">
               {faqs.map((faq, idx) => (
-                <div key={idx} className="border border-white/10 rounded-sm overflow-hidden">
-                  <button 
-                    onClick={() => toggleFaq(idx)}
-                    className="w-full flex justify-between items-center p-4 bg-primary-light hover:bg-white/5 transition-colors text-left"
-                  >
-                    <span className="font-bold text-gray-200 pr-4">{faq.question}</span>
-                    {openFaq === idx ? <ChevronUp className="text-gold shrink-0" /> : <ChevronDown className="text-gold shrink-0" />}
-                  </button>
-                  {openFaq === idx && (
-                    <div className="p-4 bg-primary text-gray-400 text-sm leading-relaxed border-t border-white/5">
-                      {faq.answer}
-                    </div>
-                  )}
-                </div>
-              ))}
+    <div
+      key={idx}
+      className={`rounded-xl overflow-hidden border transition-all duration-300 ${
+        openFaq === idx
+          ? "bg-white/5 border-gold/40 shadow-[0_0_15px_rgba(212,175,55,0.1)]"
+          : "bg-white/5 border-white/10 hover:border-gold/20"
+      }`}
+    >
+      <button
+        onClick={() => toggleFaq(idx)}
+        className="w-full px-6 md:px-8 py-5 text-left flex items-center justify-between group"
+      >
+        <span
+          className={`text-lg font-medium pr-4 transition-colors ${
+            openFaq === idx
+              ? "text-gold"
+              : "text-white/90 group-hover:text-gold"
+          }`}
+        >
+          {faq.question}
+        </span>
+        <ChevronDown
+          className={`w-5 h-5 text-gold/70 transition-transform duration-300 ${
+            openFaq === idx ? "rotate-180 text-gold" : ""
+          }`}
+        />
+      </button>
+
+      <AnimatePresence>
+        {openFaq === idx && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="overflow-hidden"
+          >
+            <div className="px-6 md:px-8 pb-6 pt-0">
+              <p className="text-gray-300 leading-relaxed font-light border-t border-white/10 pt-4 text-sm">
+                {faq.answer}
+              </p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  ))}
             </div>
           </div>
 
