@@ -262,7 +262,7 @@ export default function VisitVisaPage() {
                       <div className="bg-white/5 p-8 rounded-sm border border-white/10">
                         <h3 className="text-xl font-bold text-white mb-6">Member States</h3>
                         <div className="flex flex-wrap gap-3">
-                          {country.countriesList.map((c, i) => (
+                          {country?.countriesList?.map((c, i) => (
                             <span key={i} className="px-3 py-1 bg-white/10 text-gray-300 text-sm rounded-full">
                               {c}
                             </span>

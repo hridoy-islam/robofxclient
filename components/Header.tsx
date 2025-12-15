@@ -5,92 +5,99 @@ import Link from "next/link";
 import { ChevronDown, ChevronRight, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+// --- 1. Define Types Outside Component ---
+interface NavItem {
+  name: string;
+  href: string;
+  type: "link" | "dropdown" | "nested";
+  subItems?: NavItem[];
+}
+
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [activeSubMenu, setActiveSubMenu] = useState(null); // Mobile: Main menu state
-  const [activeNestedMenu, setActiveNestedMenu] = useState(null); // Mobile: Nested menu state
+  const [activeSubMenu, setActiveSubMenu] = useState<string | null>(null);
+  const [activeNestedMenu, setActiveNestedMenu] = useState<string | null>(null);
 
-  // --- 1. UPDATED DATA: PARENTS NOW HAVE HREFS ---
-  const navItems = [
+  const navItems: NavItem[] = [
     { name: "Home", href: "/", type: "link" },
     {
       name: "Migrate",
-      href: "/migrate", // UPDATED from '#'
+      href: "/migrate",
       type: "dropdown",
       subItems: [
-        { name: "Migrate to UK", href: "/migrate/migrate-to-uk" },
-        { name: "Migrate to Australia", href: "/migrate/migrate-to-australia" },
-        { name: "Migrate to Canada", href: "/migrate/migrate-to-canada" },
-        { name: "Migrate to USA", href: "/migrate/migrate-to-usa" },
-        { name: "Migrate to New Zealand", href: "/migrate/migrate-to-nz" },
+        { name: "Migrate to UK", href: "/migrate/migrate-to-uk", type: "link" },
+        { name: "Migrate to Australia", href: "/migrate/migrate-to-australia", type: "link" },
+        { name: "Migrate to Canada", href: "/migrate/migrate-to-canada", type: "link" },
+        { name: "Migrate to USA", href: "/migrate/migrate-to-usa", type: "link" },
+        { name: "Migrate to New Zealand", href: "/migrate/migrate-to-nz", type: "link" },
       ],
     },
     {
       name: "Work",
-      href: "/work", // UPDATED from '#'
+      href: "/work",
       type: "dropdown",
       subItems: [
-        { name: "Work in UK", href: "/work/work-in-uk" },
-        { name: "Work in USA", href: "/work/work-in-usa" },
-        { name: "Work in Europe", href: "/work/work-in-europe" },
+        { name: "Work in UK", href: "/work/work-in-uk", type: "link" },
+        { name: "Work in USA", href: "/work/work-in-usa", type: "link" },
+        { name: "Work in Europe", href: "/work/work-in-europe", type: "link" },
         {
           name: "Work in Canada",
-          href: "/work/work-in-canada", // UPDATED
+          href: "/work/work-in-canada",
           type: "nested",
           subItems: [
-            { name: "LMIA Work Permit", href: "/work/work-in-canada/lmia" },
-            { name: "Open Work Permit", href: "/work/work-in-canada/open-permit" },
-            { name: "Chefs, Cooks & Bakers", href: "/work/work-in-canada/chefs-cooks-bakers" },
+            { name: "LMIA Work Permit", href: "/work/work-in-canada/lmia", type: "link" },
+            { name: "Open Work Permit", href: "/work/work-in-canada/open-permit", type: "link" },
+            { name: "Chefs, Cooks & Bakers", href: "/work/work-in-canada/chefs-cooks-bakers", type: "link" },
           ],
         },
       ],
     },
     {
       name: "Business",
-      href: "/business-visa", // UPDATED from '#'
+      href: "/business-visa",
       type: "dropdown",
       subItems: [
         {
           name: "Business in Canada",
-          href: "/business-visa/canada", // UPDATED
+          href: "/business-visa/canada",
           type: "nested",
           subItems: [
-            { name: "Start-up Visa", href: "/business-visa/canada/startup" },
-            { name: "Investor Visa", href: "/business-visa/canada/investor" },
-            { name: "Angel Investor Program", href: "/business-visa/canada/angel-investor" },
-            { name: "Intra-Company Transfer", href: "/business-visa/canada/ict" },
+            { name: "Start-up Visa", href: "/business-visa/canada/startup", type: "link" },
+            { name: "Investor Visa", href: "/business-visa/canada/investor", type: "link" },
+            { name: "Angel Investor Program", href: "/business-visa/canada/angel-investor", type: "link" },
+            { name: "Intra-Company Transfer", href: "/business-visa/canada/ict", type: "link" },
           ],
         },
-        { name: "Business in UK", href: "/business-visa/uk" },
-        { name: "Business in USA", href: "/business-visa/usa" },
+        { name: "Business in UK", href: "/business-visa/uk", type: "link" },
+        { name: "Business in USA", href: "/business-visa/usa", type: "link" },
       ],
     },
     {
       name: "Study Abroad",
-      href: "/study-abroad", // UPDATED from '#'
+      href: "/study-abroad",
       type: "dropdown",
       subItems: [
-        { name: "Study in UK", href: "/study-abroad/uk" },
-        { name: "Study in Australia", href: "/study-abroad/australia" },
-        { name: "Study in Canada", href: "/study-abroad/canada" },
-        { name: "Study in USA", href: "/study-abroad/usa" },
+        { name: "Study in UK", href: "/study-abroad/uk", type: "link" },
+        { name: "Study in Australia", href: "/study-abroad/australia", type: "link" },
+        { name: "Study in Canada", href: "/study-abroad/canada", type: "link" },
+        { name: "Study in USA", href: "/study-abroad/usa", type: "link" },
       ],
     },
     { name: "Visit Visa", href: "/visit-visa", type: "link" },
     {
       name: "Resources",
-      href: "/resources", // UPDATED from '#'
+      href: "/resources",
       type: "dropdown",
       subItems: [
-        { name: "FAQ", href: "/faq" },
-        { name: "Success Stories", href: "/success-stories" },
+        { name: "FAQ", href: "/faq", type: "link" },
+        { name: "Success Stories", href: "/success-stories", type: "link" },
       ],
     },
     { name: "Contact Us", href: "/contact", type: "link" },
   ];
 
-  // --- MOBILE HANDLERS ---
-  const handleMobileMenuToggle = (itemName) => {
+  // --- MOBILE HANDLERS (Fixed Types) ---
+  const handleMobileMenuToggle = (itemName: string) => {
     if (activeSubMenu === itemName) {
       setActiveSubMenu(null);
       setActiveNestedMenu(null);
@@ -100,9 +107,9 @@ export default function Header() {
     }
   };
 
-  const handleMobileNestedToggle = (e, itemName) => {
+  const handleMobileNestedToggle = (e: React.MouseEvent, itemName: string) => {
     e.stopPropagation();
-    e.preventDefault(); // Stop link navigation for the chevron click
+    e.preventDefault();
     if (activeNestedMenu === itemName) {
       setActiveNestedMenu(null);
     } else {
@@ -111,10 +118,9 @@ export default function Header() {
   };
 
   // --- DESKTOP DROPDOWN COMPONENT ---
-  const DesktopDropdown = ({ item }) => (
+  const DesktopDropdown = ({ item }: { item: NavItem }) => (
     <div className="relative group/parent h-full flex items-center">
-      {/* 2. UPDATED DESKTOP: This is now a Link, not just a div */}
-      <Link 
+      <Link
         href={item.href}
         className="flex items-center gap-1 cursor-pointer text-sm font-semibold text-white/80 hover:text-gold transition-colors relative h-full"
       >
@@ -123,39 +129,35 @@ export default function Header() {
         <span className="absolute bottom-0 left-0 h-[2px] w-0 bg-gold transition-all duration-300 group-hover/parent:w-full" />
       </Link>
 
-      {/* Main Dropdown Container */}
       <div className="absolute top-full left-0 pt-0 hidden group-hover/parent:block w-64 z-50">
         <div className="bg-primary-light border border-white/10 rounded-lg shadow-xl shadow-black/40 overflow-visible mt-2 py-2">
           {item.subItems?.map((sub) => (
             <div key={sub.name} className="relative group/child">
               {sub.type === "nested" ? (
-                // --- Item with 3rd Level ---
                 <div className="block">
-                    {/* Make the text part a link */}
-                    <div className="flex items-center justify-between px-5 py-3 text-sm text-white/90 hover:bg-primary-lighter hover:text-gold transition-colors cursor-pointer">
-                        <Link href={sub.href} className="flex-1">
-                             {sub.name}
-                        </Link>
-                        <ChevronRight className="w-3 h-3 ml-2" />
-                    </div>
+                  <div className="flex items-center justify-between px-5 py-3 text-sm text-white/90 hover:bg-primary-lighter hover:text-gold transition-colors cursor-pointer">
+                    <Link href={sub.href} className="flex-1">
+                      {sub.name}
+                    </Link>
+                    <ChevronRight className="w-3 h-3 ml-2" />
+                  </div>
 
-                    {/* 3rd Level Dropdown */}
-                    <div className="absolute top-0 left-full pl-2 hidden group-hover/child:block w-60">
-                        <div className="bg-primary-light border border-white/10 rounded-lg shadow-xl shadow-black/40 overflow-hidden py-2">
-                        {sub.subItems.map((nested) => (
-                            <Link
-                                key={nested.name}
-                                href={nested.href}
-                                className="block px-5 py-3 text-sm text-white/90 hover:bg-primary-lighter hover:text-gold transition-colors"
-                            >
-                                {nested.name}
-                            </Link>
-                        ))}
-                        </div>
+                  {/* 3rd Level Dropdown */}
+                  <div className="absolute top-0 left-full pl-2 hidden group-hover/child:block w-60">
+                    <div className="bg-primary-light border border-white/10 rounded-lg shadow-xl shadow-black/40 overflow-hidden py-2">
+                      {sub.subItems?.map((nested) => (
+                        <Link
+                          key={nested.name}
+                          href={nested.href}
+                          className="block px-5 py-3 text-sm text-white/90 hover:bg-primary-lighter hover:text-gold transition-colors"
+                        >
+                          {nested.name}
+                        </Link>
+                      ))}
                     </div>
+                  </div>
                 </div>
               ) : (
-                // --- Standard Link ---
                 <Link
                   href={sub.href}
                   className="block px-5 py-3 text-sm text-white/90 hover:bg-primary-lighter hover:text-gold transition-colors"
@@ -171,86 +173,90 @@ export default function Header() {
   );
 
   // --- MOBILE MENU COMPONENT ---
-  const MobileSubMenu = ({ item }) => (
+  const MobileSubMenu = ({ item }: { item: NavItem }) => (
     <>
       <div className="flex items-center justify-between px-4 py-2 rounded-lg text-white/90 hover:bg-white/5 transition select-none">
-        
-        {/* 3. UPDATED MOBILE: Split Button Logic */}
-        
-        {/* LEFT: Click to Navigate (Main Link) */}
-        <Link 
-            href={item.href}
-            onClick={() => {
-                setIsMenuOpen(false);
-                setActiveSubMenu(null);
-            }}
-            className="flex-1 py-2 font-semibold hover:text-gold"
+        {/* LEFT: Click to Navigate */}
+        <Link
+          href={item.href}
+          onClick={() => {
+            setIsMenuOpen(false);
+            setActiveSubMenu(null);
+          }}
+          className="flex-1 py-2 font-semibold hover:text-gold"
         >
-            {item.name}
+          {item.name}
         </Link>
 
-        {/* RIGHT: Click to Toggle Dropdown (Arrow) */}
-        <div 
-            onClick={() => handleMobileMenuToggle(item.name)}
-            className="p-2 cursor-pointer border-l border-white/10 ml-2 hover:text-gold"
+        {/* RIGHT: Click to Toggle Dropdown (Fixed: Changed div to button for A11y) */}
+        <button
+          type="button"
+          onClick={() => handleMobileMenuToggle(item.name)}
+          className="p-2 cursor-pointer border-l border-white/10 ml-2 hover:text-gold bg-transparent"
         >
-            <ChevronDown
+          <ChevronDown
             className={`w-4 h-4 transition-transform duration-300 ${
-                activeSubMenu === item.name ? "rotate-180" : "rotate-0"
+              activeSubMenu === item.name ? "rotate-180" : "rotate-0"
             }`}
-            />
-        </div>
+          />
+        </button>
       </div>
 
       {/* Level 2 Container */}
       <div
         className={`overflow-hidden transition-all duration-300 ${
-          activeSubMenu === item.name
-            ? "max-h-[800px] opacity-100"
-            : "max-h-0 opacity-0"
+          activeSubMenu === item.name ? "max-h-[800px] opacity-100" : "max-h-0 opacity-0"
         }`}
       >
         <ul className="pl-4 pt-1 pb-4 space-y-1 bg-black/10 rounded-b-lg">
           {item.subItems?.map((sub) => (
             <li key={sub.name}>
               {sub.type === "nested" ? (
-                // --- Level 2 with Nested Children ---
                 <div className="block">
                   <div className="flex items-center justify-between px-4 py-2 text-sm text-gray-300 hover:text-gold">
-                    
-                    {/* Level 2 Split Button */}
-                    <Link 
-                        href={sub.href}
-                        onClick={() => setIsMenuOpen(false)}
-                        className="flex-1 py-1"
+                    <Link
+                      href={sub.href}
+                      onClick={() => setIsMenuOpen(false)}
+                      className="flex-1 py-1"
                     >
-                        {sub.name}
+                      {sub.name}
                     </Link>
 
-                    <div 
-                        onClick={(e) => handleMobileNestedToggle(e, sub.name)}
-                        className="p-2 cursor-pointer border-l border-white/10 ml-2"
+                    {/* Fixed: Changed div to button */}
+                    <button
+                      type="button"
+                      onClick={(e) => handleMobileNestedToggle(e, sub.name)}
+                      className="p-2 cursor-pointer border-l border-white/10 ml-2 bg-transparent"
                     >
-                        <ChevronDown className={`w-3 h-3 transition-transform ${activeNestedMenu === sub.name ? 'rotate-180' : ''}`} />
-                    </div>
+                      <ChevronDown
+                        className={`w-3 h-3 transition-transform ${
+                          activeNestedMenu === sub.name ? "rotate-180" : ""
+                        }`}
+                      />
+                    </button>
                   </div>
-                  
+
                   {/* Level 3 Container */}
-                  <div className={`overflow-hidden transition-all duration-300 border-l border-white/10 ml-6 ${activeNestedMenu === sub.name ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
-                      {sub.subItems.map((nested) => (
-                          <Link
-                            key={nested.name}
-                            href={nested.href}
-                            onClick={() => setIsMenuOpen(false)}
-                            className="block px-4 py-2 text-sm text-gray-400 hover:text-gold transition-colors"
-                          >
-                            — {nested.name}
-                          </Link>
-                      ))}
+                  <div
+                    className={`overflow-hidden transition-all duration-300 border-l border-white/10 ml-6 ${
+                      activeNestedMenu === sub.name
+                        ? "max-h-96 opacity-100"
+                        : "max-h-0 opacity-0"
+                    }`}
+                  >
+                    {sub.subItems?.map((nested) => (
+                      <Link
+                        key={nested.name}
+                        href={nested.href}
+                        onClick={() => setIsMenuOpen(false)}
+                        className="block px-4 py-2 text-sm text-gray-400 hover:text-gold transition-colors"
+                      >
+                        — {nested.name}
+                      </Link>
+                    ))}
                   </div>
                 </div>
               ) : (
-                // --- Standard Level 2 Link ---
                 <Link
                   href={sub.href}
                   onClick={() => setIsMenuOpen(false)}
@@ -312,6 +318,7 @@ export default function Header() {
               </Link>
 
               <button
+                type="button"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 className="lg:hidden p-2 rounded-full text-white hover:bg-white/10 transition z-50 relative"
                 aria-label="Toggle Menu"
