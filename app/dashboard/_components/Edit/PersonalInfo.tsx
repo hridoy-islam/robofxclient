@@ -1,12 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import {
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-} from "@nextui-org/react";
+import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/react";
 import Cookies from "universal-cookie";
 import { jwtDecode } from "jwt-decode";
 import { DecodedToken } from "@/utils/interfaces";
@@ -22,6 +17,7 @@ interface UserData {
   email: string;
   photo: string | null;
   phone: string;
+  password?: string;
 }
 
 interface PersonalInfoProps {
@@ -35,6 +31,7 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({ id }) => {
     email: "",
     photo: "",
     phone: "",
+    password: "",
   });
 
   const cookie = new Cookies();
@@ -63,7 +60,7 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({ id }) => {
       return;
     }
 
-    const formattedData = {
+    const formattedData: any = {
       personal_information: {
         firstName: userData.firstName,
         lastName: userData.lastName,
@@ -72,7 +69,9 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({ id }) => {
         photo: userData.photo,
       },
     };
-
+    if (userData.password?.trim()) {
+      formattedData.password = userData.password;
+    }
     const url = `/users/${id}`;
 
     axios
@@ -111,86 +110,109 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({ id }) => {
       <CardHeader>
         <h2>Profile Information</h2>
       </CardHeader>
-    <CardBody className="p-6 bg-white">
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-    {/* Left Column */}
-    <div className="space-y-4">
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div className="flex flex-col">
-          <label htmlFor="firstName" className="text-gray-700 font-medium mb-1">
-            First Name
-          </label>
-          <Input
-            type="text"
-            name="firstName"
-            id="firstName"
-            value={userData.firstName}
-            onChange={(e) => handleChange("firstName", e.target.value)}
-            className="px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
-            placeholder="Enter first name"
-          />
+      <CardBody className="p-6 bg-white">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Left Column */}
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="flex flex-col">
+                <label
+                  htmlFor="firstName"
+                  className="text-gray-700 font-medium mb-1"
+                >
+                  First Name
+                </label>
+                <Input
+                  type="text"
+                  name="firstName"
+                  id="firstName"
+                  value={userData.firstName}
+                  onChange={(e) => handleChange("firstName", e.target.value)}
+                  className="px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                  placeholder="Enter first name"
+                />
+              </div>
+              <div className="flex flex-col">
+                <label
+                  htmlFor="lastName"
+                  className="text-gray-700 font-medium mb-1"
+                >
+                  Last Name
+                </label>
+                <Input
+                  type="text"
+                  name="lastName"
+                  id="lastName"
+                  value={userData.lastName}
+                  onChange={(e) => handleChange("lastName", e.target.value)}
+                  className="px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                  placeholder="Enter last name"
+                />
+              </div>
+            </div>
+
+            <div className="flex flex-col">
+              <label htmlFor="email" className="text-gray-700 font-medium mb-1">
+                Email
+              </label>
+              <Input
+                type="email"
+                name="email"
+                id="email"
+                value={userData.email}
+                onChange={(e) => handleChange("email", e.target.value)}
+                className="px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                placeholder="Enter email address"
+              />
+            </div>
+            <div className="flex flex-col">
+              <label
+                htmlFor="password"
+                className="text-gray-700 font-medium mb-1"
+              >
+                Password
+              </label>
+              <Input
+                type="password"
+                name="password"
+                id="password"
+                value={userData.password || ""}
+                onChange={(e) => handleChange("password", e.target.value)}
+                className="px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                placeholder="Enter new password"
+              />
+            </div>
+          </div>
+
+          {/* Right Column */}
+          <div className="space-y-4">
+            <div className="flex flex-col">
+              <label htmlFor="photo" className="text-gray-700 font-medium mb-1">
+                Upload Photo
+              </label>
+              <ImageUpload
+                value={userData.photo}
+                onChange={(value) => handleChange("photo", value)}
+              />
+            </div>
+
+            <div className="flex flex-col">
+              <label htmlFor="phone" className="text-gray-700 font-medium mb-1">
+                Phone Number
+              </label>
+              <Input
+                type="text"
+                name="phone"
+                id="phone"
+                value={userData.phone}
+                onChange={(e) => handleChange("phone", e.target.value)}
+                className="px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                placeholder="Enter phone number"
+              />
+            </div>
+          </div>
         </div>
-        <div className="flex flex-col">
-          <label htmlFor="lastName" className="text-gray-700 font-medium mb-1">
-            Last Name
-          </label>
-          <Input
-            type="text"
-            name="lastName"
-            id="lastName"
-            value={userData.lastName}
-            onChange={(e) => handleChange("lastName", e.target.value)}
-            className="px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
-            placeholder="Enter last name"
-          />
-        </div>
-      </div>
-
-      <div className="flex flex-col">
-        <label htmlFor="email" className="text-gray-700 font-medium mb-1">
-          Email
-        </label>
-        <Input
-          type="email"
-          name="email"
-          id="email"
-          value={userData.email}
-          onChange={(e) => handleChange("email", e.target.value)}
-          className="px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
-          placeholder="Enter email address"
-        />
-      </div>
-    </div>
-
-    {/* Right Column */}
-    <div className="space-y-4">
-      <div className="flex flex-col">
-        <label htmlFor="photo" className="text-gray-700 font-medium mb-1">
-          Upload Photo
-        </label>
-        <ImageUpload
-          value={userData.photo}
-          onChange={(value) => handleChange("photo", value)}
-        />
-      </div>
-
-      <div className="flex flex-col">
-        <label htmlFor="phone" className="text-gray-700 font-medium mb-1">
-          Phone Number
-        </label>
-        <Input
-          type="text"
-          name="phone"
-          id="phone"
-          value={userData.phone}
-          onChange={(e) => handleChange("phone", e.target.value)}
-          className="px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
-          placeholder="Enter phone number"
-        />
-      </div>
-    </div>
-  </div>
-</CardBody>
+      </CardBody>
 
       <CardFooter className="w-full flex flex-row-reverse gap-3">
         <Button className="btn-basic rounded-md" onClick={handleSave}>
