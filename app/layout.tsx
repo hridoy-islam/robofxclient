@@ -39,7 +39,7 @@ export default function RootLayout({
     <html lang="en" className={`${lato.variable} light`}>
       <head>
         <link rel="icon" href="/visara.png" type="image/png" />
-        <title>VISARA</title>
+        <title>Quicktradefx</title>
       </head>
       <body>
         <ModalProvider>
