@@ -20,80 +20,38 @@ export default function Header() {
 
   const navItems: NavItem[] = [
     { name: "Home", href: "/", type: "link" },
+
     {
-      name: "Migrate",
-      href: "/migrate",
-      type: "dropdown",
-      subItems: [
-        { name: "Migrate to UK", href: "/migrate/migrate-to-uk", type: "link" },
-        { name: "Migrate to Australia", href: "/migrate/migrate-to-australia", type: "link" },
-        { name: "Migrate to Canada", href: "/migrate/migrate-to-canada", type: "link" },
-        { name: "Migrate to USA", href: "/migrate/migrate-to-usa", type: "link" },
-        { name: "Migrate to New Zealand", href: "/migrate/migrate-to-nz", type: "link" },
-      ],
+      name: "Features",
+      href: "/features",
+      type: "link",
     },
-    {
-      name: "Work",
-      href: "/work",
-      type: "dropdown",
-      subItems: [
-        { name: "Work in UK", href: "/work/work-in-uk", type: "link" },
-        { name: "Work in USA", href: "/work/work-in-usa", type: "link" },
-        { name: "Work in Europe", href: "/work/work-in-europe", type: "link" },
-        {
-          name: "Work in Canada",
-          href: "/work/work-in-canada",
-          type: "nested",
-          subItems: [
-            { name: "LMIA Work Permit", href: "/work/work-in-canada/lmia", type: "link" },
-            { name: "Open Work Permit", href: "/work/work-in-canada/open-permit", type: "link" },
-            { name: "Chefs, Cooks & Bakers", href: "/work/work-in-canada/chefs-cooks-bakers", type: "link" },
-          ],
-        },
-      ],
-    },
-    {
-      name: "Business",
-      href: "/business-visa",
-      type: "dropdown",
-      subItems: [
-        {
-          name: "Business in Canada",
-          href: "/business-visa/canada",
-          type: "nested",
-          subItems: [
-            { name: "Start-up Visa", href: "/business-visa/canada/startup", type: "link" },
-            { name: "Investor Visa", href: "/business-visa/canada/investor", type: "link" },
-            { name: "Angel Investor Program", href: "/business-visa/canada/angel-investor", type: "link" },
-            { name: "Intra-Company Transfer", href: "/business-visa/canada/ict", type: "link" },
-          ],
-        },
-        { name: "Business in UK", href: "/business-visa/uk", type: "link" },
-        { name: "Business in USA", href: "/business-visa/usa", type: "link" },
-      ],
-    },
-    {
-      name: "Study Abroad",
-      href: "/study-abroad",
-      type: "dropdown",
-      subItems: [
-        { name: "Study in UK", href: "/study-abroad/uk", type: "link" },
-        { name: "Study in Australia", href: "/study-abroad/australia", type: "link" },
-        { name: "Study in Canada", href: "/study-abroad/canada", type: "link" },
-        { name: "Study in USA", href: "/study-abroad/usa", type: "link" },
-      ],
-    },
-    { name: "Visit Visa", href: "/visit-visa", type: "link" },
+
     {
       name: "Resources",
       href: "#",
       type: "dropdown",
       subItems: [
-        { name: "FAQ", href: "/faq", type: "link" },
-        { name: "Success Stories", href: "/success-stories", type: "link" },
+        { name: "Beginner's Guide", href: "/beginner-guide", type: "link" },
+        {
+          name: "Market Insights & Analysis",
+          href: "/market-insights",
+          type: "link",
+        },
+        {
+          name: "Backtest Your Trading Strategy",
+          href: "/backtest-strategy",
+          type: "link",
+        },
+        {
+          name: "About",
+          href: "/about",
+          type: "link",
+        },
       ],
     },
-    { name: "Contact Us", href: "/contact", type: "link" },
+    { name: "FAQ", href: "/faq", type: "link" },
+    { name: "Contact", href: "/contact", type: "link" },
   ];
 
   // --- MOBILE HANDLERS ---
@@ -205,7 +163,9 @@ export default function Header() {
       {/* Level 2 Container */}
       <div
         className={`overflow-hidden transition-all duration-300 ${
-          activeSubMenu === item.name ? "max-h-[800px] opacity-100" : "max-h-0 opacity-0"
+          activeSubMenu === item.name
+            ? "max-h-[800px] opacity-100"
+            : "max-h-0 opacity-0"
         }`}
       >
         <ul className="pl-4 pt-1 pb-4 space-y-1 bg-black/10 rounded-b-lg">
@@ -312,7 +272,7 @@ export default function Header() {
             <div className="flex items-center gap-3">
               <Link href="/contact" className="hidden md:block">
                 <Button className="rounded-full px-6 h-10 font-semibold text-primary bg-gold hover:bg-gold-light transition-all shadow-md shadow-black/20 hover:translate-y-[-1px] uppercase tracking-wider">
-                  Get Consultation
+                  Get Started
                 </Button>
               </Link>
 
