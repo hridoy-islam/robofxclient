@@ -446,7 +446,7 @@ export default function Home() {
         <div className="container mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4">Empower Your Workforce</h2>
-            <p className="text-gray-400 max-w-2xl mx-auto">
+            <p className="text-gray-400 max-w-2xl mx-auto text-lg">
               Comprehensive AI-driven advantages for your trading portfolio.
             </p>
           </div>
@@ -770,7 +770,7 @@ export default function Home() {
                   animate={{ height: openFaq === index ? "auto" : 0 }}
                   className="overflow-hidden"
                 >
-                  <div className="p-6 pt-0 text-gray-400 border-t border-white/5 leading-relaxed">
+                  <div className="p-6 pt-4 text-gray-400 border-t border-white/5 leading-relaxed">
                     {faq.a}
                   </div>
                 </motion.div>
