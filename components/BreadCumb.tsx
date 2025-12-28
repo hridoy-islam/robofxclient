@@ -3,30 +3,27 @@
 import { ChevronRight, Home } from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image"; // Import Next.js Image
 
 interface BreadCumbProps {
   title: string;
   subtitle?: string;
   showBreadcrumb?: boolean;
-  backgroundImage?: string; // Option to pass specific images
+  backgroundImage?: string;
 }
 
 export default function BreadCumb({
   title,
   subtitle,
   showBreadcrumb = true,
-  backgroundImage = "/b1.jpg", // Default image
+  backgroundImage = "/trading1.jpg", // Ensure this file exists in your public folder
 }: BreadCumbProps) {
-  
   // Animation Variants
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.2,
-      },
+      transition: { staggerChildren: 0.1, delayChildren: 0.1 },
     },
   };
 
@@ -35,103 +32,95 @@ export default function BreadCumb({
     visible: {
       y: 0,
       opacity: 1,
-      transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] }, // Custom ease for "luxury" feel
+      transition: { duration: 0.6, ease: "easeOut" },
     },
   };
 
   return (
-    <section className="relative h-[350px] flex items-center overflow-hidden font-sans">
-      
+    <section className="relative h-[400px] flex items-center overflow-hidden bg-zinc-900 pt-20">
       {/* ================= BACKGROUND LAYERS ================= */}
-      
-      {/* 1. Image with Slow Zoom Effect */}
-      <motion.div 
-        className="absolute inset-0 z-0"
-        initial={{ scale: 1.1 }}
-        animate={{ scale: 1 }}
-        transition={{ duration: 10, ease: "linear" }}
-      >
-        <img 
-          src={backgroundImage}
-          alt="Background"
-          className="w-full h-full object-cover"
-        />
-      </motion.div>
 
-      {/* 2. Primary Gradient Overlay (Left to Right & Bottom to Top) */}
-      <div className="absolute inset-0 z-[1] bg-gradient-to-r from-primary via-primary/80 to-primary/20" />
-      <div className="absolute inset-0 z-[1] bg-gradient-to-t from-primary via-transparent to-transparent" />
+      {/* 1. Background Image */}
+      {backgroundImage && (
+        <div className="absolute inset-0 z-0">
+          <Image
+            src={backgroundImage}
+            alt="Background"
+            fill
+            className="object-cover transition-all duration-1000"
+            priority
+          />
+          {/* Gradient Overlay to ensure text readability */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-black/40" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
+        </div>
+      )}
 
-      {/* 3. Modern Grid Pattern Overlay (CSS only) */}
-      <div 
-        className="absolute inset-0 z-[2] opacity-[0.03] pointer-events-none"
+      {/* 2. Tech Grid Pattern */}
+      <div
+        className="absolute inset-0 z-[1] opacity-10 pointer-events-none"
         style={{
-            backgroundImage: `linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)`,
-            backgroundSize: '40px 40px'
+          backgroundImage: `linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)`,
+          backgroundSize: "50px 50px",
         }}
       />
 
+      {/* 3. Ambient Blue Glows */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary-blue/10 blur-[120px] rounded-full pointer-events-none z-[1]" />
+
       {/* ================= CONTENT ================= */}
-      <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <motion.div 
+      <div className="container mx-auto relative z-10">
+        <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
           className="max-w-4xl"
         >
-          {/* 1. Glassmorphism Breadcrumb Pill */}
+          {/* Breadcrumb Pill */}
           {showBreadcrumb && (
-            <motion.div variants={itemVariants} className="inline-block mb-8">
-                <nav className="flex items-center space-x-3 px-4 py-2 rounded-full bg-white/5 backdrop-blur-md border border-white/10 shadow-lg">
-                  <Link 
-                    href="/" 
-                    className="flex items-center gap-2 text-xs md:text-sm font-medium text-white/70 hover:text-gold transition-colors"
-                  >
-                    <Home className="w-3 h-3 md:w-4 md:h-4" />
-                    <span>Home</span>
-                  </Link>
-                  
-                  <ChevronRight className="w-3 h-3 md:w-4 md:h-4 text-white/30" />
-                  
-                  <span className="text-xs md:text-sm font-semibold text-gold tracking-wide">
-                    {title}
-                  </span>
-                </nav>
+            <motion.div variants={itemVariants} className="inline-block mb-6">
+              <nav className="flex items-center space-x-2 px-4 py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/10 shadow-lg">
+                <Link
+                  href="/"
+                  className="flex items-center gap-2 text-lg font-medium text-gray-400 hover:text-white transition-colors"
+                >
+                  <Home className="w-3.5 h-3.5" />
+                  <span>Home</span>
+                </Link>
+
+                <ChevronRight className="w-3 h-3 text-gray-600" />
+
+                <span className="text-lg font-semibold text-primary-blue tracking-wide">
+                  {title}
+                </span>
+              </nav>
             </motion.div>
           )}
 
-          {/* 2. Main Title Block */}
-          <div className="relative pl-6 md:pl-8 border-l-4 border-gold">
-            {/* Title */}
-            <motion.h1 
+          {/* Title Block */}
+          <div className="relative">
+            <motion.h1
               variants={itemVariants}
-              className="text-5xl md:text-7xl font-bold text-white leading-[1.1] mb-4 tracking-tight drop-shadow-xl"
+              className="text-4xl font-bold text-white mb-6 tracking-tighter"
             >
               {title}
+              <span className="text-primary-blue">.</span>
             </motion.h1>
 
-            {/* Subtitle */}
             {subtitle && (
-              <motion.p
+              <motion.div
                 variants={itemVariants}
-                className="text-lg md:text-xl text-gray-300 font-light max-w-2xl leading-relaxed"
+                className="flex gap-4 md:gap-6 items-start"
               >
-                {subtitle}
-              </motion.p>
+                <div className="w-1 h-14 bg-gradient-to-b from-primary-blue to-transparent rounded-full hidden md:block shrink-0" />
+                <p className="text-lg text-gray-300 font-light max-w-xl leading-relaxed">
+                  {subtitle}
+                </p>
+              </motion.div>
             )}
           </div>
-
         </motion.div>
       </div>
-      
-      {/* Decorative Floating Element (Right side) */}
-      <motion.div 
-        initial={{ opacity: 0, x: 100 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 0.5, duration: 1.5 }}
-        className="absolute -right-20 top-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gold/5 rounded-full blur-[100px] z-[5] pointer-events-none"
-      />
-
     </section>
   );
 }

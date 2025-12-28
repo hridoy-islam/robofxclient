@@ -1,102 +1,77 @@
 "use client";
 
-import { Clock, Mail, MapPin, Phone } from "lucide-react";
+import { Mail, MapPin, Phone, ArrowUp } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { BiLogoFacebook, BiLogoInstagram, BiLogoLinkedin, BiLogoTwitter } from "react-icons/bi";
+import {
+  BiLogoFacebook,
+  BiLogoInstagram,
+  BiLogoLinkedin,
+  BiLogoTwitter,
+} from "react-icons/bi";
 
 export default function Footer() {
-  
-  // Links aligned with your Header structure
-  const serviceLinks = [
-    { name: "Migrate", href: "/migrate" },
-    { name: "Work", href: "/work" },
-    { name: "Business Visa", href: "/business-visa" },
-    { name: "Study Abroad", href: "/study-abroad" },
-    { name: "Visit Visa", href: "/visit-visa" },
-  ];
-
-  const supportLinks = [
-    { name: "Resources & FAQ", href: "/faq" },
-    { name: "Success Stories", href: "/success-stories" },
-    { name: "Contact Us", href: "/contact" },
-
+  const quickLinks = [
+    { name: "Home", href: "/" },
+    { name: "FAQ", href: "/faq" },
+    { name: "Terms & Conditions", href: "/terms" },
+    { name: "Refund Policy", href: "/refund-policy" },
+    { name: "Privacy Policy", href: "/privacy-policy" },
   ];
 
   return (
-    <footer className="bg-primary border-t border-white/10 font-sans relative overflow-hidden">
-      {/* Optional: Background decoration similar to header theme if needed */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-gold/5 blur-[100px] rounded-full pointer-events-none" />
-
-      <div className="container mx-auto py-16 px-4 md:px-6 relative z-10">
-        <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-10">
-          
-          {/* 1. Company Info & Logo */}
-          <div className="lg:col-span-1">
+    <footer className="bg-black border-t border-white/10 font-sans relative overflow-hidden">
+      <div className="container mx-auto pt-16 pb-8 relative z-10">
+        <div className="grid lg:grid-cols-4 gap-12 mb-16">
+          {/* 1. Company Info */}
+          <div className="lg:col-span-2">
             <Link href="/" className="inline-block mb-6">
-              <Image 
-                src="/visara-white.png" 
-                alt="Visara Migration" 
-                width={160} 
-                height={60} 
-                className="opacity-90 hover:opacity-100 transition-opacity"
-              />
+              <div className="flex items-center gap-2">
+                {/* Logo Image */}
+                <Image
+                  src="/quicktrade.png"
+                  alt="QuickTradeFX Logo"
+                  width={280}
+                  height={100}
+                  className=" h-auto object-contain"
+                />
+              </div>
             </Link>
 
-            <p className="text-white/70 leading-relaxed mb-6 text-sm font-medium">
-              Visara Migration provides expert visa processing and immigration services. 
-              We simplify your journey across borders with our professional and reliable ecosystem.
+            <p className="text-gray-400 leading-relaxed mb-6 text-lg max-w-md">
+              At QuickTradeFX, we specialize in AI-driven trading software
+              designed to optimize trading performance with cutting-edge
+              technology.
             </p>
 
             {/* Social Media Icons */}
             <div className="flex items-center space-x-3">
-              {[BiLogoFacebook, BiLogoInstagram, BiLogoLinkedin, BiLogoTwitter].map((Icon, index) => (
+              {[
+                BiLogoFacebook,
+                BiLogoInstagram,
+                BiLogoLinkedin,
+                BiLogoTwitter,
+              ].map((Icon, index) => (
                 <a
                   key={index}
                   href="#"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-white/5 p-2.5 rounded-full hover:bg-gold hover:text-primary transition-all duration-300 group backdrop-blur-sm border border-white/10 hover:border-gold hover:-translate-y-1"
+                  className="bg-zinc-900 p-2.5 rounded-lg hover:bg-primary-blue hover:text-black text-gray-400 transition-all duration-300 border border-white/10"
                 >
-                  <Icon className="w-5 h-5 text-white/80 group-hover:text-primary transition-colors" />
+                  <Icon className="w-5 h-5" />
                 </a>
               ))}
             </div>
           </div>
 
-          {/* 2. Our Services (Aligned with Header) */}
+          {/* 2. Quick Links */}
           <div>
-            <h3 className="font-bold text-lg mb-6 text-gold relative inline-block">
-              Our Services
-              <span className="absolute -bottom-2 left-0 w-1/2 h-[2px] bg-gold/50 rounded-full"></span>
-            </h3>
+            <h3 className="font-bold text-lg mb-6 text-white">Quick Links</h3>
             <ul className="space-y-3">
-              {serviceLinks.map((item) => (
+              {quickLinks.map((item) => (
                 <li key={item.name}>
                   <Link
                     href={item.href}
-                    className="text-white/70 hover:text-gold hover:pl-2 transition-all duration-300 text-sm font-medium flex items-center gap-2"
-                  >
-                    <span className="w-1 h-1 rounded-full bg-gold/50 opacity-0 transition-opacity group-hover:opacity-100" />
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* 3. Support & Resources */}
-          <div>
-            <h3 className="font-bold text-lg mb-6 text-gold relative inline-block">
-              Support
-              <span className="absolute -bottom-2 left-0 w-1/2 h-[2px] bg-gold/50 rounded-full"></span>
-            </h3>
-            <ul className="space-y-3">
-              {supportLinks.map((item) => (
-                <li key={item.name}>
-                  <Link
-                    href={item.href}
-                    className="text-white/70 hover:text-gold hover:pl-2 transition-all duration-300 text-sm font-medium block"
+                    className="text-gray-400 hover:text-primary-blue transition-colors text-lg"
                   >
                     {item.name}
                   </Link>
@@ -105,75 +80,80 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* 4. Contact Info */}
+          {/* 3. Contact Info */}
           <div>
-            <h3 className="font-bold text-lg mb-6 text-gold relative inline-block">
-                Get in Touch
-                <span className="absolute -bottom-2 left-0 w-1/2 h-[2px] bg-gold/50 rounded-full"></span>
-            </h3>
+            <h3 className="font-bold text-lg mb-6 text-white">Contact</h3>
             <div className="space-y-5">
-              
               {/* Address */}
               <div className="flex items-start space-x-3 group">
-                <div className="mt-1 bg-white/5 p-2 rounded-lg group-hover:bg-gold/20 transition-colors border border-white/5 group-hover:border-gold/30">
-                   <MapPin className="w-4 h-4 text-gold" />
-                </div>
-                <div className="text-white/70 text-sm font-medium leading-relaxed group-hover:text-white transition-colors">
-                  530 Fifth Ave, <br /> New York, NY 10036
+                <MapPin className="w-5 h-5 text-primary-blue mt-0.5 shrink-0" />
+                <div className="text-gray-400 text-lg leading-relaxed group-hover:text-white transition-colors">
+                  Level 29, Burj Al Salam Tower
+                  <br />
+                  Sheikh Zayed Road, Dubai, UAE
                 </div>
               </div>
 
               {/* Email */}
               <div className="flex items-center space-x-3 group">
-                <div className="bg-white/5 p-2 rounded-lg group-hover:bg-gold/20 transition-colors border border-white/5 group-hover:border-gold/30">
-                    <Mail className="w-4 h-4 text-gold" />
-                </div>
+                <Mail className="w-5 h-5 text-primary-blue shrink-0" />
                 <a
-                  href="mailto:support@visara.com"
-                  className="text-white/70 hover:text-gold transition-colors text-sm font-medium"
+                  href="mailto:support@quicktradefx.com"
+                  className="text-gray-400 hover:text-primary-blue transition-colors text-lg"
                 >
-                  support@visara.com
+                  support@quicktradefx.com
                 </a>
               </div>
 
-               {/* Phone (Added for completeness) */}
-               <div className="flex items-center space-x-3 group">
-                <div className="bg-white/5 p-2 rounded-lg group-hover:bg-gold/20 transition-colors border border-white/5 group-hover:border-gold/30">
-                    <Phone className="w-4 h-4 text-gold" />
-                </div>
-                <a
-                  href="tel:+1234567890"
-                  className="text-white/70 hover:text-gold transition-colors text-sm font-medium"
-                >
-                  +1 (555) 123-4567
-                </a>
-              </div>
+             
+            </div>
+          </div>
+        </div>
 
-              {/* Hours */}
-              <div className="flex items-start space-x-3 group pt-2 border-t border-white/10 mt-4">
-                 <div className="mt-1">
-                    <Clock className="w-4 h-4 text-gold/50" />
-                 </div>
-                 <div className="text-white/50 text-xs font-medium">
-                   <p>Mon - Fri : 9 AM - 6 PM</p>
-                   <p>Sat : 10 AM - 4 PM</p>
-                 </div>
-              </div>
-
+        {/* 4. Disclaimers Section */}
+        <div className="border-t border-white/10 pt-10 pb-6">
+          <div className="grid gap-6 text-lg text-gray-500 leading-relaxed">
+            <div>
+              <h4 className="text-gray-300 font-bold mb-2">Disclaimer:</h4>
+              <p>
+                QuickTradeFX and its employees are not officially qualified to
+                provide financial advice and are not registered as financial
+                advisors. The only purpose of everything offered on this server,
+                on the QuickTradeFX website, or by QuickTradeFX and its staff is
+                education. Any losses or damages are not the responsibility or
+                liability of QuickTradeFX or its employees. Every risk you take
+                is your responsibility. This website's content should not be
+                interpreted as financial advice.
+              </p>
+            </div>
+            <div>
+              <h4 className="text-gray-300 font-bold mb-2">Risk Warning:</h4>
+              <p>
+                Trading carries a high level of risk and may not be suitable for
+                all investors. Profit and loss all depend upon the market
+                movement. As this is automated software, there is no need for
+                human interruption. In the event of market volatility, there is
+                a possibility to lose your capital. Trading is subject to market
+                risk; as you buy this software with your own interest, the
+                Company won't be liable for any kind of Profit & Loss of the
+                client.
+              </p>
             </div>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-center items-center gap-4 text-center ">
-          <p className="text-white/40 text-sm">
-            Copyright © {new Date().getFullYear()} <span className="text-gold font-semibold">Visara Migration</span>. All Rights Reserved.
+        <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-gray-500 text-lg">
+            © {new Date().getFullYear()} QuickTradeFX Software
           </p>
-          {/* <div className="flex gap-6">
-              <Link href="/privacy-policy" className="text-xs text-white/40 hover:text-gold transition-colors">Privacy</Link>
-              <Link href="/terms" className="text-xs text-white/40 hover:text-gold transition-colors">Terms</Link>
-              <Link href="/sitemap" className="text-xs text-white/40 hover:text-gold transition-colors">Sitemap</Link>
-          </div> */}
+
+          <div className="flex items-center gap-4">
+            <span className="text-gray-500 text-lg">
+              Designed and developed by QuickTradeFX
+            </span>
+            
+          </div>
         </div>
       </div>
     </footer>

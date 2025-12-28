@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  --primary: 245 52% 21%;
+  --primary:200 70% 64%;
   --primary-foreground: 210 20% 98%;
   --secondary: 210 40% 95%;
   --secondary-foreground: 222.2 84% 4.9%;
@@ -136,6 +136,12 @@ html {
     transform: translateY(-10px);
   }
 }
+
+
+.chart-placeholder {
+  background-image: linear-gradient(90deg, transparent 50%, rgba(100, 186, 228, 0.1) 100%);
+}
+
 
 .animate-fade-in-up {
   animation: fadeInUp 0.6s ease-out;

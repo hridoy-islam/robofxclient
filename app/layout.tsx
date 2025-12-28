@@ -26,7 +26,7 @@ const lato = Lato({
 
 
 export const metadata: Metadata = {
-  title: "Visara",
+  title: "QuickTradeFX",
   description: "",
 };
 
@@ -38,12 +38,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${lato.variable} light`}>
       <head>
-        <link rel="icon" href="/visara.png" type="image/png" />
-        <title>Quicktradefx</title>
+        <link rel="icon" href="/logo.png" type="image/png" />
+        <title>QuickTradeFX</title>
       </head>
       <body>
         <ModalProvider>
-          <div className="min-h-screen bg-gray-50">
+          <div className="min-h-screen bg-primary">
             {children}
           </div>
           <GlobalModal />
