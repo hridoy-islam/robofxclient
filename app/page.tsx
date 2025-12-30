@@ -104,20 +104,20 @@ export default function Home() {
 
   const slides = [
     {
-      image: "/trading1.jpg",
+      image: "/trading5.jpg",
       title: "Automated AI Trading",
       subtitle:
         "Maximize profits and minimize risks with state-of-the-art automation.",
     },
     {
-      image: "/trading2.jpg",
+      image: "/trading4.jpg",
       title: "Real-Time Analytics",
       subtitle:
         "Seize market shifts the moment they happen with precision data.",
     },
     {
-      image:
-        "https://images.unsplash.com/photo-1639322537228-f710d846310a?q=80&w=2664&auto=format&fit=crop",
+      image: "/trading1.jpg",
+
       title: "Secure & Reliable",
       subtitle: "Bank-grade encryption ensuring your assets are always safe.",
     },
@@ -174,8 +174,8 @@ export default function Home() {
                     alt={slide.title}
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-r from-black via-black/60 to-transparent" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-black via-black/40 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
                 </div>
                 <div className="relative z-10 container mx-auto h-full flex flex-col justify-center">
                   <motion.div
