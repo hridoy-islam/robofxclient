@@ -38,7 +38,7 @@ export default function Header() {
   // --- DESKTOP DROPDOWN COMPONENT ---
   const DesktopDropdown = ({ item }: { item: NavItem }) => (
     <div className="relative group/parent h-full flex items-center">
-      <button className="flex items-center gap-1 cursor-pointer text-lg uppercase tracking-wider font-semibold text-secondary/80 hover:text-primary-blue transition-colors relative h-full">
+      <button className="flex items-center gap-1 cursor-pointer text-lg  tracking-wider font-semibold text-secondary/80 hover:text-primary-blue transition-colors relative h-full">
         {item.name}
         <ChevronDown className="w-5 h-5 transition-transform duration-300 group-hover/parent:rotate-180" />
         <span className="absolute bottom-0 left-0 h-[2px] w-0 bg-primary-blue transition-all duration-300 group-hover/parent:w-full shadow-blue-glow" />
@@ -84,14 +84,14 @@ export default function Header() {
     <>
       <header className="fixed top-0 w-full z-50 bg-primary/90 border-b border-white/5 backdrop-blur-md">
         <div className="container mx-auto">
-          <div className="flex items-center justify-between h-[82px]">
+          <div className="flex items-center justify-between h-[100px]">
             {/* LEFT SIDE: Logo */}
             <Link href="/" className="flex items-center z-50 shrink-0">
               <Image
                 src="/quicktrade.png"
                 alt="Logo"
-                width={200}
-                height={60}
+                width={300}
+                height={100}
                 priority
               />
             </Link>
@@ -107,7 +107,7 @@ export default function Header() {
                       ) : (
                         <Link
                           href={item.href}
-                          className="group relative flex items-center text-lg uppercase tracking-wider font-semibold text-secondary/80 hover:text-primary-blue transition h-full"
+                          className="group relative flex items-center text-lg  tracking-wider font-semibold text-secondary/80 hover:text-primary-blue transition h-full"
                         >
                           {item.name}
                           <span className="absolute bottom-0 left-0 h-[2px] w-0 bg-primary-blue transition-all duration-300 group-hover:w-full shadow-blue-glow" />
@@ -120,7 +120,7 @@ export default function Header() {
 
               <div className="flex items-center gap-4">
                 <Link href="/contact" className="hidden md:block">
-                  <Button className="rounded-full px-7 h-11 font-bold text-primary bg-primary-blue hover:bg-primary-blue/95 transition-all shadow-blue-glow uppercase tracking-wider text-lg">
+                  <Button className="rounded-full px-7 h-11 font-bold text-primary bg-primary-blue hover:bg-primary-blue/95 transition-all shadow-blue-glow  tracking-wider text-lg">
                     Get Started
                   </Button>
                 </Link>
@@ -170,7 +170,7 @@ export default function Header() {
                           activeSubMenu === item.name ? null : item.name
                         )
                       }
-                      className="flex items-center justify-between w-full py-3 text-secondary font-bold uppercase tracking-wider"
+                      className="flex items-center justify-between w-full py-3 text-secondary font-bold  tracking-wider"
                     >
                       {item.name}
                       <ChevronDown
@@ -188,7 +188,7 @@ export default function Header() {
                         <Link
                           key={sub.name}
                           href={sub.href}
-                          className="block text-secondary/60 hover:text-primary-blue py-1 text-lg uppercase"
+                          className="block text-secondary/60 hover:text-primary-blue py-1 text-lg "
                         >
                           {sub.name}
                         </Link>
@@ -198,7 +198,7 @@ export default function Header() {
                 ) : (
                   <Link
                     href={item.href}
-                    className="block py-3 text-secondary font-bold uppercase tracking-wider hover:text-primary-blue"
+                    className="block py-3 text-secondary font-bold  tracking-wider hover:text-primary-blue"
                   >
                     {item.name}
                   </Link>
@@ -206,7 +206,7 @@ export default function Header() {
               </div>
             ))}
             <div className="pt-6">
-              <Button className="w-full h-12 rounded-full bg-primary-blue text-primary font-bold shadow-blue-glow uppercase tracking-wider">
+              <Button className="w-full h-12 rounded-full bg-primary-blue text-primary font-bold shadow-blue-glow  tracking-wider">
                 Get Started
               </Button>
             </div>

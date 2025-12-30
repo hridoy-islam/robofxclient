@@ -37,10 +37,12 @@ import {
 } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { useRouter } from "next/navigation";
 
 // --- Components (Inline for easy copy/paste) ---
 
 export default function Home() {
+  const router= useRouter()
   // Carousel Setup
   const [emblaRef] = useEmblaCarousel({ loop: true }, [
     Autoplay({ delay: 3000 }),
@@ -194,12 +196,15 @@ export default function Home() {
                       {slide.subtitle}
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4">
-                      <button className="bg-primary-blue text-black font-bold py-4 px-10 rounded-full hover:bg-white transition-all duration-300 transform hover:scale-105 shadow-blue-glow">
+                      <button
+                        onClick={() => router.push("contact")}
+                        className="bg-primary-blue text-black font-bold py-4 px-10 rounded-full hover:bg-white transition-all duration-300 transform hover:scale-105 shadow-blue-glow"
+                      >
                         Get Started Now
                       </button>
-                      <button className="border border-white/20 hover:border-white text-white font-bold py-4 px-10 rounded-full backdrop-blur-md transition-all duration-300">
+                      {/* <button className="border border-white/20 hover:border-white text-white font-bold py-4 px-10 rounded-full backdrop-blur-md transition-all duration-300">
                         View Demo
-                      </button>
+                      </button> */}
                     </div>
                   </motion.div>
                 </div>
@@ -236,7 +241,7 @@ export default function Home() {
                 trading systems powered by advanced algorithms and expert
                 oversight.
               </p>
-              <div className="flex gap-8 relative z-10">
+              {/* <div className="flex gap-8 relative z-10">
                 <Link
                   href="#"
                   className="flex items-center text-primary-blue font-semibold hover:text-white transition-colors group"
@@ -251,7 +256,7 @@ export default function Home() {
                   Read news{" "}
                   <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
-              </div>
+              </div> */}
             </div>
             {/* Decorative Pattern */}
             <div className="absolute -bottom-6 -right-6 w-full h-full border border-primary-blue/20 rounded-2xl -z-10" />
@@ -345,7 +350,7 @@ export default function Home() {
                 <img
                   src="https://images.unsplash.com/photo-1640340434855-6084b1f4901c?q=80&w=2000&auto=format&fit=crop"
                   alt="TradingView Charts"
-                  className="w-full h-auto rounded-lg opacity-90 group-hover:opacity-100 transition-opacity duration-500"
+                  className="w-full h-auto md:h-[70vh] rounded-lg opacity-90 group-hover:opacity-100 transition-opacity duration-500"
                 />
 
                 {/* Overlay Gradient */}
@@ -429,7 +434,7 @@ export default function Home() {
             {/* CTA Button */}
             <div className="mt-16 text-center">
               <Link
-                href="#"
+                href="market-insights"
                 className="group relative inline-flex items-center gap-3 px-8 py-4 bg-primary-blue text-black font-bold text-lg rounded-full overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(100,186,228,0.4)]"
               >
                 <span className="relative z-10">Level Up Your Charts</span>

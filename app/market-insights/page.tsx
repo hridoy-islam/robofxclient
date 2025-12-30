@@ -256,17 +256,17 @@ export default function MarketInsightPage() {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
-                  href="/signup"
+                  href="/contact"
                   className="px-8 py-3.5 bg-white text-primary-blue font-bold rounded-full hover:bg-gray-100 transition-colors shadow-lg"
                 >
                   Get Started Now
                 </Link>
-                <Link
+                {/* <Link
                   href="/contact"
                   className="px-8 py-3.5 bg-transparent border-2 border-white text-white font-bold rounded-full hover:bg-white/10 transition-colors"
                 >
                   Contact Sales
-                </Link>
+                </Link> */}
               </div>
             </div>
           </div>
