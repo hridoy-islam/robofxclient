@@ -1,11 +1,5 @@
 "use client";
-import {
- 
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-} from "@nextui-org/react";
+import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/react";
 import { Icon } from "@iconify/react";
 import { useEffect, useState } from "react";
 import { UserData } from "@/utils/interfaces";
@@ -15,7 +9,13 @@ import { useRouter } from "next/navigation";
 import Cookies from "universal-cookie";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 interface InvoiceCrationFromProps {
   allUsers: UserData[];
 }
@@ -31,9 +31,6 @@ const InvoiceCrationFrom = ({ allUsers }: InvoiceCrationFromProps) => {
     },
   ]);
   const router = useRouter();
-
-  const cookie = new Cookies();
-  const token = cookie.get("jwt");
 
   const [discountAmount, setDiscountAmount] = useState(0);
   const [discountType, setDiscountType] = useState("");
@@ -137,7 +134,11 @@ const InvoiceCrationFrom = ({ allUsers }: InvoiceCrationFromProps) => {
   }, [discountType, discountAmount, informations]);
 
   const handleCreate = async () => {
-
+    const cookie = new Cookies();
+    const token = cookie.get("jwt");
+    if (!token) {
+      return toast.error("Authentication failed. Please login again.");
+    }
     if (
       invoiceType === "" ||
       invoiceType === "Select Invoice Type" ||
@@ -167,181 +168,176 @@ const InvoiceCrationFrom = ({ allUsers }: InvoiceCrationFromProps) => {
   };
 
   return (
-  <div>
-    <Card>
-      <CardHeader>
-        <h2 className="text-xl font-semibold">Create Invoice</h2>
-      </CardHeader>
+    <div>
+      <Card>
+        <CardHeader>
+          <h2 className="text-xl font-semibold">Create Invoice</h2>
+        </CardHeader>
 
-      <CardBody className="space-y-6">
-        {/* User Information */}
-        <div className="space-y-4">
-          <h2 className="text-lg font-medium">User Information</h2>
-          <div className="flex flex-col gap-2">
-            <label>User Name</label>
-            <Select
-              onValueChange={(value) => setSelectedUser(value)}
-              defaultValue="Select User"
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Select User" />
-              </SelectTrigger>
-              <SelectContent>
-                {allUsers?.map((user, index) => (
-                  <SelectItem key={index} value={user._id}>
-                    {user.personal_information?.firstName}{" "}
-                    {user.personal_information?.lastName}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <label>Invoice Type</label>
-            <Select
-              onValueChange={(value) => setInvoiceType(value)}
-              defaultValue="Select Invoice Type"
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Select Invoice Type" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="bill">Bill Invoice</SelectItem>
-                <SelectItem value="addon">Add On Invoice</SelectItem>
-                <SelectItem value="rigs">Rig Invoice</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
-
-        {/* Items Section */}
-        <div className="space-y-4">
-          <h2 className="text-lg font-medium border-b pb-2">Informations</h2>
-          {informations.map((element, index) => (
-            <div key={index} className="p-4 border rounded-lg space-y-4">
-              <div className="flex justify-between items-center">
-                <h3 className="font-medium">Item {index + 1}</h3>
-                <Icon
-                  onClick={() => removeClick(index)}
-                  icon="streamline:delete-1-solid"
-                  className={`cursor-pointer text-white bg-red-500 w-8 h-8 p-2 rounded-full ${
-                    informations.length < 2 ? "hidden" : ""
-                  }`}
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label>Description</label>
-                <Input
-                  value={element.item || ""}
-                  onChange={(e) => handleChange(index, e)}
-                  name="item"
-                  placeholder="Enter item description"
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <label>Rate</label>
-                  <Input
-                    type="number"
-                    value={element.rate || ""}
-                    onChange={(e) => handleChange(index, e)}
-                    name="rate"
-                    placeholder="0.00"
-                  />
-                  <label>Tax %</label>
-                  <Input
-                    type="number"
-                    value={element.tax || ""}
-                    onChange={(e) => handleChange(index, e)}
-                    name="tax"
-                    placeholder="0"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label>Quantity</label>
-                  <Input
-                    type="number"
-                    value={element.quantity}
-                    onChange={(e) => handleChange(index, e)}
-                    name="quantity"
-                    placeholder="0"
-                  />
-                  <label>Amount</label>
-                  <Input
-                    type="text"
-                    value={element.amount || ""}
-                    readOnly
-                  />
-                </div>
-              </div>
-            </div>
-          ))}
-
-          <div>
-            <Button
-              onClick={addClick}
-              variant="outline"
-              className="flex items-center gap-2"
-            >
-              <Icon icon="ic:baseline-plus" /> Add Item
-            </Button>
-          </div>
-        </div>
-
-        {/* Discount and Total */}
-        <div className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <label>Discount Type</label>
+        <CardBody className="space-y-6">
+          {/* User Information */}
+          <div className="space-y-4">
+            <h2 className="text-lg font-medium">User Information</h2>
+            <div className="flex flex-col gap-2">
+              <label>User Name</label>
               <Select
-                onValueChange={(value) => setDiscountType(value)}
-                defaultValue=""
+                onValueChange={(value) => setSelectedUser(value)}
+                defaultValue="Select User"
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Select Type" />
+                  <SelectValue placeholder="Select User" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="percentage">Percentage</SelectItem>
-                  <SelectItem value="raw_amount">Raw Amount</SelectItem>
+                  {allUsers?.map((user, index) => (
+                    <SelectItem key={index} value={user._id}>
+                      {user.personal_information?.firstName}{" "}
+                      {user.personal_information?.lastName}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
 
-            <div className="space-y-2">
-              <label>Discount Amount</label>
-              <Input
-                type="number"
-                value={discountAmount}
-                onChange={(e) => setDiscountAmount(Number(e.target.value))}
-                placeholder="0.00"
-              />
+            <div className="flex flex-col gap-2">
+              <label>Invoice Type</label>
+              <Select
+                onValueChange={(value) => setInvoiceType(value)}
+                defaultValue="Select Invoice Type"
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select Invoice Type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="bill">Bill Invoice</SelectItem>
+                  <SelectItem value="addon">Add On Invoice</SelectItem>
+                  <SelectItem value="rigs">Rig Invoice</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </div>
 
-          <div className="grid grid-cols-3 gap-4">
-            <div className="space-y-2">
-              <label>Total Amount</label>
-              <Input type="text" value={totalAmount} readOnly />
-            </div>
-            <div className="space-y-2">
-              <label>Sub-Total</label>
-              <Input type="text" value={discountedAmount} readOnly />
+          {/* Items Section */}
+          <div className="space-y-4">
+            <h2 className="text-lg font-medium border-b pb-2">Informations</h2>
+            {informations.map((element, index) => (
+              <div key={index} className="p-4 border rounded-lg space-y-4">
+                <div className="flex justify-between items-center">
+                  <h3 className="font-medium">Item {index + 1}</h3>
+                  <Icon
+                    onClick={() => removeClick(index)}
+                    icon="streamline:delete-1-solid"
+                    className={`cursor-pointer text-white bg-red-500 w-8 h-8 p-2 rounded-full ${
+                      informations.length < 2 ? "hidden" : ""
+                    }`}
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label>Description</label>
+                  <Input
+                    value={element.item || ""}
+                    onChange={(e) => handleChange(index, e)}
+                    name="item"
+                    placeholder="Enter item description"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label>Rate</label>
+                    <Input
+                      type="number"
+                      value={element.rate || ""}
+                      onChange={(e) => handleChange(index, e)}
+                      name="rate"
+                      placeholder="0.00"
+                    />
+                    <label>Tax %</label>
+                    <Input
+                      type="number"
+                      value={element.tax || ""}
+                      onChange={(e) => handleChange(index, e)}
+                      name="tax"
+                      placeholder="0"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label>Quantity</label>
+                    <Input
+                      type="number"
+                      value={element.quantity}
+                      onChange={(e) => handleChange(index, e)}
+                      name="quantity"
+                      placeholder="0"
+                    />
+                    <label>Amount</label>
+                    <Input type="text" value={element.amount || ""} readOnly />
+                  </div>
+                </div>
+              </div>
+            ))}
+
+            <div>
+              <Button
+                onClick={addClick}
+                variant="outline"
+                className="flex items-center gap-2"
+              >
+                <Icon icon="ic:baseline-plus" /> Add Item
+              </Button>
             </div>
           </div>
-        </div>
-      </CardBody>
 
-      <CardFooter className="flex justify-end gap-4">
-        <Button onClick={handleCreate}>Create</Button>
-        <Button variant="outline">Clear</Button>
-      </CardFooter>
-    </Card>
-  </div>
-);
+          {/* Discount and Total */}
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <label>Discount Type</label>
+                <Select
+                  onValueChange={(value) => setDiscountType(value)}
+                  defaultValue=""
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select Type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="percentage">Percentage</SelectItem>
+                    <SelectItem value="raw_amount">Raw Amount</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
 
+              <div className="space-y-2">
+                <label>Discount Amount</label>
+                <Input
+                  type="number"
+                  value={discountAmount}
+                  onChange={(e) => setDiscountAmount(Number(e.target.value))}
+                  placeholder="0.00"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-3 gap-4">
+              <div className="space-y-2">
+                <label>Total Amount</label>
+                <Input type="text" value={totalAmount} readOnly />
+              </div>
+              <div className="space-y-2">
+                <label>Sub-Total</label>
+                <Input type="text" value={discountedAmount} readOnly />
+              </div>
+            </div>
+          </div>
+        </CardBody>
+
+        <CardFooter className="flex justify-end gap-4">
+          <Button onClick={handleCreate}>Create</Button>
+          <Button variant="outline">Clear</Button>
+        </CardFooter>
+      </Card>
+    </div>
+  );
 };
 
 export default InvoiceCrationFrom;
