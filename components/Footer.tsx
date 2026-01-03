@@ -112,7 +112,7 @@ export default function Footer() {
 
         {/* 4. Disclaimers Section */}
         <div className="border-t border-white/10 pt-10 pb-6">
-          <div className="grid gap-6 text-lg text-gray-500 leading-relaxed">
+          <div className="grid gap-6 text-sm text-gray-500 leading-relaxed">
             <div>
               <h4 className="text-gray-300 font-bold mb-2">Disclaimer:</h4>
               <p>
@@ -144,12 +144,12 @@ export default function Footer() {
 
         {/* Bottom Bar */}
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-gray-500 text-lg">
+          <p className="text-gray-500 text-sm">
             © {new Date().getFullYear()} QuickTradeFX Software
           </p>
 
           <div className="flex items-center gap-4">
-            <span className="text-gray-500 text-lg">
+            <span className="text-gray-500 text-sm">
               Designed and developed by QuickTradeFX
             </span>
             
