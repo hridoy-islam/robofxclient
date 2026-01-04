@@ -11,6 +11,7 @@ export default async function getRigs(id: string, pageNumber: number) {
         userid: id,
         isDeleted: false,
         page: pageNumber,
+        limit:10000
       },
       headers: {
         Authorization: `Bearer ${token}`,
