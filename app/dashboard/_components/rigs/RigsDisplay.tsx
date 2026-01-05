@@ -21,11 +21,10 @@ import {
 } from "@/components/ui/dialog";
 // -------------------------
 
-// Custom components (assuming these are using shadcn/ui or are correctly styled)
+// Custom components
 import DeleteButton from "@/components/DeleteButton";
 import Pagination from "@/components/Pagination";
 
-// Interface definitions (Kept the same)
 import { RigData } from "@/utils/interfaces";
 
 interface AllRigsData {
@@ -49,9 +48,7 @@ const RigsDisplay = ({ response, userid }: RigsDisplayProps) => {
   const router = useRouter();
 
   const rigs = response?.result;
-
   const searchParams = useSearchParams();
-
   const page = searchParams.get("page");
 
   const [currentPage, setCurrentPage] = useState(Number(page) || 1);
@@ -82,7 +79,6 @@ const RigsDisplay = ({ response, userid }: RigsDisplayProps) => {
   const [showPauseAllButton, setShowPauseAllButton] = useState(false);
 
   useEffect(() => {
-    // Sync local state with URL parameter if it changes
     setCurrentPage(Number(page) || 1);
 
     const storedShowStartAllButton = localStorage.getItem("showStartAllButton");
@@ -96,6 +92,45 @@ const RigsDisplay = ({ response, userid }: RigsDisplayProps) => {
       setShowPauseAllButton(storedShowPauseAllButton === "true");
     }
   }, [page]);
+
+  // --- INDIVIDUAL MINING ACTIONS ---
+
+  const handleStartMining = (rig: RigData) => {
+    const url = `/history/start/${rig?._id}`;
+
+    Axios.post(url, null, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => {
+        toast.success(response?.data?.message);
+        router.refresh();
+      })
+      .catch((error) => {
+        // toast.error("Something went wrong!");
+        router.refresh();
+      });
+  };
+
+  const handlePauseMining = (rig: RigData) => {
+    const url = `/history/pause/${rig?._id}`;
+
+    Axios.post(url, null, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => {
+        router.refresh();
+        toast.success(response?.data?.message);
+      })
+      .catch((error) => {
+        toast.error("Something went wrong!");
+      });
+  };
+
+  // --- BULK MINING ACTIONS ---
 
   const handleStartAllRigs = async () => {
     const url = `/history/startall/${userid}`;
@@ -145,6 +180,8 @@ const RigsDisplay = ({ response, userid }: RigsDisplayProps) => {
       });
   };
 
+  // --- EDIT MODAL LOGIC ---
+
   const [selectedRig, setSelectedRig] = useState<RigData>();
 
   const [modalFormData, setModalFormData] = useState({
@@ -175,9 +212,10 @@ const RigsDisplay = ({ response, userid }: RigsDisplayProps) => {
 
   const handleChangeModal = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    // Handle numeric inputs
     const isNumeric = ["efficiency", "proficiency"].includes(name);
-    const finalValue: string | number = isNumeric ? parseFloat(value) || 0 : value;
+    const finalValue: string | number = isNumeric
+      ? parseFloat(value) || 0
+      : value;
 
     setModalFormData((prevData) => ({
       ...prevData,
@@ -187,7 +225,6 @@ const RigsDisplay = ({ response, userid }: RigsDisplayProps) => {
 
   const handleUpdate = async () => {
     setIsUpdating(true);
-    // Ensure numeric fields are correctly parsed before sending
     const modalFormattedData = {
       ...modalFormData,
       efficiency: Number(modalFormData.efficiency),
@@ -195,17 +232,20 @@ const RigsDisplay = ({ response, userid }: RigsDisplayProps) => {
     };
 
     try {
-      const apiUrl = `/rigs/${selectedRig?._id}`; 
+      const apiUrl = `/rigs/${selectedRig?._id}`;
       const response = await Axios.patch(apiUrl, modalFormattedData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      toast.success(response?.data?.message || "Rig data updated successfully!");
+      toast.success(
+        response?.data?.message || "Rig data updated successfully!"
+      );
       router.refresh();
       setIsModalOpen(false);
     } catch (error: any) {
-      const errorMessage = error?.response?.data?.message || "Something went wrong!";
+      const errorMessage =
+        error?.response?.data?.message || "Something went wrong!";
       toast.error(errorMessage);
       console.error("Error updating rig data:", error);
     } finally {
@@ -213,7 +253,6 @@ const RigsDisplay = ({ response, userid }: RigsDisplayProps) => {
     }
   };
 
-  // Function to get Tailwind classes for status
   const getStatusClasses = (status: string): string => {
     if (status === "mining") {
       return "bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300";
@@ -221,59 +260,85 @@ const RigsDisplay = ({ response, userid }: RigsDisplayProps) => {
     return "bg-amber-100 text-amber-700 dark:bg-amber-900 dark:text-amber-300";
   };
 
-
   return (
     <>
       <Card className="my-6 shadow-lg">
         <CardHeader className="p-4 border-b flex flex-row justify-start gap-4 items-center">
           <div className="text-xl font-semibold  ">
-            {/* Displaying user info, handling potential undefined rig data */}
             {rigs?.[0]?.userid?.personal_information?.firstName ||
-            rigs?.[0]?.userid?.email ? (
-              `Rigs assigned to ${
-                rigs[0]?.userid?.personal_information?.firstName
-              } ${rigs[0]?.userid?.personal_information?.lastName || ""}`
-            ) : (
-              "User Rigs"
-            )}
+            rigs?.[0]?.userid?.email
+              ? `Rigs assigned to ${
+                  rigs[0]?.userid?.personal_information?.firstName
+                } ${rigs[0]?.userid?.personal_information?.lastName || ""}`
+              : "User Rigs"}
           </div>
 
           <div className="flex space-x-3">
             {showStartAllButton && (
-              <Button onClick={handleStartAllRigs} variant="default" className="bg-primary hover:bg-primary/90 text-white">
+              <Button
+                onClick={handleStartAllRigs}
+                variant="default"
+                className="bg-primary hover:bg-primary/90 text-white"
+              >
                 <Icon icon="ph:play-fill" className="h-5 w-5" /> Start All Rigs
               </Button>
             )}
             {showPauseAllButton && (
               <Button onClick={handlePauseAllRigs} variant="destructive">
-                <Icon icon="solar:pause-bold" className="h-5 w-5" /> Stop All Rigs
+                <Icon icon="solar:pause-bold" className="h-5 w-5" /> Stop All
+                Rigs
               </Button>
             )}
           </div>
         </CardHeader>
 
         <CardContent className="p-0 overflow-x-auto">
-          {/* Standard HTML table with Tailwind classes */}
           <table className="w-full caption-bottom text-sm">
             <thead className="[&_tr]:border-b">
               <tr className="border-b transition-colors hover:bg-muted/50">
-                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Rig Name</th>
-                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">GPU</th>
-                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Efficiency</th>
-                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Proficiency</th>
-                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Temp</th>
-                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Fan</th>
-                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Load</th>
-                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Power</th>
-                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Status</th>
-                <th className="h-12 px-4 text-center align-middle font-medium text-muted-foreground w-[150px]">Action</th>
+                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
+                  Rig Name
+                </th>
+                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
+                  GPU
+                </th>
+                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
+                  Efficiency
+                </th>
+                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
+                  Proficiency
+                </th>
+                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
+                  Temp
+                </th>
+                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
+                  Fan
+                </th>
+                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
+                  Load
+                </th>
+                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
+                  Power
+                </th>
+                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
+                  Status
+                </th>
+                {/* Widened Action column to accommodate new button */}
+                <th className="h-12 px-4 text-center align-middle font-medium text-muted-foreground min-w-[200px]">
+                  Action
+                </th>
               </tr>
             </thead>
             <tbody>
               {rigs?.length > 0 ? (
                 rigs.map((rig, index) => (
-                  <tr key={index} className="border-b transition-colors hover:bg-muted/50">
-                    <td className="p-4 align-middle font-medium">{rig?.rigName}</td>
+                  <tr
+                    key={index}
+                    className="border-b transition-colors hover:bg-muted/50"
+                  >
+                    <td className="p-4 align-middle font-medium">
+                      {rig?.rigName}
+                    </td>
                     <td className="p-4 align-middle">{rig?.gpu}</td>
                     <td className="p-4 align-middle">{rig?.efficiency}</td>
                     <td className="p-4 align-middle">{rig?.proficiency}</td>
@@ -282,15 +347,38 @@ const RigsDisplay = ({ response, userid }: RigsDisplayProps) => {
                     <td className="p-4 align-middle">{rig?.load}</td>
                     <td className="p-4 align-middle">{rig?.power}</td>
                     <td className="p-4 align-middle">
-                       {/* Custom styled span for status (replaces NextUI Chip) */}
                       <span
-                        className={`inline-flex items-center px-3 py-1 text-xs font-semibold uppercase rounded-full ${getStatusClasses(rig?.status)}`}
+                        className={`inline-flex items-center px-3 py-1 text-xs font-semibold uppercase rounded-full ${getStatusClasses(
+                          rig?.status
+                        )}`}
                       >
                         {rig?.status === "mining" ? "mining" : "stopped"}
                       </span>
                     </td>
                     <td className="p-4 align-middle text-center">
-                      <div className="flex justify-center space-x-2">
+                      <div className="flex justify-center items-center space-x-2">
+                        {/* --- NEW BUTTON LOGIC HERE --- */}
+                        {rig.status === "mining" ? (
+                          <Button
+                            onClick={() => handlePauseMining(rig)}
+                            size="sm"
+                            className="h-8 bg-green-50 text-green-600 border border-green-200 hover:bg-green-100 flex items-center gap-1 text-xs"
+                          >
+                            <Icon icon="solar:pause-bold" className="text-sm" />
+                            Pause
+                          </Button>
+                        ) : (
+                          <Button
+                            onClick={() => handleStartMining(rig)}
+                            size="sm"
+                            className="h-8 flex items-center gap-1 text-xs"
+                          >
+                            <Icon icon="ph:play-fill" className="text-sm" />
+                            Start
+                          </Button>
+                        )}
+                        {/* ----------------------------- */}
+
                         <Button
                           onClick={() => handleOpen(rig)}
                           variant="outline"
@@ -306,7 +394,10 @@ const RigsDisplay = ({ response, userid }: RigsDisplayProps) => {
                 ))
               ) : (
                 <tr className="border-b transition-colors hover:bg-muted/50">
-                  <td colSpan={10} className="h-24 text-center text-muted-foreground">
+                  <td
+                    colSpan={10}
+                    className="h-24 text-center text-muted-foreground"
+                  >
                     No rigs assigned to this user.
                   </td>
                 </tr>
@@ -316,7 +407,7 @@ const RigsDisplay = ({ response, userid }: RigsDisplayProps) => {
         </CardContent>
       </Card>
 
-      {/* --- Shadcn Dialog (Modal) Component for Editing --- */}
+      {/* --- Edit Modal --- */}
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
         <DialogContent className="sm:max-w-[600px]">
           <DialogHeader>
@@ -325,11 +416,11 @@ const RigsDisplay = ({ response, userid }: RigsDisplayProps) => {
               Update performance and component data for this mining rig.
             </DialogDescription>
           </DialogHeader>
-
           <div className="grid grid-cols-2 gap-x-6 gap-y-4 py-4">
-            {/* Rig Name */}
             <div className="space-y-2">
-              <label htmlFor="rigName" className="text-sm font-medium">Rig Name</label>
+              <label htmlFor="rigName" className="text-sm font-medium">
+                Rig Name
+              </label>
               <Input
                 id="rigName"
                 type="text"
@@ -339,9 +430,10 @@ const RigsDisplay = ({ response, userid }: RigsDisplayProps) => {
                 disabled={isUpdating}
               />
             </div>
-            {/* GPU */}
             <div className="space-y-2">
-              <label htmlFor="gpu" className="text-sm font-medium">GPU</label>
+              <label htmlFor="gpu" className="text-sm font-medium">
+                GPU
+              </label>
               <Input
                 id="gpu"
                 type="text"
@@ -351,10 +443,10 @@ const RigsDisplay = ({ response, userid }: RigsDisplayProps) => {
                 disabled={isUpdating}
               />
             </div>
-
-            {/* Efficiency */}
             <div className="space-y-2">
-              <label htmlFor="efficiency" className="text-sm font-medium">Efficiency</label>
+              <label htmlFor="efficiency" className="text-sm font-medium">
+                Efficiency
+              </label>
               <Input
                 id="efficiency"
                 type="number"
@@ -364,9 +456,10 @@ const RigsDisplay = ({ response, userid }: RigsDisplayProps) => {
                 disabled={isUpdating}
               />
             </div>
-            {/* Proficiency */}
             <div className="space-y-2">
-              <label htmlFor="proficiency" className="text-sm font-medium">Proficiency</label>
+              <label htmlFor="proficiency" className="text-sm font-medium">
+                Proficiency
+              </label>
               <Input
                 id="proficiency"
                 type="number"
@@ -376,10 +469,10 @@ const RigsDisplay = ({ response, userid }: RigsDisplayProps) => {
                 disabled={isUpdating}
               />
             </div>
-
-            {/* Power */}
             <div className="space-y-2">
-              <label htmlFor="power" className="text-sm font-medium">Power</label>
+              <label htmlFor="power" className="text-sm font-medium">
+                Power
+              </label>
               <Input
                 id="power"
                 type="text"
@@ -389,9 +482,10 @@ const RigsDisplay = ({ response, userid }: RigsDisplayProps) => {
                 disabled={isUpdating}
               />
             </div>
-            {/* Temp */}
             <div className="space-y-2">
-              <label htmlFor="temp" className="text-sm font-medium">Temp</label>
+              <label htmlFor="temp" className="text-sm font-medium">
+                Temp
+              </label>
               <Input
                 id="temp"
                 type="text"
@@ -401,10 +495,10 @@ const RigsDisplay = ({ response, userid }: RigsDisplayProps) => {
                 disabled={isUpdating}
               />
             </div>
-
-            {/* Fan */}
             <div className="space-y-2">
-              <label htmlFor="fan" className="text-sm font-medium">Fan</label>
+              <label htmlFor="fan" className="text-sm font-medium">
+                Fan
+              </label>
               <Input
                 id="fan"
                 type="text"
@@ -414,9 +508,10 @@ const RigsDisplay = ({ response, userid }: RigsDisplayProps) => {
                 disabled={isUpdating}
               />
             </div>
-            {/* Load */}
             <div className="space-y-2">
-              <label htmlFor="load" className="text-sm font-medium">Load</label>
+              <label htmlFor="load" className="text-sm font-medium">
+                Load
+              </label>
               <Input
                 id="load"
                 type="text"
@@ -427,15 +522,21 @@ const RigsDisplay = ({ response, userid }: RigsDisplayProps) => {
               />
             </div>
           </div>
-
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsModalOpen(false)} disabled={isUpdating}>
+            <Button
+              variant="outline"
+              onClick={() => setIsModalOpen(false)}
+              disabled={isUpdating}
+            >
               Close
             </Button>
             <Button onClick={handleUpdate} disabled={isUpdating}>
               {isUpdating ? (
                 <>
-                  <Icon icon="lucide:loader-2" className="mr-2 h-4 w-4 animate-spin" />
+                  <Icon
+                    icon="lucide:loader-2"
+                    className="mr-2 h-4 w-4 animate-spin"
+                  />
                   Updating...
                 </>
               ) : (
@@ -445,8 +546,6 @@ const RigsDisplay = ({ response, userid }: RigsDisplayProps) => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-      {/* --- End Shadcn Dialog --- */}
-
 
       <Pagination
         currentPage={currentPage}
