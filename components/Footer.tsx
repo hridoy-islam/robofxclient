@@ -88,9 +88,9 @@ export default function Footer() {
               <div className="flex items-start space-x-3 group">
                 <MapPin className="w-5 h-5 text-primary-blue mt-0.5 shrink-0" />
                 <div className="text-gray-400 text-lg leading-relaxed group-hover:text-white transition-colors">
-                  Level 29, Burj Al Salam Tower
+                  21st latifa tower,
                   <br />
-                  Sheikh Zayed Road, Dubai, UAE
+                  Sheikh Zayed road, Dubai, UAE
                 </div>
               </div>
 

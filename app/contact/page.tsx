@@ -69,7 +69,7 @@ export default function ContactPage() {
                 Visit our headquarters in Dubai.
               </p>
               <div className="mt-auto text-gray-300 font-medium text-base leading-relaxed">
-                Level 29, Burj Al Salam Tower
+                21st latifa tower,
                 <br />
                 Sheikh Zayed Road, Dubai, UAE
               </div>
