@@ -150,7 +150,7 @@ export default function Footer() {
                     <div>UAE</div>
                   </div>
                 </div>
-                <div className="flex items-center space-x-2">
+                {/* <div className="flex items-center space-x-2">
                   <Phone className="w-4 h-4 text-emerald-400" />
                   <a
                     href="tel:971542819321"
@@ -158,7 +158,7 @@ export default function Footer() {
                   >
                     +971542819321
                   </a>
-                </div>
+                </div> */}
                 <div className="flex items-center space-x-2">
                   <Mail className="w-4 h-4 text-emerald-400" />
                   <a
