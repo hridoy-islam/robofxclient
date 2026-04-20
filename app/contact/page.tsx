@@ -1,13 +1,93 @@
 "use client";
 
+import { useState } from "react";
+import type React from "react";
 import BreadCumb from "@/components/BreadCumb";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { Mail, MapPin, ArrowRight, Clock, Send } from "lucide-react";
+import {
+  Mail,
+  MapPin,
+  ArrowRight,
+  Clock,
+  Send,
+  CheckCircle,
+} from "lucide-react";
 
 export default function ContactPage() {
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    department: "",
+    message: "",
+  });
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+ const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  if (isLoading) return;
+
+  setIsLoading(true);
+
+  try {
+    // Send both requests in parallel
+    const [adminRes] = await Promise.allSettled([
+      fetch("/api/send-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Cache-Control": "no-cache, no-store, must-revalidate",
+          Pragma: "no-cache",
+        },
+        cache: "no-store",
+        body: JSON.stringify(formData),
+      }),
+     
+    ]);
+
+    // Check if at least one succeeded (or handle individual failures as needed)
+    const adminSuccess = adminRes.status === "fulfilled" && adminRes.value.ok;
+
+    if (adminSuccess ) {
+      setIsSubmitted(true);
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        department: "",
+        message: "",
+      });
+      setTimeout(() => setIsSubmitted(false), 5000);
+
+      // Optional: log failures for debugging
+      if (!adminSuccess) console.warn("Admin email failed");
+    } else {
+      console.error("Both email requests failed");
+      alert("Something went wrong. Please try again later.");
+    }
+  } catch (error) {
+    console.error("Error submitting form:", error);
+    alert("Network error. Please check your connection.");
+  } finally {
+    setIsLoading(false);
+  }
+};
+
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
+  ) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
   return (
-    <div className="min-h-screen bg-black  text-white selection:bg-primary-blue selection:text-black">
+    <div className="min-h-screen bg-black text-white selection:bg-primary-blue selection:text-black">
       <Header />
 
       <BreadCumb
@@ -94,77 +174,126 @@ export default function ContactPage() {
                   </p>
                 </div>
 
-                <form className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-[10px] font-bold text-primary-blue uppercase mb-2 tracking-widest">
-                        First Name
-                      </label>
-                      <input
-                        type="text"
-                        className="w-full px-4 py-4 bg-black border border-white/10 rounded-xl text-white placeholder-gray-600 focus:ring-1 focus:ring-primary-blue focus:border-primary-blue focus:outline-none transition-all"
-                        placeholder="John"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-[10px] font-bold text-primary-blue uppercase mb-2 tracking-widest">
-                        Last Name
-                      </label>
-                      <input
-                        type="text"
-                        className="w-full px-4 py-4 bg-black border border-white/10 rounded-xl text-white placeholder-gray-600 focus:ring-1 focus:ring-primary-blue focus:border-primary-blue focus:outline-none transition-all"
-                        placeholder="Doe"
-                      />
-                    </div>
+                {isSubmitted ? (
+                  <div className="text-center py-12">
+                    <CheckCircle className="w-16 h-16 text-primary-blue mx-auto mb-4 animate-bounce" />
+                    <h3 className="text-xl font-bold text-white mb-2">
+                      Message Sent Successfully!
+                    </h3>
+                    <p className="text-gray-400">
+                      We'll get back to you shortly.
+                    </p>
                   </div>
-
-                  <div>
-                    <label className="block text-[10px] font-bold text-primary-blue uppercase mb-2 tracking-widest">
-                      Email Address
-                    </label>
-                    <input
-                      type="email"
-                      className="w-full px-4 py-4 bg-black border border-white/10 rounded-xl text-white placeholder-gray-600 focus:ring-1 focus:ring-primary-blue focus:border-primary-blue focus:outline-none transition-all"
-                      placeholder="john@example.com"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-[10px] font-bold text-primary-blue uppercase mb-2 tracking-widest">
-                      Department
-                    </label>
-                    <div className="relative">
-                      <select className="w-full px-4 py-4 bg-black border border-white/10 rounded-xl text-white focus:ring-1 focus:ring-primary-blue focus:border-primary-blue focus:outline-none transition-all appearance-none cursor-pointer">
-                        <option value="" className="text-gray-500">
-                          Select a topic...
-                        </option>
-                        <option value="technical">Technical Support</option>
-                        <option value="sales">Sales & Pricing</option>
-                        <option value="partnership">Partnership Inquiry</option>
-                        <option value="general">General Question</option>
-                      </select>
-                      <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-primary-blue">
-                        <ArrowRight className="w-4 h-4 rotate-90" />
+                ) : (
+                  <form onSubmit={handleSubmit} className="space-y-6">
+                    <div className="grid md:grid-cols-2 gap-6">
+                      <div>
+                        <label className="block text-[10px] font-bold text-primary-blue uppercase mb-2 tracking-widest">
+                          First Name
+                        </label>
+                        <input
+                          type="text"
+                          name="firstName"
+                          value={formData.firstName}
+                          onChange={handleChange}
+                          required
+                          className="w-full px-4 py-4 bg-black border border-white/10 rounded-xl text-white placeholder-gray-600 focus:ring-1 focus:ring-primary-blue focus:border-primary-blue focus:outline-none transition-all"
+                          placeholder="John"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[10px] font-bold text-primary-blue uppercase mb-2 tracking-widest">
+                          Last Name
+                        </label>
+                        <input
+                          type="text"
+                          name="lastName"
+                          value={formData.lastName}
+                          onChange={handleChange}
+                          required
+                          className="w-full px-4 py-4 bg-black border border-white/10 rounded-xl text-white placeholder-gray-600 focus:ring-1 focus:ring-primary-blue focus:border-primary-blue focus:outline-none transition-all"
+                          placeholder="Doe"
+                        />
                       </div>
                     </div>
-                  </div>
 
-                  <div>
-                    <label className="block text-[10px] font-bold text-primary-blue uppercase mb-2 tracking-widest">
-                      Message
-                    </label>
-                    <textarea
-                      rows={5}
-                      className="w-full px-4 py-4 bg-black border border-white/10 rounded-xl text-white placeholder-gray-600 focus:ring-1 focus:ring-primary-blue focus:border-primary-blue focus:outline-none transition-all resize-none"
-                      placeholder="How can we assist you today?"
-                    ></textarea>
-                  </div>
+                    <div>
+                      <label className="block text-[10px] font-bold text-primary-blue uppercase mb-2 tracking-widest">
+                        Email Address
+                      </label>
+                      <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        required
+                        className="w-full px-4 py-4 bg-black border border-white/10 rounded-xl text-white placeholder-gray-600 focus:ring-1 focus:ring-primary-blue focus:border-primary-blue focus:outline-none transition-all"
+                        placeholder="john@example.com"
+                      />
+                    </div>
 
-                  <button className="w-full bg-gradient-to-r from-primary-blue to-blue-700 hover:to-primary-blue text-white font-bold text-sm uppercase tracking-widest py-4 rounded-xl transition-all duration-300 shadow-lg shadow-blue-900/20 flex items-center justify-center gap-2">
-                    <Send className="w-4 h-4" />
-                    Submit Inquiry
-                  </button>
-                </form>
+                    <div>
+                      <label className="block text-[10px] font-bold text-primary-blue uppercase mb-2 tracking-widest">
+                        Department
+                      </label>
+                      <div className="relative">
+                        <select
+                          name="department"
+                          value={formData.department}
+                          onChange={handleChange}
+                          required
+                          className="w-full px-4 py-4 bg-black border border-white/10 rounded-xl text-white focus:ring-1 focus:ring-primary-blue focus:border-primary-blue focus:outline-none transition-all appearance-none cursor-pointer"
+                        >
+                          <option value="" className="text-gray-500">
+                            Select a topic...
+                          </option>
+                          <option value="technical">Technical Support</option>
+                          <option value="sales">Sales & Pricing</option>
+                          <option value="partnership">
+                            Partnership Inquiry
+                          </option>
+                          <option value="general">General Question</option>
+                        </select>
+                        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-primary-blue">
+                          <ArrowRight className="w-4 h-4 rotate-90" />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-[10px] font-bold text-primary-blue uppercase mb-2 tracking-widest">
+                        Message
+                      </label>
+                      <textarea
+                        name="message"
+                        value={formData.message}
+                        onChange={handleChange}
+                        required
+                        rows={5}
+                        className="w-full px-4 py-4 bg-black border border-white/10 rounded-xl text-white placeholder-gray-600 focus:ring-1 focus:ring-primary-blue focus:border-primary-blue focus:outline-none transition-all resize-none"
+                        placeholder="How can we assist you today?"
+                      ></textarea>
+                    </div>
+
+                    <button
+                      type="submit"
+                      disabled={isLoading}
+                      className="w-full bg-gradient-to-r from-primary-blue to-blue-700 hover:to-primary-blue text-white font-bold text-sm uppercase tracking-widest py-4 rounded-xl transition-all duration-300 shadow-lg shadow-blue-900/20 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed group"
+                    >
+                      {isLoading ? (
+                        <span className="flex items-center justify-center">
+                          <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></span>
+                          Sending...
+                        </span>
+                      ) : (
+                        <span className="flex items-center justify-center gap-2">
+                          <Send className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                          Submit Inquiry
+                        </span>
+                      )}
+                    </button>
+                  </form>
+                )}
               </div>
 
               {/* Bottom Support Note */}

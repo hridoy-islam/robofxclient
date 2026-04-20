@@ -104,8 +104,15 @@ export default function Footer() {
                   support@quicktradefx.com
                 </a>
               </div>
-
-             
+              <div className="flex items-center space-x-3 group">
+                <Phone className="w-5 h-5 text-primary-blue shrink-0" />
+                <a
+                  href="tel:+971541607896"
+                  className="text-gray-400 hover:text-primary-blue transition-colors text-lg"
+                >
+                  +971541607896
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -152,7 +159,6 @@ export default function Footer() {
             <span className="text-gray-500 text-sm">
               Designed and developed by QuickTradeFX
             </span>
-            
           </div>
         </div>
       </div>
