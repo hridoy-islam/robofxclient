@@ -1,432 +1,1385 @@
 "use client";
-import FAQSection from "@/components/FAQSection";
-import Footer from "@/components/Footer";
+
+import { motion, useInView } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import Header from "@/components/Header";
-import PricingSection from "@/components/PricingSection";
-import ReviewsSection from "@/components/ReviewsSection";
-import { useModal } from "@/context/ModalContext";
-import { motion } from "framer-motion";
-import {
-  Zap,
-  Shield,
-  TrendingUp,
-  Cpu,
-  ArrowRight,
-  Users,
-  Coins,
-  Activity,
-} from "lucide-react";
+import Footer from "@/components/Footer";
 
-export default function Page() {
-   const { openModal } = useModal();
+// ─── Animation Variants ───────────────────────────────────────────────────────
+const fadeUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: (i = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] },
+  }),
+};
+
+const fadeIn = {
+  hidden: { opacity: 0 },
+  visible: (i = 0) => ({
+    opacity: 1,
+    transition: { duration: 0.7, delay: i * 0.1 },
+  }),
+};
+
+const slideLeft = {
+  hidden: { opacity: 0, x: -50 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+const slideRight = {
+  hidden: { opacity: 0, x: 50 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+// ─── Reusable Section Wrapper ─────────────────────────────────────────────────
+function Section({
+  children,
+  className = "",
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
   return (
-    <div className="min-h-screen bg-white overflow-x-hidden">
-      <Header />
+    <section ref={ref} className={className} data-inview={inView}>
+      {children}
+    </section>
+  );
+}
 
-      
-      
-      <section className="relative min-h-screen flex flex-col pt-20">
-        {/* --- Background Layer --- */}
-        <div className="absolute inset-0 z-0">
-          <video
-            src="/cryptominerx.mp4"
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="w-full h-full object-cover"
+// ─── Service Cards Data ────────────────────────────────────────────────────────
+const services = [
+  {
+    icon: (
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        className="w-10 h-10 text-[#3B82F6]"
+        stroke="currentColor"
+        strokeWidth={1.5}
+      >
+        <path d="M12 2a5 5 0 1 0 5 5 5 5 0 0 0-5-5zm0 8a3 3 0 1 1 3-3 3 3 0 0 1-3 3z" />
+        <path d="M12 10v12M8 16h8" />
+        <circle cx="12" cy="12" r="2" fill="currentColor" />
+        <path d="M18 6l3-3M6 6L3 3" />
+      </svg>
+    ),
+    title: "Infrastructure Technology",
+    description:
+      "Accelerate innovation with world-class tech teams We'll match you to an entire remote team of incredible freelance talent.",
+  },
+  {
+    icon: (
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        className="w-10 h-10 text-[#3B82F6]"
+        stroke="currentColor"
+        strokeWidth={1.5}
+      >
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+        <rect x="9" y="9" width="6" height="6" rx="1" />
+        <path d="M12 12v1" />
+      </svg>
+    ),
+    title: "IT Consultancy & solution",
+    description:
+      "Accelerate innovation with world-class tech teams We'll match you to an entire remote team of incredible freelance talent.",
+  },
+  {
+    icon: (
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        className="w-10 h-10 text-[#3B82F6]"
+        stroke="currentColor"
+        strokeWidth={1.5}
+      >
+        <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" />
+        <path d="M12 12v6M9 15h6" />
+      </svg>
+    ),
+    title: "Cloud managed services",
+    description:
+      "Accelerate innovation with world-class tech teams We'll match you to an entire remote team of incredible freelance talent.",
+  },
+  {
+    icon: (
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        className="w-10 h-10 text-[#3B82F6]"
+        stroke="currentColor"
+        strokeWidth={1.5}
+      >
+        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+        <circle cx="12" cy="12" r="3" />
+      </svg>
+    ),
+    title: "Blockchain technology",
+    description:
+      "Accelerate innovation with world-class tech teams We'll match you to an entire remote team of incredible freelance talent.",
+  },
+];
+
+// ─── Stats Data ────────────────────────────────────────────────────────────────
+const stats = [
+  {
+    icon: (
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        className="w-6 h-6"
+        stroke="currentColor"
+        strokeWidth={1.5}
+      >
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+        <circle cx="9" cy="7" r="4" />
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+      </svg>
+    ),
+    value: "1790",
+    label: "Happy Clients",
+  },
+  {
+    icon: (
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        className="w-6 h-6"
+        stroke="currentColor"
+        strokeWidth={1.5}
+      >
+        <path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18" />
+        <path d="M3 9h18" />
+      </svg>
+    ),
+    value: "491",
+    label: "Finished Projects",
+  },
+  {
+    icon: (
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        className="w-6 h-6"
+        stroke="currentColor"
+        strokeWidth={1.5}
+      >
+        <circle cx="12" cy="12" r="10" />
+        <path d="M12 8v4l3 3" />
+      </svg>
+    ),
+    value: "245",
+    label: "Skilled Experts",
+  },
+  {
+    icon: (
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        className="w-6 h-6"
+        stroke="currentColor"
+        strokeWidth={1.5}
+      >
+        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+      </svg>
+    ),
+    value: "1090",
+    label: "Media Posts",
+  },
+];
+
+// ─── Solution Cards ────────────────────────────────────────────────────────────
+const solutions = [
+  {
+    title: "Information Management System",
+    bg: "from-primary/80 to-primary/40",
+  },
+  {
+    title: "Information Database Security",
+    bg: "from-secondary/80 to-secondary/40",
+  },
+  {
+    title: "Multifunctional Technology",
+    bg: "from-primary/60 to-secondary/60",
+  },
+];
+
+// ─── Skills Data ──────────────────────────────────────────────────────────────
+const skills = [
+  { label: "IT Management", value: 80 },
+  { label: "Data Security", value: 95 },
+  { label: "Information Technology", value: 82 },
+  { label: "Technology Consultant", value: 66 },
+];
+
+// ─── Case Studies Data ────────────────────────────────────────────────────────
+const caseStudies = [
+  {
+    image:
+      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80",
+    category: "IT Management",
+    title: "Structure of Mainufication",
+    description:
+      "Accelerate innovation with world-class tech teams We'll match you to an entire remote team of incredible freelance talent for all your.",
+  },
+  {
+    image:
+      "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=800&q=80",
+    category: "Database Security",
+    title: "Database Security Solutions",
+    description:
+      "Accelerate innovation with world-class tech teams We'll match you to an entire remote team of incredible freelance talent for all your.",
+  },
+  {
+    image:
+      "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80",
+    category: "Cloud Services",
+    title: "Cloud Infrastructure Setup",
+    description:
+      "Accelerate innovation with world-class tech teams We'll match you to an entire remote team of incredible freelance talent for all your.",
+  },
+];
+
+// ─── Testimonials Data ────────────────────────────────────────────────────────
+const testimonials = [
+  {
+    image:
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80",
+    text: "Accelerate innovation with world-class tech teams Beyond more stoic this along goodness hey this wow manatee",
+    name: "Mike Holder",
+    role: "CEO, Harland Inc.",
+  },
+  {
+    image:
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&q=80",
+    text: "Accelerate innovation with world-class tech teams Beyond more stoic this along goodness hey this wow manatee",
+    name: "Mike Fernalin",
+    role: "CEO, Harland Inc.",
+  },
+];
+
+// ─── Team Data ────────────────────────────────────────────────────────────────
+const team = [
+  {
+    image:
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80",
+    name: "Andrew Max Fetcher",
+    role: "CEO, techwix",
+  },
+  {
+    image:
+      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=400&q=80",
+    name: "Arnold human",
+    role: "CEO, techwix",
+  },
+  {
+    image:
+      "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?auto=format&fit=crop&w=400&q=80",
+    name: "Mike Holder",
+    role: "CEO, techwix",
+  },
+  {
+    image:
+      "https://images.unsplash.com/photo-1463453091185-61582044d556?auto=format&fit=crop&w=400&q=80",
+    name: "Joakim Ken",
+    role: "CEO, techwix",
+  },
+];
+
+// ─── Blog Data ────────────────────────────────────────────────────────────────
+const blogs = [
+  {
+    image:
+      "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=80",
+    date: "June 05, 2024",
+    category: "IT Management",
+    title: "How IT Management Can Save Your Business from Chaos",
+    author: "Alex Smith",
+  },
+  {
+    image:
+      "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80",
+    date: "June 08, 2024",
+    category: "Data Security",
+    title: "Top 10 Data Security Strategies for Modern Enterprises",
+    author: "Mike Holder",
+  },
+  {
+    image:
+      "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80",
+    date: "June 12, 2024",
+    category: "Cloud Services",
+    title: "Cloud Computing: The Future of Business Infrastructure",
+    author: "Sarah Williams",
+  },
+];
+
+// ─── Partners / Logos ─────────────────────────────────────────────────────────
+const partners = ["Fampay", "SWIGG", "MIGHTY BUILDING", "Jupiter", "Dyte"];
+
+// ─── HERO SECTION ─────────────────────────────────────────────────────────────
+function HeroSection() {
+  return (
+    <section className="relative min-h-[120vh] flex flex-col overflow-hidden bg-[#0a1526]">
+      <div className="absolute inset-0 z-0">
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage:
+              "url('https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&q=80')",
+          }}
+        />
+        <div className="absolute inset-0 bg-[#0B1A2A]/80 mix-blend-multiply" />
+        <div className="absolute inset-0 bg-[#0B1A2A]/50" />
+        <div className="absolute top-0 left-0 w-[45vw] h-[45vw] max-w-[600px] max-h-[600px] bg-gradient-to-br from-[#8A2BE2] to-[#3B82F6] rounded-br-full opacity-95 -translate-x-1/4 -translate-y-1/4" />
+        <div className="absolute bottom-0 right-0 w-[35vw] h-[35vw] max-w-[500px] max-h-[500px] bg-gradient-to-tl from-[#8A2BE2] to-[#3B82F6] rounded-tl-full opacity-90 translate-x-1/4 translate-y-1/4" />
+        <svg
+          className="absolute right-[10%] top-1/4 w-1/3 h-full opacity-20 pointer-events-none"
+          viewBox="0 0 500 500"
+          fill="none"
+        >
+          <path
+            d="M500 0 C 200 150, 100 350, -50 500"
+            stroke="white"
+            strokeWidth="2"
+            strokeLinecap="round"
           />
-          {/* Dark Overlay for text contrast */}
-          <div className="absolute inset-0" />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/20 via-slate-900/60 to-transparent" />
-        </div>
+        </svg>
+      </div>
 
-        {/* --- Main Content --- */}
-        {/* Added flex-1 and justify-center to center content vertically in the available space */}
-        <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 flex-1 flex flex-col justify-center items-center text-center py-12 md:py-20">
-          {/* Status Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="mb-8 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 backdrop-blur-sm border border-emerald-500/20 text-sm font-medium text-emerald-300"
-          >
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-            </span>
-            Mining Pool Active
-          </motion.div>
-
-          {/* Heading */}
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="text-4xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight leading-tight max-w-5xl"
-          >
-            Smart Crypto Mining <br className="hidden md:block" />
-            <span className="text-transparent bg-clip-text text-gradient">
-              For Modern Investors
-            </span>
-          </motion.h1>
-
-          {/* Description */}
+      <div className="relative z-20 container mx-auto pb-72 w-full flex-grow flex flex-col justify-center">
+        <motion.div className="">
           <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-            className="mt-6 text-lg md:text-xl text-gray-300 max-w-3xl leading-relaxed"
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            custom={0}
+            className="text-xs font-semibold tracking-widest uppercase text-white/90 mb-4"
           >
-            CryptoMinerX simplifies the mining process. We host the hardware,
-            handle the maintenance, and optimize the algorithms so you can mine
-            Bitcoin, Ethereum, and other top assets without the noise or heat.
+            TECHNOLOGY RELATED CONSULTANCY
           </motion.p>
 
-          {/* Button */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
-            className="mt-10 w-full flex justify-center"
+          <motion.h1
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            custom={1}
+            className="text-5xl lg:text-6xl font-bold text-white leading-tight mb-6"
           >
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() =>
-                  openModal({
-                    title: "Create your account",
-                    subtitle: "Join the world's largest crypto exchange",
-                    buttonText: "Sign Up",
-                  })
-                }
-              className="w-full sm:w-auto px-8 py-4 btn-gradient text-white rounded-xl font-bold text-base shadow-lg transition-all"
-            >
-              Start Mining Today
-            </motion.button>
+            We transform ideas
+            <br />
+            into technology
+          </motion.h1>
+
+          <motion.p
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            custom={2}
+            className="text-white/80 text-base leading-relaxed mb-8 max-w-md"
+          >
+            We provide the most responsive and functional IT design for
+            companies and businesses worldwide.
+          </motion.p>
+
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            custom={3}
+          >
+            <button className="px-8 py-3.5 btn-gradient rounded-md font-semibold text-sm text-white shadow-lg transition-colors">
+              Read More
+            </button>
           </motion.div>
-        </div>
+        </motion.div>
+      </div>
 
-     
+      <div className="">
+        <ServiceCardsOverlay />
+      </div>
+    </section>
+  );
+}
+
+// ─── SERVICE CARDS OVERLAY ────────────────────────────────────────────────────
+function ServiceCardsOverlay() {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true });
+
+  return (
+    <div
+      ref={ref}
+      className="absolute bottom-16 left-1/2 -translate-x-1/2 z-30 w-full max-w-7xl"
+    >
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {services.map((s, i) => (
+          <motion.div
+            key={i}
+            variants={fadeUp}
+            initial="hidden"
+            animate={inView ? "visible" : "hidden"}
+            custom={i}
+            className="bg-white/95 backdrop-blur-md rounded-xl p-8 shadow-2xl group hover:-translate-y-2 transition-all duration-300 flex flex-col border border-white/20"
+          >
+            <div className="mb-5">{s.icon}</div>
+            <h3 className="font-bold text-gray-900 text-lg mb-3 leading-snug">
+              {s.title}
+            </h3>
+            <p className="text-gray-500 text-[13px] leading-relaxed mb-6 flex-grow">
+              {s.description}
+            </p>
+            <a
+              href="#"
+              className="mt-auto flex items-center gap-3 text-xs font-semibold text-gray-500 uppercase tracking-wide hover:text-gray-900 transition-colors"
+            >
+              <span className="w-6 h-6 rounded-full bg-[#EEF4FF] text-[#3B82F6] flex items-center justify-center text-lg shadow-sm">
+                +
+              </span>
+              Read More
+            </a>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─── ABOUT / VIDEO SECTION ────────────────────────────────────────────────────
+function AboutSection() {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+
+  return (
+    <section ref={ref} className="bg-white py-24">
+      <div className="container mx-auto grid lg:grid-cols-2 gap-16 items-center">
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="relative w-full z-20 px-4 pb-8 pt-8 md:pt-0"
+          variants={slideLeft}
+          initial="hidden"
+          animate={inView ? "visible" : "hidden"}
         >
-          <div className="container mx-auto">
-            {/* Glassmorphism Container */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 bg-slate-900/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6 md:p-8 shadow-2xl">
-              {/* Stat 1: Total Mined */}
-              <div className="flex flex-col items-center md:items-start text-center md:text-left">
-                <div className="mb-3 flex items-center gap-2">
-                  <div className="p-1.5 rounded-lg bg-emerald-500/20">
-                    <Coins className="w-4 h-4 text-emerald-400" />
-                  </div>
-                  <span className="text-xs font-semibold text-gray-300 uppercase tracking-wider">
-                    Earnings
-                  </span>
-                </div>
-                <p className="text-3xl md:text-4xl font-bold text-white">
-                  $42M+
-                </p>
-                <p className="text-sm text-gray-400 mt-1">Total Mined</p>
-              </div>
+          <p className="text-xs font-bold tracking-[0.2em] uppercase text-primary-foreground mb-3">
+            Who We Are
+          </p>
+          <h2
+            className="text-3xl lg:text-4xl font-bold text-gray-900 leading-tight mb-6"
+            style={{ fontFamily: "'Sora', sans-serif" }}
+          >
+            Highly Tailored IT Design,
+            <br />
+            Management & Support
+            <br />
+            Services.
+          </h2>
+          <p className="text-gray-500 text-sm leading-relaxed mb-8 max-w-md">
+            Accelerate innovation with workflows tech meets. We'll teach you to
+            achieve things. Start incredible freelance solutions for all your
+            software development needs.
+          </p>
 
-              {/* Stat 2: Active Miners */}
-              {/* Added responsive border logic */}
-              <div className="flex flex-col items-center md:items-start text-center md:text-left border-t border-white/10 pt-6 md:pt-0 md:border-t-0 md:border-l md:pl-8">
-                <div className="mb-3 flex items-center gap-2">
-                  <div className="p-1.5 rounded-lg bg-blue-500/20">
-                    <Users className="w-4 h-4 text-blue-400" />
-                  </div>
-                  <span className="text-xs font-semibold text-gray-300 uppercase tracking-wider">
-                    Community
-                  </span>
-                </div>
-                <p className="text-3xl md:text-4xl font-bold text-white">
-                  15K+
-                </p>
-                <p className="text-sm text-gray-400 mt-1">Active Miners</p>
+          <div className="flex items-center gap-8">
+            <div>
+              <div className="font-bold text-gray-800 text-sm mb-0.5">
+                Alex Sp.
               </div>
-
-              {/* Stat 3: Uptime */}
-              {/* Added responsive border logic */}
-              <div className="flex flex-col items-center md:items-start text-center md:text-left border-t border-white/10 pt-6 md:pt-0 md:border-t-0 md:border-l md:pl-8">
-                <div className="mb-3 flex items-center gap-2">
-                  <div className="p-1.5 rounded-lg bg-purple-500/20">
-                    <Activity className="w-4 h-4 text-purple-400" />
-                  </div>
-                  <span className="text-xs font-semibold text-gray-300 uppercase tracking-wider">
-                    Reliability
-                  </span>
-                </div>
-                <p className="text-3xl md:text-4xl font-bold text-white">
-                  99.9%
-                </p>
-                <p className="text-sm text-gray-400 mt-1">Uptime</p>
+              <div className="text-xs text-gray-500">Alex Feronda</div>
+              <div className="text-xs text-gray-400">CEO, Advisor</div>
+            </div>
+            <div>
+              <div className="text-xs text-gray-400 mb-0.5">
+                Call us with any question
               </div>
+              <a
+                href="tel:01234567890"
+                className="text-primary-foreground font-bold text-sm"
+              >
+                0123-456-7890
+              </a>
             </div>
           </div>
         </motion.div>
-      </section>
 
-      {/* Features Section */}
-      <section className="py-24 bg-secondary/80">
-        <div className="container mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl lg:text-5xl font-bold mb-4">
-              Why Choose <span className="text-gradient">CryptoMinerX</span>
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Enterprise-grade mining infrastructure designed for maximum
-              efficiency and returns
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              {
-                icon: Zap,
-                title: "Lightning Fast",
-                description:
-                  "Optimized algorithms for maximum hash rates and minimal latency",
-              },
-              {
-                icon: Shield,
-                title: "Bank-Grade Security",
-                description:
-                  "Multi-layer encryption and cold storage for your assets",
-              },
-              {
-                icon: TrendingUp,
-                title: "High Returns",
-                description:
-                  "Competitive payouts with real-time profit tracking",
-              },
-              {
-                icon: Cpu,
-                title: "Latest Hardware",
-                description:
-                  "State-of-the-art ASIC miners with energy efficiency",
-              },
-            ].map((feature, index) => (
-              <motion.div
-                key={feature.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1, duration: 0.5 }}
-                whileHover={{ y: -5 }}
-                className="group"
-              >
-                <div className="h-full p-8 rounded-2xl bg-card border border-border hover:shadow-card transition-all duration-300">
-                  <div className="w-14 h-14 rounded-xl btn-gradient flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                    <feature.icon className="w-7 h-7 text-primary-foreground" />
-                  </div>
-                  <h3 className="text-xl font-semibold mb-3 text-foreground">
-                    {feature.title}
-                  </h3>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {feature.description}
-                  </p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* How It Works Section */}
-      <section className="py-24 relative overflow-hidden isolate">
-        {/* --- Background Image --- */}
-        <div className="absolute inset-0 -z-20">
-          <img
-            src="https://images.unsplash.com/photo-1591994843349-f415893b3a6b?q=80&w=2600&auto=format&fit=crop"
-            alt="Crypto Mining Hardware"
-            className="w-full h-full object-cover"
-          />
-        </div>
-
-        {/* --- Dark Overlay for Readability --- */}
-        <div className="absolute inset-0 bg-black/80 -z-10" />
-
-        <div className="container mx-auto relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl lg:text-5xl font-bold mb-4 text-white">
-              Start Mining in <span className="text-gradient">3 Steps</span>
-            </h2>
-            <p className="text-lg text-gray-300 max-w-2xl mx-auto">
-              Get started with crypto mining in minutes, not days
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                step: "01",
-                title: "Create Account",
-                description:
-                  "Sign up in seconds with just your email. No complex verification needed.",
-              },
-              {
-                step: "02",
-                title: "Choose Your Plan",
-                description:
-                  "Select a mining plan that fits your goals. Start small or go big.",
-              },
-              {
-                step: "03",
-                title: "Watch Profits Grow",
-                description:
-                  "Sit back and watch your earnings accumulate in real-time.",
-              },
-            ].map((item, index) => (
-              <motion.div
-                key={item.step}
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.15, duration: 0.5 }}
-                className="relative"
-              >
-                {/* Connector line - adjusted for dark bg */}
-                {index < 2 && (
-                  <div className="hidden md:block absolute top-12 left-1/2 w-full h-px bg-gray-50" />
-                )}
-
-                <div className="relative text-center p-8">
-                  <motion.div
-                    whileHover={{ scale: 1.1, rotate: 5 }}
-                    // Changed bg-card to bg-white/5 for dark mode look
-                    className="inline-flex items-center justify-center w-24 h-24 rounded-2xl bg-white border-gray-50 bg-white/35 backdrop-blur-sm mb-6"
-                  >
-                    <span className="text-3xl font-bold text-white">
-                      {item.step}
-                    </span>
-                  </motion.div>
-                  <h3 className="text-xl font-semibold mb-3 text-white">
-                    {item.title}
-                  </h3>
-                  <p className="text-gray-300">{item.description}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-
-      <ReviewsSection />
-      <PricingSection />
-
-      <FAQSection />
-
-      {/* CTA Section */}
-      <section >
-        <div className="">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            // Removed 'btn-gradient', added 'isolate' to manage stacking context
-            className="relative overflow-hidden  bg-black/80 p-24 lg:p-24 text-center isolate"
-          >
-            {/* --- Background Image & Overlay --- */}
-            <div className="absolute inset-0 -z-20">
+        <motion.div
+          variants={slideRight}
+          initial="hidden"
+          animate={inView ? "visible" : "hidden"}
+          className="relative"
+        >
+          <div className="relative h-80 lg:h-96">
+            <div className="absolute right-0 top-0 w-4/5 h-full rounded-sm overflow-hidden">
               <img
-                // Using a dark crypto/tech related image placeholder
-                src="/cto.jpg"
-                alt="Start Mining Crypto"
-                className="w-full h-full object-cover opacity-50"
+                src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=800&q=80"
+                alt="Office Team"
+                className="w-full h-full object-cover"
               />
             </div>
-            {/* Strong dark overlay for text readability */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/60 to-black/90 -z-10" />
-
-            {/* --- Decorative elements (Adjusted colors to pop against dark bg) --- */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/30 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 -z-10" />
-            <div className="absolute bottom-0 left-0 w-48 h-48 bg-cyan-500/30 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2 -z-10" />
-
-            {/* --- Content --- */}
-            <div className="relative z-10">
-              <h2 className="text-3xl lg:text-5xl font-bold text-white mb-4">
-                Ready to Start Mining?
-              </h2>
-              <p className="text-lg text-gray-300 mb-8 max-w-xl mx-auto">
-                Join thousands of miners already earning with CryptoMinerX.
-                Start your journey to passive crypto income today.
-              </p>
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                onClick={() =>
-                  openModal({
-                    title: "Create your account",
-                    subtitle: "Join the world's largest crypto exchange",
-                    buttonText: "Sign Up",
-                  })
-                }
-                className="px-10 py-4 rounded-xl btn-gradient text-white font-bold shadow-lg transition-all flex items-center gap-2 mx-auto group"
+            <div className="absolute left-0 bottom-0 w-2/5 h-2/5 rounded-sm border-4 border-white overflow-hidden shadow-xl">
+              <img
+                src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=400&q=80"
+                alt="Team"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              className="absolute right-[30%] top-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-white shadow-lg shadow-primary/40 flex items-center justify-center z-10"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                className="w-6 h-6 text-primary-foreground fill-current ml-1"
               >
-                Get Started Now
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </motion.button>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </motion.button>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
 
-      {/* Trust Badges */}
-      <section className="py-16  border-t border-border">
-        <div className="container mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="flex flex-wrap justify-center items-center gap-8 lg:gap-16 text-muted-foreground"
+// ─── STATS SECTION ─────────────────────────────────────────────────────────────
+function StatsSection() {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+
+  return (
+    <section ref={ref} className="bg-gray-50 py-16">
+      <div className="container mx-auto max-w-5xl">
+        <div className="border border-primary-foreground rounded-sm bg-white px-8 py-10 grid grid-cols-2 lg:grid-cols-4 gap-8">
+          {stats.map((s, i) => (
+            <motion.div
+              key={i}
+              variants={fadeUp}
+              initial="hidden"
+              animate={inView ? "visible" : "hidden"}
+              custom={i}
+              className="flex items-center gap-4"
+            >
+              <div className="flex-shrink-0 w-12 h-12 rounded-full bg-white text-primary-foreground flex items-center justify-center">
+                {s.icon}
+              </div>
+              <div>
+                <div
+                  className="text-2xl font-bold text-primary-foreground leading-none"
+                  style={{ fontFamily: "'Sora', sans-serif" }}
+                >
+                  {s.value}
+                </div>
+                <div className="text-xs text-gray-500 mt-1">{s.label}</div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── SOLUTIONS SECTION ────────────────────────────────────────────────────────
+function SolutionsSection() {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+
+  return (
+    <section ref={ref} className="bg-white py-24">
+      <div className="container mx-auto">
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          animate={inView ? "visible" : "hidden"}
+          className="text-center mb-12"
+        >
+          <p className="text-xs font-bold tracking-[0.2em] uppercase text-primary-foreground mb-3">
+            Reasons to Choose Us
+          </p>
+          <h2
+            className="text-3xl lg:text-4xl font-bold text-gray-900 leading-tight"
+            style={{ fontFamily: "'Sora', sans-serif" }}
           >
-            <div className="text-center">
-              <p className="text-2xl font-bold text-gradient">SSL Secured</p>
-              <p className="text-sm">256-bit Encryption</p>
-            </div>
-            <div className="w-px h-12 bg-border hidden lg:block" />
-            <div className="text-center">
-              <p className="text-2xl font-bold text-gradient">24/7 Support</p>
-              <p className="text-sm">Always Available</p>
-            </div>
-            <div className="w-px h-12 bg-border hidden lg:block" />
-            <div className="text-center">
-              <p className="text-2xl font-bold text-gradient">
-                Instant Payouts
-              </p>
-              <p className="text-sm">No Waiting Period</p>
-            </div>
-            <div className="w-px h-12 bg-border hidden lg:block" />
-            <div className="text-center">
-              <p className="text-2xl font-bold text-gradient">Global Access</p>
-              <p className="text-sm">Available Worldwide</p>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-      {/* <OfficeLocations /> */}
+            We provide truly prominent
+            <br />
+            IT solutions.
+          </h2>
+        </motion.div>
 
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+          {[
+            {
+              title: "Information Management System",
+              img: "https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=600&q=80",
+            },
+            {
+              title: "Information Database Security",
+              img: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80",
+            },
+            {
+              title: "Multifunctional Technology",
+              img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=600&q=80",
+            },
+          ].map((sol, i) => (
+            <motion.div
+              key={i}
+              variants={fadeUp}
+              initial="hidden"
+              animate={inView ? "visible" : "hidden"}
+              custom={i}
+              className="relative h-64 rounded-sm overflow-hidden group cursor-pointer"
+            >
+              <img
+                src={sol.img}
+                alt={sol.title}
+                className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gray-800/50 group-hover:bg-gray-800/30 transition-all duration-300" />
+              <div className="absolute bottom-0 left-0 right-0 p-5">
+                <h3 className="text-white font-bold text-sm leading-snug">
+                  {sol.title}
+                </h3>
+              </div>
+              <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+                  <svg
+                    viewBox="0 0 24 24"
+                    className="w-4 h-4 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path d="M7 17L17 7M17 7H7M17 7v10" />
+                  </svg>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        <motion.div
+          variants={fadeIn}
+          initial="hidden"
+          animate={inView ? "visible" : "hidden"}
+          custom={4}
+          className="text-center mt-8"
+        >
+          <p className="text-xs text-gray-500">
+            Learn more about{" "}
+            <a
+              href="#"
+              className="text-primary-foreground font-semibold underline underline-offset-2"
+            >
+              More reason →
+            </a>
+          </p>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+// ─── SKILLS / PROGRESS SECTION ────────────────────────────────────────────────
+function SkillsSection() {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+
+  return (
+    <section ref={ref} className="bg-gray-50 py-24">
+      <div className="container mx-auto grid lg:grid-cols-2 gap-16 items-center">
+        {/* Left: Text */}
+        <motion.div
+          variants={slideLeft}
+          initial="hidden"
+          animate={inView ? "visible" : "hidden"}
+        >
+          <h2
+            className="text-3xl lg:text-4xl font-bold text-gray-900 leading-tight mb-6"
+            style={{ fontFamily: "'Sora', sans-serif" }}
+          >
+            Preparing for your success,
+            <br />
+            we provide truly prominent
+            <br />
+            IT solutions
+          </h2>
+
+          <div className="flex items-start gap-5 mb-8">
+            <div className="flex-shrink-0 w-28 h-28 rounded-md bg-gradient-to-br from-[#3B82F6] to-[#8A2BE2] flex flex-col items-center justify-center text-white shadow-lg">
+              <span className="text-4xl font-bold leading-none">25</span>
+              <span className="text-[10px] mt-1 font-medium opacity-90">
+                Years of
+              </span>
+              <span className="text-[10px] font-medium opacity-90">
+                experience
+              </span>
+            </div>
+            <div>
+              <p className="text-gray-500 text-sm leading-relaxed mb-4">
+                Accelerate innovation with world-class tech teams We'll match
+                you to an entire remote team of incredible freelance talent for
+                all your software development needs.
+              </p>
+              <a
+                href="#"
+                className="text-primary-foreground font-semibold text-sm inline-flex items-center gap-1 hover:gap-2 transition-all"
+              >
+                Learn More About Us →
+              </a>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Right: Skill bars */}
+        <motion.div
+          variants={slideRight}
+          initial="hidden"
+          animate={inView ? "visible" : "hidden"}
+          className="space-y-6"
+        >
+          {skills.map((skill, i) => (
+            <motion.div
+              key={i}
+              variants={fadeUp}
+              initial="hidden"
+              animate={inView ? "visible" : "hidden"}
+              custom={i}
+            >
+              <div className="flex justify-between items-center mb-2">
+                <span className="text-sm font-medium text-gray-700">
+                  {skill.label}
+                </span>
+                <span className="text-xs font-bold text-white bg-primary-foreground px-2 py-0.5 rounded-sm">
+                  {skill.value}%
+                </span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-1.5">
+                <motion.div
+                  className="bg-primary-foreground h-1.5 rounded-full"
+                  initial={{ width: 0 }}
+                  animate={inView ? { width: `${skill.value}%` } : { width: 0 }}
+                  transition={{ duration: 1, delay: i * 0.15, ease: "easeOut" }}
+                />
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+function CaseStudiesSection() {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const [active, setActive] = useState(0);
+  const [startX, setStartX] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+
+  // Create extended array for infinite loop effect (duplicate items)
+  const extendedCaseStudies = [...caseStudies, ...caseStudies, ...caseStudies];
+  const totalItems = caseStudies.length;
+  const extendedTotal = extendedCaseStudies.length;
+  const [currentIndex, setCurrentIndex] = useState(totalItems); // Start at middle set
+  const [isTransitioning, setIsTransitioning] = useState(true);
+
+  const handleNext = () => {
+    if (!isTransitioning) return;
+    setCurrentIndex((prev) => prev + 1);
+    setActive((prev) => (prev + 1) % totalItems);
+  };
+
+  const handlePrev = () => {
+    if (!isTransitioning) return;
+    setCurrentIndex((prev) => prev - 1);
+    setActive((prev) => (prev - 1 + totalItems) % totalItems);
+  };
+
+  // Handle infinite loop reset
+  const handleTransitionEnd = () => {
+    if (currentIndex >= extendedTotal - totalItems) {
+      setIsTransitioning(false);
+      setCurrentIndex(totalItems);
+      setTimeout(() => setIsTransitioning(true), 50);
+    } else if (currentIndex < totalItems) {
+      setIsTransitioning(false);
+      setCurrentIndex(extendedTotal - totalItems * 2);
+      setTimeout(() => setIsTransitioning(true), 50);
+    }
+  };
+
+  const handleTouchStart = (e) => {
+    setStartX(e.touches[0].clientX);
+    setIsDragging(true);
+  };
+
+  const handleTouchEnd = (e) => {
+    if (!isDragging) return;
+    const endX = e.changedTouches[0].clientX;
+    const diff = startX - endX;
+
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) {
+        handleNext();
+      } else {
+        handlePrev();
+      }
+    }
+    setIsDragging(false);
+  };
+
+  // Auto-play functionality (optional)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      handleNext();
+    }, 5000); // Change slide every 5 seconds
+
+    return () => clearInterval(interval);
+  }, [currentIndex]);
+
+  return (
+    <section ref={ref} className="bg-[#0B1A2A] py-24 overflow-hidden">
+      <div className="container mx-auto px-4">
+        {/* HEADER */}
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          animate={inView ? "visible" : "hidden"}
+          className="text-center mb-12"
+        >
+          <p className="text-xs font-bold tracking-[0.2em] uppercase text-primary-foreground mb-3">
+            From Our Case Studies
+          </p>
+
+          <h2 className="text-3xl lg:text-4xl font-bold text-white">
+            We delivered best solution
+          </h2>
+        </motion.div>
+
+        {/* CAROUSEL */}
+        <div className="relative">
+          {/* Previous Button */}
+          <button
+            onClick={handlePrev}
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-black/50 hover:bg-black/70 backdrop-blur-sm rounded-full p-3 ml-2 transition-all"
+            aria-label="Previous"
+          >
+            <svg
+              className="w-6 h-6 text-white"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+          </button>
+
+          {/* Next Button */}
+          <button
+            onClick={handleNext}
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-black/50 hover:bg-black/70 backdrop-blur-sm rounded-full p-3 mr-2 transition-all"
+            aria-label="Next"
+          >
+            <svg
+              className="w-6 h-6 text-white"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </button>
+
+          <div
+            className="overflow-hidden"
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+          >
+            <div
+              className="flex transition-transform duration-500 ease-in-out"
+              style={{
+                transform: `translateX(-${currentIndex * 33.333}%)`,
+                transition: isTransitioning
+                  ? "transform 0.5s ease-in-out"
+                  : "none",
+              }}
+              onTransitionEnd={handleTransitionEnd}
+            >
+              {extendedCaseStudies.map((cs, i) => {
+                const originalIndex = i % totalItems;
+                const isActive =
+                  originalIndex === active &&
+                  Math.floor(currentIndex / totalItems) ===
+                    Math.floor(i / totalItems) &&
+                  Math.abs(i - currentIndex) < totalItems;
+
+                return (
+                  <motion.div
+                    key={i}
+                    variants={fadeIn}
+                    initial="hidden"
+                    animate={inView ? "visible" : "hidden"}
+                    className="min-w-[33.333%] px-3"
+                  >
+                    <div
+                      className={`h-[500px] relative cursor-pointer transition-all duration-300 rounded-xl overflow-hidden group
+                        ${isActive ? "ring-2 ring-blue-500 shadow-2xl scale-105" : "opacity-60 hover:opacity-80 scale-95"}
+                      `}
+                      onClick={() => {
+                        const newIndex = i;
+                        setCurrentIndex(newIndex);
+                        setActive(originalIndex);
+                      }}
+                    >
+                      {/* IMAGE */}
+                      <img
+                        src={cs.image}
+                        alt={cs.title}
+                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      />
+
+                      {/* OVERLAY */}
+                      <div
+                        className={`absolute inset-0 transition-all duration-500
+                          ${isActive ? "bg-gradient-to-t from-black/90 via-black/50 to-transparent" : "bg-black/60"}
+                        `}
+                      />
+
+                      {/* CONTENT */}
+                      <div
+                        className={`absolute bottom-0 left-0 right-0 p-6 transition-all duration-500
+                        ${isActive ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}
+                      `}
+                      >
+                        <span className="text-xs font-bold uppercase text-blue-400 tracking-widest">
+                          {cs.category}
+                        </span>
+
+                        <h3 className="text-white font-bold text-2xl mt-2 mb-3">
+                          {cs.title}
+                        </h3>
+
+                        <p className="text-white/80 text-sm mt-2 line-clamp-3 max-w-md">
+                          {cs.description}
+                        </p>
+
+                        {isActive && (
+                          <motion.button
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.2 }}
+                            className="mt-4 px-6 py-2 bg-blue-600 hover:bg-blue-700 rounded-full text-white text-sm font-semibold transition-colors"
+                          >
+                            Learn More →
+                          </motion.button>
+                        )}
+                      </div>
+
+                      {/* Badge */}
+                      
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* Progress Bar */}
+        <div className="flex justify-center gap-2 mt-8 mb-4">
+          {caseStudies.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => {
+                setCurrentIndex(currentIndex - (active - i));
+                setActive(i);
+              }}
+              className="group relative"
+              aria-label={`Go to slide ${i + 1}`}
+            >
+              <div
+                className={`w-2 h-2 rounded-full transition-all duration-300
+                ${active === i ? "bg-white w-8" : "bg-white/30 group-hover:bg-white/50"}
+              `}
+              />
+            </button>
+          ))}
+        </div>
+
+        {/* Slide Counter */}
+       
+      </div>
+    </section>
+  );
+}
+
+
+// ─── TESTIMONIALS SECTION ─────────────────────────────────────────────────────
+function TestimonialsSection() {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const [active, setActive] = useState(0);
+
+  return (
+    <section ref={ref} className="bg-white py-24">
+      <div className="container mx-auto">
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          animate={inView ? "visible" : "hidden"}
+          className="text-center mb-12"
+        >
+          <p className="text-xs font-bold tracking-[0.2em] uppercase text-primary-foreground mb-3">
+            Testimonial
+          </p>
+          <h2
+            className="text-3xl lg:text-4xl font-bold text-gray-900 leading-tight"
+            style={{ fontFamily: "'Sora', sans-serif" }}
+          >
+            20k+ satisfied clients worldwide
+          </h2>
+        </motion.div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          {testimonials.map((t, i) => (
+            <motion.div
+              key={i}
+              variants={fadeUp}
+              initial="hidden"
+              animate={inView ? "visible" : "hidden"}
+              custom={i}
+              className="bg-white border border-gray-300 rounded-sm p-6 shadow-sm hover:shadow-md transition-shadow"
+            >
+              <div className="flex items-start gap-4 mb-4">
+                <img
+                  src={t.image}
+                  alt={t.name}
+                  className="w-14 h-14 rounded-full object-cover flex-shrink-0"
+                />
+                <div className="flex-1">
+                  <svg
+                    viewBox="0 0 32 24"
+                    className="w-8 h-6 text-primary-foreground mb-2"
+                    fill="currentColor"
+                  >
+                    <path d="M0 24V14.4C0 6.4 4.8 1.6 14.4 0l1.6 2.4C10.4 3.6 7.2 6.4 6.4 10.4H12V24H0zm20 0V14.4C20 6.4 24.8 1.6 34.4 0l1.6 2.4c-5.6 1.2-8.8 4-9.6 8H32V24H20z" />
+                  </svg>
+                  <p className="text-gray-600 text-sm leading-relaxed">
+                    {t.text}
+                  </p>
+                </div>
+              </div>
+              <div className="border-t border-gray-100 pt-4">
+                <span className="font-bold text-gray-800 text-sm">
+                  {t.name}
+                </span>
+                <span className="text-gray-400 text-xs ml-1">/ {t.role}</span>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Dots */}
+        <div className="flex justify-center gap-2 mt-8">
+          {[0, 1].map((i) => (
+            <button
+              key={i}
+              onClick={() => setActive(i)}
+              className={`rounded-full transition-all duration-300 ${active === i ? "bg-primary-foreground w-6 h-2.5" : "bg-gray-300 w-2.5 h-2.5"}`}
+            />
+          ))}
+        </div>
+
+        {/* Partners Logos */}
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          animate={inView ? "visible" : "hidden"}
+          custom={3}
+          className="mt-16 flex flex-wrap items-center justify-center gap-10"
+        >
+          {partners.map((p, i) => (
+            <span
+              key={i}
+              className="text-gray-400 font-bold text-3xl tracking-wide hover:text-gray-600 transition-colors cursor-pointer uppercase"
+              style={{ fontFamily: "'Sora', sans-serif" }}
+            >
+              {p}
+            </span>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+// ─── TEAM SECTION ─────────────────────────────────────────────────────────────
+function TeamSection() {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const [active, setActive] = useState(0);
+
+  return (
+    <section ref={ref} className="bg-gray-50 py-24">
+      <div className="container mx-auto">
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          animate={inView ? "visible" : "hidden"}
+          className="text-center mb-12"
+        >
+          <p className="text-xs font-bold tracking-[0.2em] uppercase text-primary-foreground mb-3">
+            Our Expert Team
+          </p>
+          <h2
+            className="text-3xl lg:text-4xl font-bold text-gray-900 leading-tight"
+            style={{ fontFamily: "'Sora', sans-serif" }}
+          >
+            We have world expert team
+          </h2>
+        </motion.div>
+
+        {/* Team Grid */}
+        <div className="relative">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-0 overflow-hidden rounded-sm">
+            {team.map((member, i) => (
+              <motion.div
+                key={i}
+                variants={fadeIn}
+                initial="hidden"
+                animate={inView ? "visible" : "hidden"}
+                custom={i}
+                className="relative group overflow-hidden"
+              >
+                <div className="relative h-72 lg:h-80">
+                  <img
+                    src={member.image}
+                    alt={member.name}
+                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-[#0B1A2A]/40 group-hover:bg-[#0B1A2A]/20 transition-all duration-300" />
+                  <div className="absolute bottom-0 left-0 right-0 p-4">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="w-2 h-2 rounded-full bg-primary-foreground flex-shrink-0" />
+                      <h3 className="text-white font-bold text-sm leading-snug">
+                        {member.name}
+                      </h3>
+                    </div>
+                    <p className="text-white/70 text-xs ml-4">{member.role}</p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Dots */}
+          <div className="flex justify-center gap-2 mt-6">
+            {[0, 1].map((i) => (
+              <button
+                key={i}
+                onClick={() => setActive(i)}
+                className={`rounded-full transition-all duration-300 ${active === i ? "bg-primary-foreground w-6 h-2.5" : "bg-gray-300 w-2.5 h-2.5"}`}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── BLOG SECTION ─────────────────────────────────────────────────────────────
+function BlogSection() {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+
+  return (
+    <section ref={ref} className="bg-white py-24">
+      <div className="container mx-auto">
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          animate={inView ? "visible" : "hidden"}
+          className="text-center mb-12"
+        >
+          <p className="text-xs font-bold tracking-[0.2em] uppercase text-primary-foreground mb-3">
+            Latest Blog
+          </p>
+          <h2
+            className="text-3xl lg:text-4xl font-bold text-gray-900 leading-tight"
+            style={{ fontFamily: "'Sora', sans-serif" }}
+          >
+            Read our latest news &amp;
+            <br />
+            blog from our experts
+          </h2>
+        </motion.div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {blogs.map((blog, i) => (
+            <motion.div
+              key={i}
+              variants={fadeUp}
+              initial="hidden"
+              animate={inView ? "visible" : "hidden"}
+              custom={i}
+              className="group cursor-pointer"
+            >
+              <div className="relative overflow-hidden rounded-sm mb-5 h-52">
+                <img
+                  src={blog.image}
+                  alt={blog.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute top-4 left-4">
+                  <span className="bg-primary-foreground text-white text-xs font-bold px-3 py-1 rounded-sm">
+                    {blog.category}
+                  </span>
+                </div>
+              </div>
+              <div>
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="text-xs text-gray-400 flex items-center gap-1">
+                    <svg
+                      viewBox="0 0 24 24"
+                      className="w-3.5 h-3.5"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                    >
+                      <rect x="3" y="4" width="18" height="18" rx="2" />
+                      <path d="M16 2v4M8 2v4M3 10h18" />
+                    </svg>
+                    {blog.date}
+                  </span>
+                  <span className="text-gray-300">|</span>
+                  <span className="text-xs text-gray-400 flex items-center gap-1">
+                    <svg
+                      viewBox="0 0 24 24"
+                      className="w-3.5 h-3.5"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                    >
+                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                      <circle cx="12" cy="7" r="4" />
+                    </svg>
+                    {blog.author}
+                  </span>
+                </div>
+                <h3
+                  className="font-bold text-gray-900 text-base leading-snug mb-3 group-hover:text-primary-foreground transition-colors"
+                  style={{ fontFamily: "'Sora', sans-serif" }}
+                >
+                  {blog.title}
+                </h3>
+                <a
+                  href="#"
+                  className="text-primary-foreground text-xs font-semibold inline-flex items-center gap-1 hover:gap-2 transition-all"
+                >
+                  Read More →
+                </a>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── CTA SECTION ──────────────────────────────────────────────────────────────
+function CTASection() {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+
+  return (
+    <section ref={ref} className="relative py-24 overflow-hidden">
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{
+          backgroundImage:
+            "url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1600&q=80')",
+        }}
+      />
+      <div className="absolute inset-0 bg-[#0B1A2A]/85" />
+      <div className="absolute top-0 left-0 w-[40vw] h-[40vw] max-w-[500px] max-h-[500px] bg-gradient-to-br from-[#8A2BE2]/50 to-[#3B82F6]/50 rounded-br-full -translate-x-1/3 -translate-y-1/3" />
+
+      <div className="relative z-10 container mx-auto text-center">
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          animate={inView ? "visible" : "hidden"}
+        >
+          <p className="text-xs font-bold tracking-[0.2em] uppercase text-primary-foreground mb-3">
+            Get In Touch
+          </p>
+          <h2
+            className="text-3xl lg:text-5xl font-bold text-white leading-tight mb-6 max-w-3xl mx-auto"
+            style={{ fontFamily: "'Sora', sans-serif" }}
+          >
+            Ready to grow your business
+            <br />
+            with our IT solutions?
+          </h2>
+          <p className="text-white/70 text-sm mb-10 max-w-xl mx-auto leading-relaxed">
+            Accelerate innovation with world-class tech teams. We'll match you
+            to an entire remote team of incredible freelance talent for all your
+            needs.
+          </p>
+          <div className="flex items-center justify-center gap-4 flex-wrap">
+            <button className="px-8 py-3.5 bg-primary-foreground text-white rounded-md font-semibold text-sm shadow-lg hover:opacity-90 transition-opacity">
+              Get Started
+            </button>
+            <button className="px-8 py-3.5 border border-white/40 text-white rounded-md font-semibold text-sm hover:bg-white/10 transition-colors">
+              Contact Us
+            </button>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+// ─── PAGE ROOT ─────────────────────────────────────────────────────────────────
+export default function HomePage() {
+  return (
+    <main className="overflow-x-hidden">
+      <Header />
+      <HeroSection />
+      <AboutSection />
+      <StatsSection />
+      <SolutionsSection />
+      <SkillsSection />
+      <CaseStudiesSection />
+      <TestimonialsSection />
+      <TeamSection />
+      <BlogSection />
+      <CTASection />
       <Footer />
-    </div>
+    </main>
   );
 }
