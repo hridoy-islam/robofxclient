@@ -29,7 +29,7 @@ export async function POST(req: Request) {
 
     const templatePath = path.join(
       process.cwd(),
-      "static/email_template/consultation_template.ejs"
+      "static/email_template/contact_user-template.ejs"
     );
     const html = await ejs.renderFile(templatePath, {
       name,

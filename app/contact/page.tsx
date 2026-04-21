@@ -19,61 +19,74 @@ export default function ContactPage() {
     firstName: "",
     lastName: "",
     email: "",
-    department: "",
+    phone: "",
+    address: "",
     message: "",
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
- const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  if (isLoading) return;
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (isLoading) return;
 
-  setIsLoading(true);
+    setIsLoading(true);
 
-  try {
-    // Send both requests in parallel
-    const [adminRes] = await Promise.allSettled([
-      fetch("/api/send-email", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Cache-Control": "no-cache, no-store, must-revalidate",
-          Pragma: "no-cache",
-        },
-        cache: "no-store",
-        body: JSON.stringify(formData),
-      }),
-     
-    ]);
+    try {
+      // Send both requests in parallel
+      const [adminRes, userRes] = await Promise.allSettled([
+        fetch("/api/send-email", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Cache-Control": "no-cache, no-store, must-revalidate",
+            Pragma: "no-cache",
+          },
+          cache: "no-store",
+          body: JSON.stringify(formData),
+        }),
+        fetch("/api/send-user-email", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Cache-Control": "no-cache, no-store, must-revalidate",
+            Pragma: "no-cache",
+          },
+          cache: "no-store",
+          body: JSON.stringify(formData),
+        }),
+      ]);
 
-    // Check if at least one succeeded (or handle individual failures as needed)
-    const adminSuccess = adminRes.status === "fulfilled" && adminRes.value.ok;
+      // Check if at least one succeeded
+      const adminSuccess = adminRes.status === "fulfilled" && adminRes.value.ok;
+      const userSuccess = userRes.status === "fulfilled" && userRes.value.ok;
 
-    if (adminSuccess ) {
-      setIsSubmitted(true);
-      setFormData({
-        firstName: "",
-        lastName: "",
-        email: "",
-        department: "",
-        message: "",
-      });
-      setTimeout(() => setIsSubmitted(false), 5000);
+      if (adminSuccess || userSuccess) {
+        setIsSubmitted(true);
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          phone: "",
+          address: "",
+          message: "",
+        });
+        setTimeout(() => setIsSubmitted(false), 5000);
 
-      // Optional: log failures for debugging
-      if (!adminSuccess) console.warn("Admin email failed");
-    } else {
-      console.error("Both email requests failed");
-      alert("Something went wrong. Please try again later.");
+        // Optional: log failures for debugging
+        if (!adminSuccess) console.warn("Admin email failed");
+        if (!userSuccess) console.warn("User email failed");
+      } else {
+        console.error("Both email requests failed");
+        alert("Something went wrong. Please try again later.");
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      alert("Network error. Please check your connection.");
+    } finally {
+      setIsLoading(false);
     }
-  } catch (error) {
-    console.error("Error submitting form:", error);
-    alert("Network error. Please check your connection.");
-  } finally {
-    setIsLoading(false);
-  }
-};
+  };
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -189,7 +202,7 @@ export default function ContactPage() {
                     <div className="grid md:grid-cols-2 gap-6">
                       <div>
                         <label className="block text-[10px] font-bold text-primary-blue uppercase mb-2 tracking-widest">
-                          First Name
+                          First Name *
                         </label>
                         <input
                           type="text"
@@ -203,7 +216,7 @@ export default function ContactPage() {
                       </div>
                       <div>
                         <label className="block text-[10px] font-bold text-primary-blue uppercase mb-2 tracking-widest">
-                          Last Name
+                          Last Name *
                         </label>
                         <input
                           type="text"
@@ -219,7 +232,7 @@ export default function ContactPage() {
 
                     <div>
                       <label className="block text-[10px] font-bold text-primary-blue uppercase mb-2 tracking-widest">
-                        Email Address
+                        Email Address *
                       </label>
                       <input
                         type="email"
@@ -234,41 +247,42 @@ export default function ContactPage() {
 
                     <div>
                       <label className="block text-[10px] font-bold text-primary-blue uppercase mb-2 tracking-widest">
-                        Department
+                        Phone Number *
                       </label>
-                      <div className="relative">
-                        <select
-                          name="department"
-                          value={formData.department}
-                          onChange={handleChange}
-                          required
-                          className="w-full px-4 py-4 bg-black border border-white/10 rounded-xl text-white focus:ring-1 focus:ring-primary-blue focus:border-primary-blue focus:outline-none transition-all appearance-none cursor-pointer"
-                        >
-                          <option value="" className="text-gray-500">
-                            Select a topic...
-                          </option>
-                          <option value="technical">Technical Support</option>
-                          <option value="sales">Sales & Pricing</option>
-                          <option value="partnership">
-                            Partnership Inquiry
-                          </option>
-                          <option value="general">General Question</option>
-                        </select>
-                        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-primary-blue">
-                          <ArrowRight className="w-4 h-4 rotate-90" />
-                        </div>
-                      </div>
+                      <input
+                        type="tel"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        required
+                        className="w-full px-4 py-4 bg-black border border-white/10 rounded-xl text-white placeholder-gray-600 focus:ring-1 focus:ring-primary-blue focus:border-primary-blue focus:outline-none transition-all"
+                        placeholder="+1 (555) 000-0000"
+                      />
                     </div>
 
                     <div>
                       <label className="block text-[10px] font-bold text-primary-blue uppercase mb-2 tracking-widest">
-                        Message
+                        Address *
+                      </label>
+                      <input
+                        type="text"
+                        name="address"
+                        value={formData.address}
+                        onChange={handleChange}
+                        required
+                        className="w-full px-4 py-4 bg-black border border-white/10 rounded-xl text-white placeholder-gray-600 focus:ring-1 focus:ring-primary-blue focus:border-primary-blue focus:outline-none transition-all"
+                        placeholder="Street, City, Postal Code"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-[10px] font-bold text-primary-blue uppercase mb-2 tracking-widest">
+                        Message (Optional)
                       </label>
                       <textarea
                         name="message"
                         value={formData.message}
                         onChange={handleChange}
-                        required
                         rows={5}
                         className="w-full px-4 py-4 bg-black border border-white/10 rounded-xl text-white placeholder-gray-600 focus:ring-1 focus:ring-primary-blue focus:border-primary-blue focus:outline-none transition-all resize-none"
                         placeholder="How can we assist you today?"

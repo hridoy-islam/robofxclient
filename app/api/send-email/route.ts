@@ -5,7 +5,9 @@ import path from "path";
 
 export async function POST(req: Request) {
   try {
-    const { firstName, lastName, email, department, message } = await req.json();
+    const { firstName, lastName, email, phone, address, message } =
+      await req.json();
+
     const transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
       port: 587,
@@ -25,13 +27,15 @@ export async function POST(req: Request) {
       firstName,
       lastName,
       email,
-      department,
+      phone,
+      address,
       message,
     });
 
     const mailOptions = {
       from: "QuickTradeFX<admin@quicktradefx.com>",
       to: "admin@quicktradefx.com",
+
       subject: `New Contact Form Submission from ${firstName} ${lastName}`,
       html,
     };
