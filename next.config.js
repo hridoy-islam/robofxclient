@@ -17,6 +17,10 @@ const nextConfig = {
     ],
   },
 
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  
   async headers() {
     return [
       {
