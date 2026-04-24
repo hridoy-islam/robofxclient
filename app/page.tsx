@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { useRouter } from "next/navigation";
 
 // ─── Animation Variants ───────────────────────────────────────────────────────
 const fadeUp = {
@@ -333,23 +334,30 @@ const blogs = [
 const partners = ["Fampay", "SWIGG", "MIGHTY BUILDING", "Jupiter", "Dyte"];
 
 // ─── HERO SECTION ─────────────────────────────────────────────────────────────
-function HeroSection() {
+ function HeroSection() {
+  const router = useRouter();
+  
   return (
-    <section className="relative min-h-[120vh] flex flex-col overflow-hidden bg-[#0a1526]">
+    // Changed to 100vh on mobile, 120vh on large screens
+    <section className="relative min-h-[100vh] lg:min-h-[120vh] flex flex-col overflow-hidden bg-[#0a1526]">
       <div className="absolute inset-0 z-0">
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
             backgroundImage:
-              "url('https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&q=80')",
+              "url('/heroimg.jpg')",
           }}
         />
         <div className="absolute inset-0 bg-[#0B1A2A]/80 mix-blend-multiply" />
         <div className="absolute inset-0 bg-[#0B1A2A]/50" />
-        <div className="absolute top-0 left-0 w-[45vw] h-[45vw] max-w-[600px] max-h-[600px] bg-gradient-to-br from-[#8A2BE2] to-[#3B82F6] rounded-br-full opacity-95 -translate-x-1/4 -translate-y-1/4" />
-        <div className="absolute bottom-0 right-0 w-[35vw] h-[35vw] max-w-[500px] max-h-[500px] bg-gradient-to-tl from-[#8A2BE2] to-[#3B82F6] rounded-tl-full opacity-90 translate-x-1/4 translate-y-1/4" />
+        
+        {/* Adjusted gradient blob sizes for mobile (80vw) to desktop (45vw) */}
+        <div className="absolute top-0 left-0 w-[80vw] h-[80vw] md:w-[45vw] md:h-[45vw] max-w-[600px] max-h-[600px] bg-gradient-to-br from-[#8A2BE2] to-[#3B82F6] rounded-br-full opacity-95 -translate-x-1/4 -translate-y-1/4" />
+        <div className="absolute bottom-0 right-0 w-[70vw] h-[70vw] md:w-[35vw] md:h-[35vw] max-w-[500px] max-h-[500px] bg-gradient-to-tl from-[#8A2BE2] to-[#3B82F6] rounded-tl-full opacity-90 translate-x-1/4 translate-y-1/4" />
+        
+        {/* Adjusted SVG width for mobile */}
         <svg
-          className="absolute right-[10%] top-1/4 w-1/3 h-full opacity-20 pointer-events-none"
+          className="absolute right-[-10%] md:right-[10%] top-1/4 w-2/3 md:w-1/3 h-full opacity-20 pointer-events-none"
           viewBox="0 0 500 500"
           fill="none"
         >
@@ -362,14 +370,15 @@ function HeroSection() {
         </svg>
       </div>
 
-      <div className="relative z-20 container mx-auto pb-72 w-full flex-grow flex flex-col justify-center">
-        <motion.div className="">
+      {/* Added px-6 md:px-12 for horizontal padding and scaled bottom padding */}
+      <div className="relative z-20 container mx-auto px-6 md:px-12 pt-24 md:pt-0 pb-32 lg:pb-72 w-full flex-grow flex flex-col justify-center">
+        <motion.div className="max-w-3xl">
           <motion.p
             variants={fadeUp}
             initial="hidden"
             animate="visible"
             custom={0}
-            className="text-xs font-semibold tracking-widest uppercase text-white/90 mb-4"
+            className="text-[10px] md:text-xs font-semibold tracking-widest uppercase text-white/90 mb-3 md:mb-4"
           >
             TECHNOLOGY RELATED CONSULTANCY
           </motion.p>
@@ -379,10 +388,11 @@ function HeroSection() {
             initial="hidden"
             animate="visible"
             custom={1}
-            className="text-5xl lg:text-6xl font-bold text-white leading-tight mb-6"
+            // Scaled text: 4xl on mobile, 5xl on tablets, 6xl on desktops
+            className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-4 md:mb-6"
           >
             We transform ideas
-            <br />
+            <br className="hidden md:block" />{" "} {/* Prevents awkward breaks on mobile */}
             into technology
           </motion.h1>
 
@@ -391,7 +401,7 @@ function HeroSection() {
             initial="hidden"
             animate="visible"
             custom={2}
-            className="text-white/80 text-base leading-relaxed mb-8 max-w-md"
+            className="text-white/90 text-sm md:text-base leading-relaxed mb-8 max-w-md"
           >
             We provide the most responsive and functional IT design for
             companies and businesses worldwide.
@@ -403,20 +413,23 @@ function HeroSection() {
             animate="visible"
             custom={3}
           >
-            <button className="px-8 py-3.5 btn-gradient rounded-md font-semibold text-sm text-white shadow-lg transition-colors">
+            <button 
+              onClick={() => router.push('/contact')}
+              className="px-8 py-3.5 btn-gradient rounded-md font-semibold text-sm text-white shadow-lg transition-transform hover:scale-105 active:scale-95 w-full sm:w-auto"
+            >
               Read More
             </button>
           </motion.div>
         </motion.div>
       </div>
 
-      <div className="">
+      {/* Added relative positioning to ensure overlay stays on top on smaller devices */}
+      <div className="relative z-30 w-full px-4 md:px-0">
         <ServiceCardsOverlay />
       </div>
     </section>
   );
 }
-
 // ─── SERVICE CARDS OVERLAY ────────────────────────────────────────────────────
 function ServiceCardsOverlay() {
   const ref = useRef(null);
@@ -425,8 +438,11 @@ function ServiceCardsOverlay() {
   return (
     <div
       ref={ref}
-      className="absolute bottom-16 left-1/2 -translate-x-1/2 z-30 w-full container"
+      // UPDATE HERE: Use 'relative' for mobile so it flows after the text, 
+      // and 'lg:absolute' for desktop to maintain your perfect overlay effect.
+      className="relative lg:absolute lg:bottom-16 lg:left-1/2 lg:-translate-x-1/2 z-30 w-full container mx-auto   lg:px-4 pb-16 lg:pb-0  "
     >
+      {/* Grid is already 1 column on mobile (grid-cols-1) and 4 on desktop */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {services.map((s, i) => (
           <motion.div
@@ -486,13 +502,13 @@ function AboutSection() {
             <br />
             Services.
           </h2>
-          <p className="text-gray-500 text-sm leading-relaxed mb-8 max-w-md">
+          <p className="text-gray-00 text-sm leading-relaxed mb-8 max-w-md">
             Accelerate innovation with workflows tech meets. We'll teach you to
             achieve things. Start incredible freelance solutions for all your
             software development needs.
           </p>
 
-          <div className="flex items-center gap-8">
+          {/* <div className="flex items-center gap-8">
             <div>
               <div className="font-bold text-gray-800 text-sm mb-0.5">
                 Alex Sp.
@@ -511,7 +527,7 @@ function AboutSection() {
                 0123-456-7890
               </a>
             </div>
-          </div>
+          </div> */}
         </motion.div>
 
         <motion.div
@@ -696,7 +712,7 @@ function SolutionsSection() {
 function SkillsSection() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
-
+  const router = useRouter()
   return (
     <section ref={ref} className="bg-gray-50 py-24">
       <div className="container mx-auto grid lg:grid-cols-2 gap-16 items-center">
@@ -733,12 +749,12 @@ function SkillsSection() {
                 you to an entire remote team of incredible freelance talent for
                 all your software development needs.
               </p>
-              <a
-                href="#"
+              <button
+                onClick={()=> router.push('/about')}
                 className="text-primary-foreground font-semibold text-sm inline-flex items-center gap-1 hover:gap-2 transition-all"
               >
                 Learn More About Us →
-              </a>
+              </button>
             </div>
           </div>
         </motion.div>
@@ -852,7 +868,7 @@ function CaseStudiesSection() {
 
   return (
     <section ref={ref} className="bg-[#0B1A2A] py-24 overflow-hidden">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto ">
         {/* HEADER */}
         <motion.div
           variants={fadeUp}
@@ -946,7 +962,7 @@ function CaseStudiesSection() {
                   >
                     <div
                       className={`h-[500px] relative cursor-pointer transition-all duration-300 rounded-xl overflow-hidden group
-                        ${isActive ? "ring-2 ring-blue-500 shadow-2xl scale-105" : "opacity-60 hover:opacity-80 scale-95"}
+                        ${isActive ? "ring-2 ring-primary-foreground shadow-2xl scale-105" : "opacity-60 hover:opacity-80 scale-95"}
                       `}
                       onClick={() => {
                         const newIndex = i;
@@ -974,7 +990,7 @@ function CaseStudiesSection() {
                         ${isActive ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}
                       `}
                       >
-                        <span className="text-xs font-bold uppercase text-blue-400 tracking-widest">
+                        <span className="text-xs font-bold uppercase text-primary-foreground tracking-widest">
                           {cs.category}
                         </span>
 
@@ -991,7 +1007,7 @@ function CaseStudiesSection() {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.2 }}
-                            className="mt-4 px-6 py-2 bg-blue-600 hover:bg-blue-700 rounded-full text-white text-sm font-semibold transition-colors"
+                            className="mt-4 px-6 py-2 bg-primary-foreground hover:bg-blue-700/90 rounded-full text-white text-sm font-semibold transition-colors"
                           >
                             Learn More →
                           </motion.button>
@@ -1307,7 +1323,7 @@ function BlogSection() {
 function CTASection() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
-
+const router = useRouter()
   return (
     <section ref={ref} className="relative py-24 overflow-hidden">
       <div
@@ -1343,12 +1359,10 @@ function CTASection() {
             needs.
           </p>
           <div className="flex items-center justify-center gap-4 flex-wrap">
-            <button className="px-8 py-3.5 bg-primary-foreground text-white rounded-md font-semibold text-sm shadow-lg hover:opacity-90 transition-opacity">
+            <button className="px-8 py-3.5 bg-primary-foreground text-white rounded-md font-semibold text-sm shadow-lg hover:opacity-90 transition-opacity" onClick={()=> router.push('/contact')}>
               Get Started
             </button>
-            <button className="px-8 py-3.5 border border-white/40 text-white rounded-md font-semibold text-sm hover:bg-white/10 transition-colors">
-              Contact Us
-            </button>
+           
           </div>
         </motion.div>
       </div>

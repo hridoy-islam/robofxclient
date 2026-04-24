@@ -1,3 +1,4 @@
+
 "use client";
 
 import { motion, useInView } from "framer-motion";
@@ -5,556 +6,7 @@ import { useRef } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import BreadCrumb from "@/components/BreadCrumb";
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 40 },
-  visible: (i = 0) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] },
-  }),
-};
-
-const services = [
-  {
-    title: "IT Consultancy",
-    desc: "Accelerate innovation with world-class tech teams. We'll match you to an entire.",
-    icon: (
-      <svg
-        viewBox="0 0 40 40"
-        className="w-10 h-10 text-blue-500"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.5"
-      >
-        <circle cx="20" cy="14" r="7" />
-        <path d="M8 34c0-6.627 5.373-12 12-12s12 5.373 12 12" />
-        <path d="M26 10l2 2-2 2" />
-      </svg>
-    ),
-  },
-  {
-    title: "Data Science",
-    desc: "Accelerate innovation with world-class tech teams. We'll match you to an entire.",
-    icon: (
-      <svg
-        viewBox="0 0 40 40"
-        className="w-10 h-10 text-blue-500"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.5"
-      >
-        <ellipse cx="20" cy="10" rx="14" ry="5" />
-        <path d="M6 10v8c0 2.761 6.268 5 14 5s14-2.239 14-5v-8" />
-        <path d="M6 18v8c0 2.761 6.268 5 14 5s14-2.239 14-5v-8" />
-      </svg>
-    ),
-  },
-  {
-    title: "IT Security",
-    desc: "Accelerate innovation with world-class tech teams. We'll match you to an entire.",
-    icon: (
-      <svg
-        viewBox="0 0 40 40"
-        className="w-10 h-10 text-blue-500"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.5"
-      >
-        <path d="M20 4l14 5v10c0 8-6 14-14 17C12 33 6 27 6 19V9l14-5z" />
-        <path d="M14 20l4 4 8-8" />
-      </svg>
-    ),
-  },
-  {
-    title: "Blockchain System",
-    desc: "Accelerate innovation with world-class tech teams. We'll match you to an entire.",
-    icon: (
-      <svg
-        viewBox="0 0 40 40"
-        className="w-10 h-10 text-blue-500"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.5"
-      >
-        <rect x="14" y="4" width="12" height="10" rx="2" />
-        <rect x="4" y="26" width="12" height="10" rx="2" />
-        <rect x="24" y="26" width="12" height="10" rx="2" />
-        <path d="M20 14v6M10 26v-6h20v6" />
-      </svg>
-    ),
-  },
-  {
-    title: "IT Infrastructure",
-    desc: "Accelerate innovation with world-class tech teams. We'll match you to an entire.",
-    icon: (
-      <svg
-        viewBox="0 0 40 40"
-        className="w-10 h-10 text-blue-500"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.5"
-      >
-        <rect x="4" y="10" width="32" height="7" rx="2" />
-        <rect x="4" y="23" width="32" height="7" rx="2" />
-        <circle cx="9" cy="13.5" r="1.5" fill="currentColor" stroke="none" />
-        <circle cx="9" cy="26.5" r="1.5" fill="currentColor" stroke="none" />
-      </svg>
-    ),
-  },
-  {
-    title: "Data Management",
-    desc: "Accelerate innovation with world-class tech teams. We'll match you to an entire.",
-    icon: (
-      <svg
-        viewBox="0 0 40 40"
-        className="w-10 h-10 text-blue-500"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.5"
-      >
-        <rect x="6" y="6" width="28" height="8" rx="2" />
-        <rect x="6" y="18" width="28" height="8" rx="2" />
-        <rect x="6" y="30" width="28" height="5" rx="2" />
-        <circle cx="11" cy="10" r="1.5" fill="currentColor" stroke="none" />
-        <circle cx="11" cy="22" r="1.5" fill="currentColor" stroke="none" />
-      </svg>
-    ),
-  },
-  {
-    title: "IT Management",
-    desc: "Accelerate innovation with world-class tech teams. We'll match you to an entire.",
-    icon: (
-      <svg
-        viewBox="0 0 40 40"
-        className="w-10 h-10 text-blue-500"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.5"
-      >
-        <circle cx="20" cy="20" r="4" />
-        <path d="M20 4v4M20 32v4M4 20h4M32 20h4M7.76 7.76l2.83 2.83M29.41 29.41l2.83 2.83M7.76 32.24l2.83-2.83M29.41 10.59l2.83-2.83" />
-      </svg>
-    ),
-  },
-  {
-    title: "Data Securet",
-    desc: "Accelerate innovation with world-class tech teams. We'll match you to an entire.",
-    icon: (
-      <svg
-        viewBox="0 0 40 40"
-        className="w-10 h-10 text-blue-500"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.5"
-      >
-        <path d="M20 4l14 5v10c0 8-6 14-14 17C12 33 6 27 6 19V9l14-5z" />
-        <circle cx="20" cy="18" r="3" />
-        <path d="M20 21v5" />
-      </svg>
-    ),
-  },
-];
-
-const testimonials = [
-  {
-    text: "Accelerate innovation with world-class tech teams Beyond more stoic this along goodness hey this wow manatee",
-    author: "Mike Holder",
-    role: "CEO, Harland inc",
-    img: "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?auto=format&fit=crop&w=100&q=80",
-  },
-  {
-    text: "Accelerate innovation with world-class tech teams Beyond more stoic this along goodness hey this wow manatee",
-    author: "Mike Farmalin",
-    role: "CEO, Harland inc",
-    img: "https://images.unsplash.com/photo-1463453091185-61582044d556?auto=format&fit=crop&w=100&q=80",
-  },
-];
-
-const pricingPlans = [
-  {
-    name: "Free",
-    price: "0",
-    features: [
-      "Community Support",
-      "Dedicated Tech Experts",
-      "Unlimited Storage",
-      "Custom Domains",
-    ],
-    highlighted: false,
-  },
-  {
-    name: "Starter",
-    price: "10",
-    features: [
-      "Community Support",
-      "Dedicated Tech Experts",
-      "Unlimited Storage",
-      "Custom Domains",
-    ],
-    highlighted: true,
-  },
-  {
-    name: "Pro",
-    price: "30",
-    features: [
-      "Community Support",
-      "Dedicated Tech Experts",
-      "Unlimited Storage",
-      "Custom Domains",
-    ],
-    highlighted: false,
-  },
-];
-
-const partners = ["fampay", "SWIGG", "MIGHTY BUILDING", "Jupiter", "dyte"];
-
-function ServicesGrid() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
-
-  return (
-    <section ref={ref} className="bg-white py-20">
-      <div className="container mx-auto px-6 max-w-5xl">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-          {services.map((item, idx) => (
-            <motion.div
-              key={idx}
-              variants={fadeUp}
-              initial="hidden"
-              animate={inView ? "visible" : "hidden"}
-              custom={idx * 0.08}
-              className="border border-gray-200 p-6 rounded-lg hover:shadow-md transition-shadow bg-white"
-            >
-              <div className="mb-4">{item.icon}</div>
-              <h3 className="text-sm font-bold text-gray-800 mb-2">
-                {item.title}
-              </h3>
-              <p className="text-gray-500 text-xs leading-relaxed">
-                {item.desc}
-              </p>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function ContactCTABanner() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
-
-  return (
-    <section ref={ref} className="py-8 bg-white">
-      <div className="container mx-auto px-6 max-w-5xl">
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          className="rounded-xl px-10 py-8 flex flex-col md:flex-row items-center justify-between gap-6"
-          style={{
-            background: "linear-gradient(135deg, #0b1a2a 0%, #0d2040 100%)",
-          }}
-        >
-          <div className="flex items-start gap-4">
-            <div
-              className="w-1 self-stretch rounded-full flex-shrink-0"
-              style={{
-                background: "linear-gradient(180deg, #4f46e5, #38bdf8)",
-              }}
-            />
-            <h2 className="text-white font-bold text-2xl leading-snug">
-              To make requests for
-              <br />
-              further information,
-              <br />
-              contact us
-            </h2>
-          </div>
-          <div className="flex items-center gap-4 flex-shrink-0">
-            <div className="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center">
-              <svg
-                className="w-6 h-6 text-blue-400"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </div>
-            <div>
-              <div className="text-white/60 text-xs mb-1">
-                Call Us For Any Inquiry
-              </div>
-              <a
-                href="tel:+44920090505"
-                className="text-blue-400 font-bold text-xl"
-              >
-                +44 920 090 505
-              </a>
-            </div>
-          </div>
-        </motion.div>
-      </div>
-    </section>
-  );
-}
-
-function TestimonialSection() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
-
-  return (
-    <section ref={ref} className="bg-gray-50 py-20">
-      <div className="container mx-auto px-6 max-w-5xl">
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          className="text-center mb-12"
-        >
-          <p className="text-blue-500 text-xs font-bold tracking-[0.2em] uppercase mb-3">
-            TESTIMONIAL
-          </p>
-          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900">
-            20k+ satisfied clients worldwide
-          </h2>
-        </motion.div>
-
-        <div className="grid md:grid-cols-2 gap-6 mb-10">
-          {testimonials.map((t, i) => (
-            <motion.div
-              key={i}
-              variants={fadeUp}
-              initial="hidden"
-              animate={inView ? "visible" : "hidden"}
-              custom={i}
-              className="flex gap-5 p-6 rounded-xl bg-white border border-gray-100 shadow-sm"
-            >
-              <img
-                src={t.img}
-                alt={t.author}
-                className="w-16 h-16 rounded-lg object-cover flex-shrink-0"
-              />
-              <div>
-                <svg
-                  className="w-8 h-8 text-blue-400 mb-3"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
-                </svg>
-                <p className="text-gray-600 text-sm mb-3">{t.text}</p>
-                <div className="text-sm font-semibold text-gray-800">
-                  {t.author}{" "}
-                  <span className="text-gray-400 font-normal">/ {t.role}</span>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-
-        <div className="flex justify-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-gray-300" />
-          <span className="w-4 h-2 rounded-full bg-blue-500" />
-          <span className="w-2 h-2 rounded-full bg-gray-300" />
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function PricingSection() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
-
-  return (
-    <section ref={ref} className="bg-white py-20">
-      <div className="container mx-auto px-6 max-w-5xl">
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          className="text-center mb-12"
-        >
-          <p className="text-blue-500 text-xs font-bold tracking-[0.2em] uppercase mb-3">
-            PRICING PLANS
-          </p>
-          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900">
-            Affordable pricing for all
-          </h2>
-        </motion.div>
-
-        <div className="grid md:grid-cols-3 gap-6">
-          {pricingPlans.map((plan, i) => (
-            <motion.div
-              key={i}
-              variants={fadeUp}
-              initial="hidden"
-              animate={inView ? "visible" : "hidden"}
-              custom={i}
-              className={`rounded-xl p-8 ${plan.highlighted ? "text-white shadow-xl" : "bg-white border border-gray-200"}`}
-              style={
-                plan.highlighted
-                  ? {
-                      background:
-                        "linear-gradient(135deg, #4f46e5 0%, #2563eb 60%, #38bdf8 100%)",
-                    }
-                  : {}
-              }
-            >
-              <div
-                className={`text-sm font-semibold mb-4 ${plan.highlighted ? "text-white/80" : "text-gray-500"}`}
-              >
-                {plan.name}
-              </div>
-              <div className="flex items-end gap-1 mb-6">
-                <span
-                  className={`text-2xl font-bold ${plan.highlighted ? "text-white" : "text-gray-800"}`}
-                >
-                  $
-                </span>
-                <span
-                  className={`text-5xl font-extrabold leading-none ${plan.highlighted ? "text-white" : "text-gray-900"}`}
-                >
-                  {plan.price}
-                </span>
-                <span
-                  className={`text-sm mb-1 ${plan.highlighted ? "text-white/70" : "text-gray-500"}`}
-                >
-                  /Month
-                </span>
-              </div>
-              <ul className="space-y-2 mb-8">
-                {plan.features.map((f, j) => (
-                  <li
-                    key={j}
-                    className={`text-sm ${plan.highlighted ? "text-white/80" : "text-gray-600"}`}
-                  >
-                    {f}
-                  </li>
-                ))}
-              </ul>
-              <button
-                className={`w-full py-2.5 rounded-lg text-sm font-semibold transition-colors ${
-                  plan.highlighted
-                    ? "bg-white text-blue-600 hover:bg-blue-50"
-                    : "bg-blue-500 text-white hover:bg-blue-600"
-                }`}
-              >
-                Try It Now
-              </button>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function PartnersSection() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
-
-  return (
-    <section ref={ref} className="bg-white py-12 border-t border-gray-100">
-      <div className="container mx-auto px-6 max-w-5xl">
-        <div className="flex flex-wrap items-center justify-center gap-10">
-          {partners.map((p, i) => (
-            <motion.span
-              key={i}
-              variants={fadeUp}
-              initial="hidden"
-              animate={inView ? "visible" : "hidden"}
-              custom={i}
-              className="text-gray-400 font-bold text-lg uppercase tracking-wide hover:text-gray-600 transition-colors cursor-pointer"
-            >
-              {p}
-            </motion.span>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function ServicesCTASection() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
-
-  return (
-    <section ref={ref} className="py-8 bg-white">
-      <div className="container mx-auto px-6 max-w-5xl">
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          className="rounded-xl px-10 py-6 flex flex-col md:flex-row items-center justify-between gap-6"
-          style={{
-            background:
-              "linear-gradient(135deg, #4f46e5 0%, #2563eb 60%, #38bdf8 100%)",
-          }}
-        >
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
-              <svg
-                className="w-6 h-6 text-white"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </div>
-            <h2 className="text-white font-bold text-xl leading-tight">
-              We're Delivering the best customer Experience
-            </h2>
-          </div>
-          <a
-            href="tel:+44920090505"
-            className="flex-shrink-0 bg-white text-blue-600 font-bold px-6 py-3 rounded-lg text-sm hover:bg-blue-50 transition-colors"
-          >
-            +44 920 090 505
-          </a>
-        </motion.div>
-      </div>
-    </section>
-  );
-}
-
-export default function ServicesPage() {
-  return (
-    <main className="overflow-x-hidden">
-      <Header />
-      <BreadCrumb title="Our Services" />
-      <ServicesGrid />
-      <ContactCTABanner />
-      <TestimonialSection />
-      <PricingSection />
-      <PartnersSection />
-      <ServicesCTASection />
-      <Footer />
-    </main>
-  );
-}
-"use client";
-
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import BreadCrumb from "@/components/BreadCrumb";
+import { useRouter } from "next/navigation";
 
 // ─── Animation Variants ──────────────────────────────────────────────────────
 const fadeUp = {
@@ -616,7 +68,7 @@ const solutionsItems = [
     icon: (
       <svg
         viewBox="0 0 40 40"
-        className="w-10 h-10 text-blue-500"
+        className="w-10 h-10 text-primary-foreground"
         fill="none"
         stroke="currentColor"
         strokeWidth="1.5"
@@ -634,7 +86,7 @@ const solutionsItems = [
     icon: (
       <svg
         viewBox="0 0 40 40"
-        className="w-10 h-10 text-blue-500"
+        className="w-10 h-10 text-primary-foreground"
         fill="none"
         stroke="currentColor"
         strokeWidth="1.5"
@@ -651,7 +103,7 @@ const solutionsItems = [
     icon: (
       <svg
         viewBox="0 0 40 40"
-        className="w-10 h-10 text-blue-500"
+        className="w-10 h-10 text-primary-foreground"
         fill="none"
         stroke="currentColor"
         strokeWidth="1.5"
@@ -667,7 +119,7 @@ const solutionsItems = [
     icon: (
       <svg
         viewBox="0 0 40 40"
-        className="w-10 h-10 text-blue-500"
+        className="w-10 h-10 text-primary-foreground"
         fill="none"
         stroke="currentColor"
         strokeWidth="1.5"
@@ -683,7 +135,7 @@ const solutionsItems = [
     icon: (
       <svg
         viewBox="0 0 40 40"
-        className="w-10 h-10 text-blue-500"
+        className="w-10 h-10 text-primary-foreground"
         fill="none"
         stroke="currentColor"
         strokeWidth="1.5"
@@ -701,7 +153,7 @@ const solutionsItems = [
     icon: (
       <svg
         viewBox="0 0 40 40"
-        className="w-10 h-10 text-blue-500"
+        className="w-10 h-10 text-primary-foreground"
         fill="none"
         stroke="currentColor"
         strokeWidth="1.5"
@@ -718,7 +170,7 @@ const solutionsItems = [
     icon: (
       <svg
         viewBox="0 0 40 40"
-        className="w-10 h-10 text-blue-500"
+        className="w-10 h-10 text-primary-foreground"
         fill="none"
         stroke="currentColor"
         strokeWidth="1.5"
@@ -734,7 +186,7 @@ const solutionsItems = [
     icon: (
       <svg
         viewBox="0 0 40 40"
-        className="w-10 h-10 text-blue-500"
+        className="w-10 h-10 text-primary-foreground"
         fill="none"
         stroke="currentColor"
         strokeWidth="1.5"
@@ -837,7 +289,7 @@ function IntroSection() {
             initial="hidden"
             animate={inView ? "visible" : "hidden"}
           >
-            <p className="text-blue-500 text-xs font-bold tracking-[0.2em] uppercase mb-3">
+            <p className="text-primary-foreground text-xs font-bold tracking-[0.2em] uppercase mb-3">
               WHO WE ARE
             </p>
             <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 leading-tight mb-4">
@@ -980,7 +432,7 @@ function PreparingSection() {
             <div className="space-y-4 mb-10">
               {checklist.map((item, i) => (
                 <div key={i} className="flex items-center gap-3">
-                  <span className="flex-shrink-0 w-5 h-5 rounded-full bg-blue-500 flex items-center justify-center">
+                  <span className="flex-shrink-0 w-5 h-5 rounded-full bg-primary-foreground flex items-center justify-center">
                     <svg
                       className="w-3 h-3 text-white"
                       fill="none"
@@ -1019,7 +471,7 @@ function PreparingSection() {
                 </div>
                 <a
                   href="tel:01234567890"
-                  className="text-blue-500 font-bold text-xl"
+                  className="text-primary-foreground font-bold text-xl"
                 >
                   0123-456-7890
                 </a>
@@ -1134,7 +586,7 @@ function ExpertTeamSection() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-4">
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="w-1 h-6 bg-blue-500 rounded-sm" />
+                    <span className="w-1 h-6 bg-primary-foreground rounded-sm" />
                     <div>
                       <div className="text-white font-bold text-xs leading-tight">
                         {member.name}
@@ -1176,7 +628,7 @@ function TestimonialSection() {
           animate={inView ? "visible" : "hidden"}
           className="text-center mb-12"
         >
-          <p className="text-blue-500 text-xs font-bold tracking-[0.2em] uppercase mb-3">
+          <p className="text-primary-foreground text-xs font-bold tracking-[0.2em] uppercase mb-3">
             TESTIMONIAL
           </p>
           <h2 className="text-3xl lg:text-4xl font-bold text-gray-900">
@@ -1219,7 +671,7 @@ function TestimonialSection() {
 
         {/* Nav arrows */}
         <div className="flex items-center justify-end gap-3 mb-14">
-          <button className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:border-blue-500 hover:text-blue-500 transition-colors">
+          <button className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:border-primary-foreground hover:text-primary-foreground transition-colors">
             <svg
               className="w-4 h-4"
               fill="none"
@@ -1234,7 +686,7 @@ function TestimonialSection() {
               />
             </svg>
           </button>
-          <button className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white hover:bg-blue-600 transition-colors">
+          <button className="w-8 h-8 rounded-full bg-primary-foreground flex items-center justify-center text-white hover:bg-primary-foreground transition-colors">
             <svg
               className="w-4 h-4"
               fill="none"
@@ -1275,7 +727,7 @@ function TestimonialSection() {
 function CTASection() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
-
+  const router = useRouter()
   return (
     <section ref={ref} className="py-8 bg-white">
       <div className="container mx-auto ">
@@ -1309,12 +761,13 @@ function CTASection() {
               We're Delivering the best customer Experience
             </h2>
           </div>
-          <a
-            href="tel:+44920090505"
-            className="flex-shrink-0 bg-white text-blue-600 font-bold px-6 py-3 rounded-lg text-sm hover:bg-blue-50 transition-colors"
+          <div
+          onClick={()=> router.push('/contact')}
+            
+            className="flex-shrink-0 bg-white text-primary-foreground font-bold px-6 py-3 rounded-lg text-sm hover:bg-blue-50 transition-colors cursor-pointer"
           >
-            +44 920 090 505
-          </a>
+            Contact Us
+          </div>
         </motion.div>
       </div>
     </section>
@@ -1322,7 +775,8 @@ function CTASection() {
 }
 
 // ─── PAGE EXPORT ─────────────────────────────────────────────────────────────
-export default function AboutPage() {
+export default function ServicePage() {
+  
   return (
     <main className="overflow-x-hidden">
       <Header />

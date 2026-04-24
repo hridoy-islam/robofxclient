@@ -66,7 +66,7 @@ const solutionsItems = [
     icon: (
       <svg
         viewBox="0 0 40 40"
-        className="w-10 h-10 text-blue-500"
+        className="w-10 h-10 text-primary-foreground"
         fill="none"
         stroke="currentColor"
         strokeWidth="1.5"
@@ -84,7 +84,7 @@ const solutionsItems = [
     icon: (
       <svg
         viewBox="0 0 40 40"
-        className="w-10 h-10 text-blue-500"
+        className="w-10 h-10 text-primary-foreground"
         fill="none"
         stroke="currentColor"
         strokeWidth="1.5"
@@ -101,7 +101,7 @@ const solutionsItems = [
     icon: (
       <svg
         viewBox="0 0 40 40"
-        className="w-10 h-10 text-blue-500"
+        className="w-10 h-10 text-primary-foreground"
         fill="none"
         stroke="currentColor"
         strokeWidth="1.5"
@@ -117,7 +117,7 @@ const solutionsItems = [
     icon: (
       <svg
         viewBox="0 0 40 40"
-        className="w-10 h-10 text-blue-500"
+        className="w-10 h-10 text-primary-foreground"
         fill="none"
         stroke="currentColor"
         strokeWidth="1.5"
@@ -133,7 +133,7 @@ const solutionsItems = [
     icon: (
       <svg
         viewBox="0 0 40 40"
-        className="w-10 h-10 text-blue-500"
+        className="w-10 h-10 text-primary-foreground"
         fill="none"
         stroke="currentColor"
         strokeWidth="1.5"
@@ -151,7 +151,7 @@ const solutionsItems = [
     icon: (
       <svg
         viewBox="0 0 40 40"
-        className="w-10 h-10 text-blue-500"
+        className="w-10 h-10 text-primary-foreground"
         fill="none"
         stroke="currentColor"
         strokeWidth="1.5"
@@ -168,7 +168,7 @@ const solutionsItems = [
     icon: (
       <svg
         viewBox="0 0 40 40"
-        className="w-10 h-10 text-blue-500"
+        className="w-10 h-10 text-primary-foreground"
         fill="none"
         stroke="currentColor"
         strokeWidth="1.5"
@@ -184,7 +184,7 @@ const solutionsItems = [
     icon: (
       <svg
         viewBox="0 0 40 40"
-        className="w-10 h-10 text-blue-500"
+        className="w-10 h-10 text-primary-foreground"
         fill="none"
         stroke="currentColor"
         strokeWidth="1.5"
@@ -242,7 +242,7 @@ function IntroSection() {
 
   return (
     <section ref={ref} className="bg-white py-20">
-      <div className="container mx-auto px-6 max-w-6xl">
+      <div className="container mx-auto ">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Left: overlapping images */}
           <motion.div
@@ -287,7 +287,7 @@ function IntroSection() {
             initial="hidden"
             animate={inView ? "visible" : "hidden"}
           >
-            <p className="text-blue-500 text-xs font-bold tracking-[0.2em] uppercase mb-3">
+            <p className="text-primary-foreground text-xs font-bold tracking-[0.2em] uppercase mb-3">
               WHO WE ARE
             </p>
             <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 leading-tight mb-4">
@@ -333,7 +333,7 @@ function StatsSection() {
 
   return (
     <section ref={ref} className="py-0">
-      <div className="container mx-auto px-6 max-w-6xl">
+      <div className="container mx-auto ">
         <div
           className="rounded-xl py-10 px-8"
           style={{
@@ -377,14 +377,14 @@ function ProminentSolutionsSection() {
           "radial-gradient(circle at 80% 50%, rgba(99,102,241,0.05) 0%, transparent 60%), radial-gradient(circle at 20% 50%, rgba(56,189,248,0.05) 0%, transparent 60%)",
       }}
     >
-      <div className="container mx-auto px-6 max-w-6xl">
+      <div className="container mx-auto ">
         <motion.div
           variants={fadeUp}
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
           className="text-center mb-12"
         >
-          <p className="text-blue-500 text-xs font-bold tracking-[0.2em] uppercase mb-3">
+          <p className="text-primary-foreground text-xs font-bold tracking-[0.2em] uppercase mb-3">
             REASON TO CHOOSE US
           </p>
           <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 leading-tight">
@@ -424,7 +424,7 @@ function PreparingSection() {
 
   return (
     <section ref={ref} className="bg-white py-20">
-      <div className="container mx-auto px-6 max-w-6xl">
+      <div className="container mx-auto ">
         <div className="grid lg:grid-cols-2 gap-16 items-start">
           {/* Left */}
           <motion.div
@@ -442,7 +442,7 @@ function PreparingSection() {
             <div className="space-y-4 mb-10">
               {checklist.map((item, i) => (
                 <div key={i} className="flex items-center gap-3">
-                  <span className="flex-shrink-0 w-5 h-5 rounded-full bg-blue-500 flex items-center justify-center">
+                  <span className="flex-shrink-0 w-5 h-5 rounded-full bg-primary-foreground flex items-center justify-center">
                     <svg
                       className="w-3 h-3 text-white"
                       fill="none"
@@ -481,7 +481,7 @@ function PreparingSection() {
                 </div>
                 <a
                   href="tel:01234567890"
-                  className="text-blue-500 font-bold text-xl"
+                  className="text-primary-foreground font-bold text-xl"
                 >
                   0123-456-7890
                 </a>
@@ -562,14 +562,14 @@ function ExpertTeamSection() {
         }}
       />
 
-      <div className="relative z-10 container mx-auto px-6 max-w-6xl">
+      <div className="relative z-10 container mx-auto ">
         <motion.div
           variants={fadeUp}
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
           className="text-center mb-10"
         >
-          <p className="text-blue-400 text-xs font-bold tracking-[0.2em] uppercase mb-3">
+          <p className="text-primary-foreground text-xs font-bold tracking-[0.2em] uppercase mb-3">
             OUR EXPERT TEAM
           </p>
           <h2 className="text-3xl lg:text-4xl font-bold text-white">
@@ -596,7 +596,7 @@ function ExpertTeamSection() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-4">
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="w-1 h-6 bg-blue-500 rounded-sm" />
+                    <span className="w-1 h-6 bg-primary-foreground rounded-sm" />
                     <div>
                       <div className="text-white font-bold text-xs leading-tight">
                         {member.name}
@@ -615,7 +615,7 @@ function ExpertTeamSection() {
           {[0, 1, 2, 3].map((i) => (
             <span
               key={i}
-              className={`w-2 h-2 rounded-full ${i === 0 ? "bg-blue-400 w-4" : "bg-white/30"}`}
+              className={`w-2 h-2 rounded-full ${i === 0 ? "bg-primary-foreground w-4" : "bg-white/30"}`}
             />
           ))}
         </div>
@@ -631,14 +631,14 @@ function TestimonialSection() {
 
   return (
     <section ref={ref} className="bg-white py-20">
-      <div className="container mx-auto px-6 max-w-6xl">
+      <div className="container mx-auto ">
         <motion.div
           variants={fadeUp}
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
           className="text-center mb-12"
         >
-          <p className="text-blue-500 text-xs font-bold tracking-[0.2em] uppercase mb-3">
+          <p className="text-primary-foreground text-xs font-bold tracking-[0.2em] uppercase mb-3">
             TESTIMONIAL
           </p>
           <h2 className="text-3xl lg:text-4xl font-bold text-gray-900">
@@ -663,7 +663,7 @@ function TestimonialSection() {
               />
               <div>
                 <svg
-                  className="w-8 h-8 text-blue-400 mb-3"
+                  className="w-8 h-8 text-primary-foreground mb-3"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                 >
@@ -681,7 +681,7 @@ function TestimonialSection() {
 
         {/* Nav arrows */}
         <div className="flex items-center justify-end gap-3 mb-14">
-          <button className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:border-blue-500 hover:text-blue-500 transition-colors">
+          <button className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:border-primary-foreground hover:text-primary-foreground transition-colors">
             <svg
               className="w-4 h-4"
               fill="none"
@@ -696,7 +696,7 @@ function TestimonialSection() {
               />
             </svg>
           </button>
-          <button className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white hover:bg-blue-600 transition-colors">
+          <button className="w-8 h-8 rounded-full bg-primary-foreground flex items-center justify-center text-white hover:bg-blue-600 transition-colors">
             <svg
               className="w-4 h-4"
               fill="none"
@@ -740,7 +740,7 @@ function CTASection() {
 
   return (
     <section ref={ref} className="py-8 bg-white">
-      <div className="container mx-auto px-6 max-w-6xl">
+      <div className="container mx-auto ">
         <motion.div
           variants={fadeUp}
           initial="hidden"

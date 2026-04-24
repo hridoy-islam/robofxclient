@@ -3,8 +3,7 @@ import { Nunito } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import { Toaster } from "react-hot-toast";
-import "react-date-range/dist/styles.css"; // main style file
-import "react-date-range/dist/theme/default.css"; // theme css file
+
 import { ModalProvider } from "@/context/ModalContext";
 import GlobalModal from "@/components/GlobalModal";
 

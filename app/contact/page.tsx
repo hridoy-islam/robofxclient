@@ -5,6 +5,7 @@ import { useRef, useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import BreadCrumb from "@/components/BreadCrumb";
+import { CheckCircle, Send } from "lucide-react";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
@@ -17,21 +18,8 @@ const fadeUp = {
 
 const contactInfo = [
   {
-    title: "Give us a call",
-    lines: ["(+1) 400-630 123", "(+2) 500-950 456"],
-    icon: (
-      <svg viewBox="0 0 48 48" className="w-12 h-12" fill="none">
-        <circle cx="24" cy="24" r="24" fill="#EEF2FF" />
-        <path
-          d="M16.5 19.5c0 9.4 7.6 17 17 17l2-4.3-4-1.7-1.5 2a12.1 12.1 0 01-5-3 12.1 12.1 0 01-3-5l2-1.5-1.7-4-4.3 2c-.3.8-.5 1.6-.5 2.5z"
-          fill="#3B82F6"
-        />
-      </svg>
-    ),
-  },
-  {
     title: "Drop us a line",
-    lines: ["info@techwixtheme.com", "mail@techwix-tech.com"],
+    lines: ["info@rivaantech.ae"],
     icon: (
       <svg viewBox="0 0 48 48" className="w-12 h-12" fill="none">
         <circle cx="24" cy="24" r="24" fill="#FEF9C3" />
@@ -42,7 +30,7 @@ const contactInfo = [
   },
   {
     title: "Visit our office",
-    lines: ["New York, 112 W 34th St", "caroline, USA"],
+    lines: ["Dubai, UAE"],
     icon: (
       <svg viewBox="0 0 48 48" className="w-12 h-12" fill="none">
         <circle cx="24" cy="24" r="24" fill="#FEE2E2" />
@@ -61,8 +49,8 @@ function ContactInfoSection() {
 
   return (
     <section ref={ref} className="bg-white py-16">
-      <div className="container mx-auto ">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="container mx-auto px-4 md:px-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
           {contactInfo.map((item, i) => (
             <motion.div
               key={i}
@@ -92,17 +80,77 @@ function ContactInfoSection() {
 function ContactFormSection() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
-  const [form, setForm] = useState({
+
+  const [formData, setFormData] = useState({
     name: "",
     email: "",
     subject: "",
     message: "",
   });
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (isLoading) return;
+
+    setIsLoading(true);
+
+    try {
+      const [adminRes, userRes] = await Promise.allSettled([
+        fetch("/api/send-email", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Cache-Control": "no-cache, no-store, must-revalidate",
+            Pragma: "no-cache",
+          },
+          cache: "no-store",
+          body: JSON.stringify(formData),
+        }),
+        fetch("/api/send-user-email", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Cache-Control": "no-cache, no-store, must-revalidate",
+            Pragma: "no-cache",
+          },
+          cache: "no-store",
+          body: JSON.stringify(formData),
+        }),
+      ]);
+
+      const adminSuccess = adminRes.status === "fulfilled" && adminRes.value.ok;
+      const userSuccess = userRes.status === "fulfilled" && userRes.value.ok;
+
+      if (adminSuccess || userSuccess) {
+        setIsSubmitted(true);
+        setFormData({
+          name: "",
+          email: "",
+          subject: "",
+          message: "",
+        });
+        setTimeout(() => setIsSubmitted(false), 5000);
+
+        if (!adminSuccess) console.warn("Admin email failed");
+        if (!userSuccess) console.warn("User email failed");
+      } else {
+        console.error("Both email requests failed");
+        // alert("Something went wrong. Please try again later.");
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      // alert("Network error. Please check your connection.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -110,72 +158,107 @@ function ContactFormSection() {
       {/* Map background */}
       <div className="absolute inset-0 z-0">
         <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d193595.15830869428!2d-74.11976397304603!3d40.69766374874431!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2s!4v1618317471!5m2!1sen!2s"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d115325.98429373862!2d55.171279!3d25.204849!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f4346a7b0c3b5%3A0x1c2b7f7b6e3a0f0!2sDubai!5e0!3m2!1sen!2sae!4v1713940000000!5m2!1sen!2sae"
           className="w-full h-full grayscale opacity-60"
           loading="lazy"
-          title="Map"
+          title="Dubai Map"
           style={{ border: 0, minHeight: "600px" }}
           allowFullScreen
         />
       </div>
 
       {/* Form card */}
-      <div className="relative z-10 container mx-auto  py-20">
+      <div className="relative z-10 container mx-auto py-20 px-4 md:px-6">
         <motion.div
           variants={fadeUp}
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
-          className="max-w-xl mx-auto bg-white rounded-2xl shadow-xl p-10"
+          className="max-w-xl mx-auto bg-white rounded-2xl shadow-xl p-8 md:p-10"
         >
-          <p className="text-blue-500 text-xs font-bold tracking-[0.2em] uppercase mb-2 text-center">
+          <p className="text-primary-foreground text-xs font-bold tracking-[0.2em] uppercase mb-2 text-center">
             REQUEST A QUOTE
           </p>
           <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 text-center mb-8">
             How May We Help You!
           </h2>
 
-          <div className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
+          {isSubmitted ? (
+            <motion.div 
+              initial={{ scale: 0.9, opacity: 0 }} 
+              animate={{ scale: 1, opacity: 1 }} 
+              className="text-center py-12"
+            >
+              <CheckCircle className="w-16 h-16 text-primary-foreground mx-auto mb-4 animate-bounce" />
+              <h3 className="text-xl font-bold text-gray-900 mb-2">
+                Message Sent Successfully!
+              </h3>
+              <p className="text-gray-500">
+                We'll get back to you shortly.
+              </p>
+            </motion.div>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                  placeholder="Name *"
+                  className="w-full border-b border-gray-200 py-3 text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:border-primary-foreground transition-colors bg-transparent"
+                />
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  placeholder="Email *"
+                  className="w-full border-b border-gray-200 py-3 text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:border-primary-foreground transition-colors bg-transparent"
+                />
+              </div>
+
               <input
                 type="text"
-                name="name"
-                value={form.name}
+                name="subject"
+                value={formData.subject}
                 onChange={handleChange}
-                placeholder="Name *"
-                className="w-full border-b border-gray-200 py-3 text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors bg-transparent"
+                required
+                placeholder="Subject *"
+                className="w-full border-b border-gray-200 py-3 text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:border-primary-foreground transition-colors bg-transparent"
               />
-              <input
-                type="email"
-                name="email"
-                value={form.email}
+
+              <textarea
+                name="message"
+                value={formData.message}
                 onChange={handleChange}
-                placeholder="Email *"
-                className="w-full border-b border-gray-200 py-3 text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors bg-transparent"
+                required
+                placeholder="Write A Message"
+                rows={4}
+                className="w-full border-b border-gray-200 py-3 text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:border-primary-foreground transition-colors bg-transparent resize-none"
               />
-            </div>
-            <input
-              type="text"
-              name="subject"
-              value={form.subject}
-              onChange={handleChange}
-              placeholder="Subject *"
-              className="w-full border-b border-gray-200 py-3 text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors bg-transparent"
-            />
-            <textarea
-              name="message"
-              value={form.message}
-              onChange={handleChange}
-              placeholder="Write A Message"
-              rows={4}
-              className="w-full border-b border-gray-200 py-3 text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors bg-transparent resize-none"
-            />
-            <button
-              className="w-full py-3.5 rounded-lg text-white text-sm font-semibold hover:opacity-90 transition-opacity mt-2"
-              style={{ background: "linear-gradient(90deg, #3b82f6, #38bdf8)" }}
-            >
-              Send Message
-            </button>
-          </div>
+
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="w-full py-3.5 rounded-lg text-white text-sm font-semibold transition-all hover:opacity-90 disabled:opacity-70 disabled:cursor-not-allowed mt-2 flex items-center justify-center"
+                style={{ background: "linear-gradient(90deg, #3b82f6, #38bdf8)" }}
+              >
+                {isLoading ? (
+                  <>
+                    <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></span>
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-4 h-4 mr-2" />
+                    Send Message
+                  </>
+                )}
+              </button>
+            </form>
+          )}
         </motion.div>
       </div>
     </section>

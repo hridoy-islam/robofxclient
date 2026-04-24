@@ -14,11 +14,12 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useModal } from "@/context/ModalContext";
+import { useRouter } from "next/navigation";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { openModal } = useModal();
-
+  const router = useRouter();
   const navItems = [
     { name: "Home", href: "/", icon: <LayoutDashboard className="w-4 h-4" /> },
     {
@@ -26,8 +27,12 @@ export default function Header() {
       href: "about",
       icon: <Lightbulb className="w-4 h-4" />,
     },
-    { name: "Services", href: "services", icon: <Layers className="w-4 h-4" /> },
-   
+    {
+      name: "Services",
+      href: "services",
+      icon: <Layers className="w-4 h-4" />,
+    },
+
     {
       name: "Our Team",
       href: "our-team",
@@ -52,28 +57,26 @@ export default function Header() {
             <nav className="hidden lg:flex items-center justify-center flex-grow">
               <div className="flex items-center gap-6 xl:gap-8">
                 {navItems.map((item) => (
-                  <Link
+                  <button
                     key={item.name}
-                    href={item.href}
+                    onClick={() => router.push(`/${item.href}`)}
                     className="flex items-center gap-2 text-sm font-semibold text-slate-900 hover:text-primary-foreground transition-colors"
                   >
                     {item.name}
-                  </Link>
+                  </button>
                 ))}
               </div>
             </nav>
 
             {/* Right Section: Actions */}
             <div className="flex items-center gap-2 md:gap-4 flex-shrink-0">
-              <Link href="/login">
-                <Button
-                  variant="ghost"
-                  className="hidden md:flex rounded-full btn-gradient text-white hover:text-white font-semibold px-5 h-10"
-                >
-                  Get In Touch
-                </Button>
-              </Link>
-
+              <Button
+                onClick={() => router.push("/contact")}
+                variant="ghost"
+                className="hidden md:flex rounded-full btn-gradient text-white hover:text-white font-semibold px-5 h-10"
+              >
+                Get In Touch
+              </Button>
               {/* Mobile Menu Button */}
               <button
                 className="lg:hidden p-2 text-slate-900 hover:bg-slate-100 rounded-full transition-colors"
@@ -137,27 +140,13 @@ export default function Header() {
             </nav>
 
             <div className="mt-auto p-6 space-y-3 border-t border-slate-100 pb-10">
-              <Link
-                href="/login"
-                onClick={() => setIsMenuOpen(false)}
-                className="block w-full"
-              >
-                <Button
-                  variant="outline"
-                  className="w-full rounded-full border-slate-300 text-slate-900 font-bold h-12 hover:bg-slate-50"
-                >
-                  Sign in
-                </Button>
-              </Link>
-
               <Button
                 onClick={() => {
-                  setIsMenuOpen(false);
-                  openModal();
+                  router.push("/contact");
                 }}
-                className="w-full rounded-full bg-[#0052FF] hover:bg-[#0040CC] text-white font-bold h-12"
+                className="w-full rounded-full bg-primary-foreground text-white font-bold h-12"
               >
-                Sign up
+                Get In Touch
               </Button>
             </div>
           </div>
