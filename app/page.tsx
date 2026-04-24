@@ -425,7 +425,7 @@ function ServiceCardsOverlay() {
   return (
     <div
       ref={ref}
-      className="absolute bottom-16 left-1/2 -translate-x-1/2 z-30 w-full max-w-7xl"
+      className="absolute bottom-16 left-1/2 -translate-x-1/2 z-30 w-full container"
     >
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {services.map((s, i) => (
@@ -1103,15 +1103,7 @@ function TestimonialsSection() {
         </div>
 
         {/* Dots */}
-        <div className="flex justify-center gap-2 mt-8">
-          {[0, 1].map((i) => (
-            <button
-              key={i}
-              onClick={() => setActive(i)}
-              className={`rounded-full transition-all duration-300 ${active === i ? "bg-primary-foreground w-6 h-2.5" : "bg-gray-300 w-2.5 h-2.5"}`}
-            />
-          ))}
-        </div>
+        
 
         {/* Partners Logos */}
         <motion.div

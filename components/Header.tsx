@@ -22,19 +22,15 @@ export default function Header() {
   const navItems = [
     { name: "Home", href: "/", icon: <LayoutDashboard className="w-4 h-4" /> },
     {
-      name: "Features",
-      href: "features",
+      name: "About Us",
+      href: "about",
       icon: <Lightbulb className="w-4 h-4" />,
     },
-    { name: "FAQ", href: "faq", icon: <Layers className="w-4 h-4" /> },
+    { name: "Services", href: "services", icon: <Layers className="w-4 h-4" /> },
+   
     {
-      name: "Pricing",
-      href: "pricing",
-      icon: <Zap className="w-4 h-4" />,
-    },
-    {
-      name: "Support",
-      href: "support",
+      name: "Our Team",
+      href: "our-team",
       icon: <LifeBuoy className="w-4 h-4" />,
     },
     { name: "Contact", href: "contact", icon: <Send className="w-4 h-4" /> },
@@ -42,14 +38,13 @@ export default function Header() {
 
   return (
     <>
-     
-      <header className="bg-white border-b border-slate-100 fixed top-0 w-full z-50 font-sans transition-all duration-200">
+      <header className="bg-white border-b border-slate-200 fixed top-0 w-full z-50 font-sans transition-all duration-200">
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex items-center justify-between h-[72px]">
             {/* Left Section: Logo */}
             <div className="flex-shrink-0">
               <Link href={"/"}>
-                <Image src="/logo.png" alt="" width={200} height={100} />
+                <Image src="/rivaanlogo.png" alt="" width={200} height={100} />
               </Link>
             </div>
 
@@ -60,11 +55,8 @@ export default function Header() {
                   <Link
                     key={item.name}
                     href={item.href}
-                    className="flex items-center gap-2 text-sm font-semibold text-slate-900 hover:text-[#0052FF] transition-colors"
+                    className="flex items-center gap-2 text-sm font-semibold text-slate-900 hover:text-primary-foreground transition-colors"
                   >
-                    <span className="text-slate-500 group-hover:text-[#0052FF]">
-                      {item.icon}
-                    </span>
                     {item.name}
                   </Link>
                 ))}
@@ -76,24 +68,11 @@ export default function Header() {
               <Link href="/login">
                 <Button
                   variant="ghost"
-                  className="hidden md:flex rounded-full bg-slate-100 hover:bg-slate-200 text-slate-900 font-semibold px-5 h-10"
+                  className="hidden md:flex rounded-full btn-gradient text-white hover:text-white font-semibold px-5 h-10"
                 >
-                  Sign in
+                  Get In Touch
                 </Button>
               </Link>
-
-              <Button
-                onClick={() =>
-                  openModal({
-                    title: "Create your account",
-                    subtitle: "Join the world's largest crypto exchange",
-                    buttonText: "Sign Up",
-                  })
-                }
-                className="hidden md:flex rounded-full bg-[#0052FF] hover:bg-[#0040CC] text-white font-semibold px-5 h-10 shadow-none border-none"
-              >
-                Sign up
-              </Button>
 
               {/* Mobile Menu Button */}
               <button

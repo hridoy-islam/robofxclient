@@ -1,5 +1,5 @@
 "use client";
-import BreadCumb from "@/components/BreadCumb";
+import BreadCumb from "@/components/BreadCrumb";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -22,7 +22,8 @@ export default function SupportPage() {
     {
       icon: <Zap className="w-6 h-6 " />,
       title: "Mining Operations",
-      description: "Hash rate issues, hardware allocation, and pool connectivity.",
+      description:
+        "Hash rate issues, hardware allocation, and pool connectivity.",
       action: "Get Technical Help",
     },
     {
@@ -34,7 +35,8 @@ export default function SupportPage() {
     {
       icon: <FileText className="w-6 h-6 " />,
       title: "Billing & Payouts",
-      description: "Withdrawal queries, deposit confirmations, and plan upgrades.",
+      description:
+        "Withdrawal queries, deposit confirmations, and plan upgrades.",
       action: "View Financial FAQ",
     },
     {
@@ -102,7 +104,6 @@ export default function SupportPage() {
       <section className="py-20">
         <div className="container mx-auto px-4 max-w-6xl">
           <div className="grid lg:grid-cols-12 gap-12">
-            
             {/* Left Column - Categories */}
             <div className="lg:col-span-7 space-y-10">
               <div>
@@ -113,7 +114,8 @@ export default function SupportPage() {
                   How can we assist you?
                 </h2>
                 <p className="text-lg text-gray-500 leading-relaxed">
-                  Select a category below to find answers or direct your inquiry to the right department.
+                  Select a category below to find answers or direct your inquiry
+                  to the right department.
                 </p>
               </div>
 
@@ -133,7 +135,8 @@ export default function SupportPage() {
                       {category.description}
                     </p>
                     <div className="flex items-center  font-semibold text-sm group-hover:translate-x-1 transition-transform">
-                      {category.action} <ChevronRight className="w-4 h-4 ml-1" />
+                      {category.action}{" "}
+                      <ChevronRight className="w-4 h-4 ml-1" />
                     </div>
                   </div>
                 ))}
@@ -141,17 +144,24 @@ export default function SupportPage() {
 
               {/* Direct Contact Info Block */}
               <div className="bg-gray-900 rounded-2xl p-8 text-white relative overflow-hidden">
-                 <div className="absolute top-0 right-0 w-64 h-64 bg-blue-600 rounded-full blur-3xl opacity-20 -mr-16 -mt-16"></div>
-                 <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-                    <div>
-                        <h3 className="text-xl font-bold mb-2">Prefer to email us directly?</h3>
-                        <p className="text-gray-400 text-sm">Our enterprise support team monitors this inbox 24/7.</p>
-                    </div>
-                    <a href="mailto:support@cryptominerx.com" className="flex items-center space-x-3 bg-white/10 hover:bg-white/20 px-6 py-3 rounded-xl transition-all border border-white/10 backdrop-blur-sm">
-                        <Mail className="w-5 h-5" />
-                        <span className="font-mono">support@cryptominerx.com</span>
-                    </a>
-                 </div>
+                <div className="absolute top-0 right-0 w-64 h-64 bg-blue-600 rounded-full blur-3xl opacity-20 -mr-16 -mt-16"></div>
+                <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                  <div>
+                    <h3 className="text-xl font-bold mb-2">
+                      Prefer to email us directly?
+                    </h3>
+                    <p className="text-gray-400 text-sm">
+                      Our enterprise support team monitors this inbox 24/7.
+                    </p>
+                  </div>
+                  <a
+                    href="mailto:support@cryptominerx.com"
+                    className="flex items-center space-x-3 bg-white/10 hover:bg-white/20 px-6 py-3 rounded-xl transition-all border border-white/10 backdrop-blur-sm"
+                  >
+                    <Mail className="w-5 h-5" />
+                    <span className="font-mono">support@cryptominerx.com</span>
+                  </a>
+                </div>
               </div>
             </div>
 
@@ -174,26 +184,30 @@ export default function SupportPage() {
                 <form className="space-y-5">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                        <label className="block text-xs font-bold text-gray-700 uppercase mb-2">Priority</label>
-                        <select className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all">
-                            <option value="normal">Normal</option>
-                            <option value="high">High</option>
-                            <option value="urgent">Urgent</option>
-                        </select>
+                      <label className="block text-xs font-bold text-gray-700 uppercase mb-2">
+                        Priority
+                      </label>
+                      <select className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all">
+                        <option value="normal">Normal</option>
+                        <option value="high">High</option>
+                        <option value="urgent">Urgent</option>
+                      </select>
                     </div>
                     <div>
-                         <label className="block text-xs font-bold text-gray-700 uppercase mb-2">Department</label>
-                         <select className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all">
-                            <option value="tech">Technical</option>
-                            <option value="billing">Billing</option>
-                            <option value="sales">Sales</option>
-                        </select>
+                      <label className="block text-xs font-bold text-gray-700 uppercase mb-2">
+                        Department
+                      </label>
+                      <select className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all">
+                        <option value="tech">Technical</option>
+                        <option value="billing">Billing</option>
+                        <option value="sales">Sales</option>
+                      </select>
                     </div>
                   </div>
 
                   <div>
                     <label className="block text-xs font-bold text-gray-700 uppercase mb-2">
-                        Email Address
+                      Email Address
                     </label>
                     <input
                       type="email"
@@ -204,7 +218,7 @@ export default function SupportPage() {
 
                   <div>
                     <label className="block text-xs font-bold text-gray-700 uppercase mb-2">
-                        Subject
+                      Subject
                     </label>
                     <input
                       type="text"
@@ -215,7 +229,7 @@ export default function SupportPage() {
 
                   <div>
                     <label className="block text-xs font-bold text-gray-700 uppercase mb-2">
-                        Message
+                      Message
                     </label>
                     <textarea
                       rows={4}
@@ -227,7 +241,7 @@ export default function SupportPage() {
                   <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-6 rounded-xl shadow-lg shadow-blue-600/20 transition-all duration-200 mt-2">
                     Submit Ticket <MessageSquare className="w-4 h-4 ml-2" />
                   </Button>
-                  
+
                   <p className="text-center text-xs text-gray-400 mt-4">
                     Protected by reCAPTCHA and the Google Privacy Policy.
                   </p>

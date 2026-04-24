@@ -29,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${nunito.variable} light`}>
       <head>
-        <link rel="icon" href="/cryptominerx.png" type="image/png" />
+        <link rel="icon" href="/android-chrome-192x192.png" type="image/png" />
         <title>Rivaan Tech</title>
       </head>
       <body>

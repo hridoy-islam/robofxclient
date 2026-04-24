@@ -4,7 +4,7 @@
 
 :root {
   --primary: 224 92% 5%;
-  --primary-foreground: 204 94% 63%;
+  --primary-foreground: 204 57% 45%;
   --secondary: 261 43% 50%;
   --secondary-foreground: 222.2 84% 4.9%;
   --muted: 210 40% 98%;
@@ -22,9 +22,9 @@
   --card-foreground: 222.2 84% 4.9%;
   --popover: 0 0% 100%;
   --popover-foreground: 222.2 84% 4.9%;
-  --gradient-primary: linear-gradient(135deg, #6f48b6 0%, #0040cc 100%);
+  --gradient-primary: linear-gradient(135deg, #6f48b6 0%, #317fb4 100%);
   --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-  --gradient-accent: linear-gradient(135deg, #4facfe 0%, #0040cc 100%);
+  --gradient-accent: linear-gradient(135deg, #4facfe 0%, #317fb4 100%);
 }
 
 .dark {
@@ -183,7 +183,7 @@ html {
 
 /* Custom button styles */
 .btn-gradient {
-  background: linear-gradient(135deg, #4facfe 0%, #386fe7 100%);
+  background: linear-gradient(135deg, #4facfe 0%, #317fb4 100%);
   transition: all 0.3s ease;
 }
 
@@ -205,7 +205,7 @@ html {
 
 /* Typography */
 .text-gradient {
-  background: linear-gradient(135deg, #00167a 0%, #255ae7 100%);
+  background: linear-gradient(135deg, #00167a 0%, #317fb4 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -293,7 +293,7 @@ html {
 }
 
 .btn-gradient {
-  background: linear-gradient(135deg, #00167a 0%, #255ae7 100%);
+  background: linear-gradient(135deg, #4facfe 0%, #317fb4 100%);
   transition: all 0.3s ease;
 }
 
@@ -336,7 +336,7 @@ html {
 
 /* Custom button styles */
 .btn-gradient {
-  background: linear-gradient(135deg, #00167a 0%, #255ae7 100%);
+  background: linear-gradient(135deg, #4facfe 0%, #317fb4 100%);
   transition: all 0.3s ease;
 }
 
@@ -365,14 +365,14 @@ html {
 
 @layer components {
   .text-gradient {
-    background: linear-gradient(135deg, #00167a 0%, #255ae7 100%);
+    background: linear-gradient(135deg, #4facfe 0%, #317fb4 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
   .btn-gradient {
-    background: linear-gradient(135deg, #00167a 0%, #255ae7 100%);
+    background: linear-gradient(135deg, #4facfe 0%, #317fb4 100%);
     transition: all 0.3s ease;
   }
 

@@ -1,11 +1,11 @@
 {
-  "name": "cryptominerx",
+  "name": "Nirvaan Tech",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3001",
+    "dev": "next dev -p 3020",
     "build": "next build",
-    "start": "next start -p 3001",
+    "start": "next start -p 3020",
     "lint": "next lint"
   },
   "dependencies": {
@@ -21,7 +21,7 @@
     "axios": "^1.6.5",
     "cookies-next": "^4.1.0",
     "date-fns": "^3.3.1",
-    "framer-motion": "^10.17.9",
+    "framer-motion": "^12.38.0",
     "fs": "^0.0.1-security",
     "fs-extra": "^11.2.0",
     "html2canvas": "^1.4.1",

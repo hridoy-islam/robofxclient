@@ -1,6 +1,6 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
-import BreadCumb from "@/components/BreadCumb";
+import BreadCumb from "@/components/BreadCrumb";
 import Faq from "@/components/Faq";
 
 export default function page() {

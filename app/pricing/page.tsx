@@ -1,5 +1,5 @@
 "use client";
-import BreadCumb from "@/components/BreadCumb";
+import BreadCumb from "@/components/BreadCrumb";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Pricing from "@/components/Pricing";

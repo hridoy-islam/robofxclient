@@ -1,90 +1,89 @@
 "use client";
-import { Clock, Mail, MapPin, Phone } from "lucide-react";
-import Image from "next/image";
+
 import Link from "next/link";
-import { BiLogoFacebook, BiLogoInstagram } from "react-icons/bi";
+import {
+  BiLogoFacebook,
+  BiLogoInstagram,
+  BiLogoLinkedin,
+  BiLogoTwitter,
+} from "react-icons/bi";
 
 export default function Footer() {
   return (
-    <footer className="bg-slate-50 border-t border-slate-200">
-      <div className="container mx-auto py-16 ">
-        <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-8">
-          {/* Company Info */}
-          <div className="lg:col-span-2">
-            <div className="flex items-center space-x-2 mb-6">
-              {/* Replaced Logo Image with Gradient Text for demo, or keep Image if you have the file */}
-              {/* <Image src="/logo.png" alt="logo" width={250} height={100} /> */}
+    <footer className="relative overflow-hidden border-t border-primary/20 bg-gradient-to-br from-primary via-primary/95 to-primary">
+      {/* Grid Background */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(99,102,241,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(99,102,241,0.04)_1px,transparent_1px)] bg-[size:60px_60px] pointer-events-none" />
 
-              <div className="flex items-center gap-2">
-                <div className="w-10 h-10 text-gradient rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/20">
-                  <img src="/cryptominerx.png" alt=""  className="p-1"/>{" "}
-                </div>
-                <div>
-                  <h2 className="font-black text-2xl text-gradient bg-clip-text text-transparent">
-                    CRYPTOMINERX
-                  </h2>
-                </div>
+      {/* Glow */}
+      <div className="absolute -top-20 -left-20 w-[300px] h-[300px] bg-primary-foreground/10 rounded-full blur-3xl pointer-events-none" />
+
+      <div className="container mx-auto pt-20 pb-0 relative">
+        {/* GRID */}
+        <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-12">
+          {/* COMPANY */}
+          <div>
+            {/* Logo */}
+            <div className="flex items-center gap-3 mb-5">
+              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center shadow-lg">
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                  <path
+                    d="M4 18V4L18 18V4"
+                    stroke="white"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
               </div>
+              <span className="text-xl font-extrabold text-white">
+                Nirvaan Tech
+              </span>
             </div>
 
-            <p className="text-slate-600 leading-relaxed mb-6 max-w-md font-medium">
-              CryptoMinerX provides cutting-edge cloud mining solutions and
-              automated trading infrastructure. maximize your digital asset
-              growth with our expert-managed ecosystem.
+            <p className="text-sm text-white leading-relaxed max-w-xs mb-6">
+              Accelerate innovation with world-class tech solutions. We craft
+              cutting-edge software, scalable infrastructure, and intelligent
+              systems for tomorrow's businesses.
             </p>
 
-            {/* Business Hours */}
-            <div className="space-y-3">
-              <div className="flex items-center space-x-3 text-slate-600">
-                <div className="p-2 bg-blue-50 rounded-full text-blue-600">
-                  <Clock className="w-4 h-4" />
-                </div>
-                <span className="text-sm font-semibold">
-                  Mon - Fri : 09:00AM - 06:00PM
-                </span>
-              </div>
-              <div className="flex items-center space-x-3 text-slate-600">
-                <div className="p-2 bg-blue-50 rounded-full text-blue-600">
-                  <Clock className="w-4 h-4" />
-                </div>
-                <span className="text-sm font-semibold">
-                  Saturday : 09:00AM - 05:00PM
-                </span>
-              </div>
-            </div>
-
-            <div className="mt-8">
-              <div className="flex items-center space-x-4">
+            {/* SOCIAL */}
+            <div className="flex gap-3">
+              {[
+                <BiLogoFacebook key="fb" size={20} />,
+                <BiLogoTwitter key="tw" size={20} />,
+                <BiLogoLinkedin key="ln" size={20} />,
+                <BiLogoInstagram key="ig" size={20} />,
+              ].map((icon, i) => (
                 <a
+                  key={i}
                   href="#"
-                  target="_blank"
-                  className="bg-white p-2 rounded-full shadow-sm border border-slate-100 hover:scale-110 transition-transform duration-200 group"
+                  className="w-10 h-10 flex items-center justify-center rounded-full border border-primary-foreground text-white hover:text-primary-foreground hover:border-primary-foreground hover:bg-white transition-all hover:-translate-y-1 hover:shadow-lg"
                 >
-                  <BiLogoFacebook className="w-6 h-6 text-slate-600 group-hover:text-blue-600 transition-colors" />
+                  {icon}
                 </a>
-                <a
-                  href="#"
-                  target="_blank"
-                  className="bg-white p-2 rounded-full shadow-sm border border-slate-100 hover:scale-110 transition-transform duration-200 group"
-                >
-                  <BiLogoInstagram className="w-6 h-6 text-slate-600 group-hover:text-pink-600 transition-colors" />
-                </a>
-              </div>
+              ))}
             </div>
           </div>
 
-          {/* Company Links */}
+          {/* LINKS */}
           <div>
-            <h3 className="font-bold text-lg mb-6 text-gradient bg-clip-text text-transparent inline-block">
-              Company
+            <h3 className="text-sm font-bold uppercase tracking-wider text-white mb-6">
+              Useful Links
             </h3>
-            <ul className="space-y-4">
-              {["Features", "FAQ", "Pricing", "Contact"].map((item) => (
+
+            <ul className="space-y-3">
+              {[
+                "Terms & Conditions",
+                "About Company",
+                "Payment Gateway",
+                "Policy",
+              ].map((item) => (
                 <li key={item}>
                   <Link
-                    href={item.toLowerCase()}
-                    className="text-slate-600 hover:text-blue-600 hover:translate-x-1 transition-all duration-200 font-medium inline-block"
+                    href="#"
+                    className="text-sm text-white hover:text-primary-foreground transition-all flex items-center gap-2 hover:pl-1"
                   >
+                    <span className="text-primary text-xs">›</span>
                     {item}
                   </Link>
                 </li>
@@ -92,68 +91,80 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Other Links & Contact */}
+          {/* SERVICES */}
           <div>
-            <h3 className="font-bold text-lg mb-6 text-gradient bg-clip-text text-transparent inline-block">
-              Other Links
+            <h3 className="text-sm font-bold uppercase tracking-wider text-white mb-6">
+              Our Services
             </h3>
-            <ul className="space-y-4 mb-8">
+
+            <ul className="space-y-3">
               {[
-                "Support",
-                "Terms and Conditions",
-                "Refund Policy",
-                "Privacy Policy",
+                "Data Security",
+                "IT Management",
+                "Outsourcing",
+                "Networking",
+                "Cloud Solutions",
               ].map((item) => (
                 <li key={item}>
-                  <a
+                  <Link
                     href="#"
-                    className="text-slate-600 hover:text-blue-600 hover:translate-x-1 transition-all duration-200 font-medium inline-block"
+                    className="text-sm text-white hover:text-primary-foreground transition-all flex items-center gap-2 hover:pl-1"
                   >
+                    <span className="text-primary text-xs">›</span>
                     {item}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
+          </div>
 
-            <div>
-              <h4 className="font-bold text-slate-900 mb-4">Contact Us</h4>
-              <div className="space-y-4">
-                <div className="flex items-start space-x-3">
-                  <MapPin className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
-                  <div className="text-slate-600 text-sm font-medium">
-                    <div>530 Fifth Ave,</div>
-                    <div>New York, NY 10036</div>
-                  </div>
-                </div>
-                {/* <div className="flex items-center space-x-3">
-                  <Phone className="w-5 h-5 text-blue-600" />
-                  <a
-                    href="tel:971542819321"
-                    className="text-slate-600 hover:text-blue-600 transition-colors text-sm font-medium"
-                  >
-                    +971 54 281 9321
-                  </a>
-                </div> */}
-                <div className="flex items-center space-x-3">
-                  <Mail className="w-5 h-5 text-blue-600" />
-                  <a
-                    href="mailto:support@cryptominerx.com"
-                    className="text-slate-600 hover:text-blue-600 transition-colors text-sm font-medium"
-                  >
-                    support@cryptominerx.com
-                  </a>
-                </div>
-              </div>
+          {/* CONTACT */}
+          <div>
+            <h3 className="text-sm font-bold uppercase tracking-wider text-white mb-6">
+              Contact Information
+            </h3>
+
+            <div className="space-y-4">
+              {[
+                {
+                  text: "+91 458 654 528",
+                  href: "tel:+91458654528",
+                },
+                {
+                  text: "info@nirvaantech.com",
+                  href: "mailto:info@nirvaantech.com",
+                },
+                {
+                  text: "60 East 65th Street, NY",
+                  href: "#",
+                },
+              ].map((item, i) => (
+                <a
+                  key={i}
+                  href={item.href}
+                  className="flex items-center gap-3 text-sm text-white hover:text-primary-foreground transition"
+                >
+                 
+                  {item.text}
+                </a>
+              ))}
             </div>
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="border-t border-slate-200 mt-16 pt-8 text-center">
-          <p className="text-slate-500 text-sm font-medium">
-            Copyright © {new Date().getFullYear()} All Rights Reserved by{" "}
-            <span className="text-blue-600 font-bold">CryptoMinerX</span>.
+        {/* BOTTOM */}
+        <div className="border-t border-primary-foreground mt-14 py-6 flex items-center justify-center relative">
+          <p className="text-xs text-primary-foreground">
+            © {new Date().getFullYear()} Nirvaan Tech. All rights reserved.
           </p>
+
+          {/* SCROLL TOP */}
+          <button
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            className="absolute right-0 w-10 h-10 flex items-center justify-center rounded-full border border-primary-foreground/40 bg-primary-foreground text-primary hover:bg-secondary/70 hover:-translate-y-1 hover:shadow-lg transition"
+          >
+            ↑
+          </button>
         </div>
       </div>
     </footer>

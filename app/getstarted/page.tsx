@@ -1,5 +1,5 @@
 "use client";
-import BreadCumb from "@/components/BreadCumb";
+import BreadCumb from "@/components/BreadCrumb";
 import type React from "react";
 
 import Header from "@/components/Header";
@@ -36,7 +36,7 @@ export default function GetStartedPage() {
   });
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
