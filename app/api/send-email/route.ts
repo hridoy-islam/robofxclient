@@ -33,8 +33,8 @@ export async function POST(req: Request) {
 
     const mailOptions = {
       from: '"Rivaan Tech" <noreplay@rivaantech.ae>',
-    //   to: "info@rivaantech.ae",
-      to: "mahitasnimul2@gmail.com",
+      to: "info@rivaantech.ae",
+      
       subject: `New Contact Form Submission from ${name}: ${subject}`,
       html,
     };
