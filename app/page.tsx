@@ -1382,7 +1382,7 @@ export default function HomePage() {
       <SkillsSection />
       <CaseStudiesSection />
       <TestimonialsSection />
-      <TeamSection />
+      {/* <TeamSection /> */}
       <BlogSection />
       <CTASection />
       <Footer />
