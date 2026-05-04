@@ -1,4 +1,3 @@
-
 "use client";
 
 import { motion, useInView } from "framer-motion";
@@ -222,21 +221,6 @@ const teamMembers = [
   },
 ];
 
-const testimonials = [
-  {
-    text: "Accelerate innovation with world-class tech teams Beyond more stoic this along goodness hey this wow manatee",
-    author: "Mike Holder",
-    role: "CEO, Harland inc",
-    img: "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?auto=format&fit=crop&w=100&q=80",
-  },
-  {
-    text: "Accelerate innovation with world-class tech teams Beyond more stoic this along goodness hey this wow manatee",
-    author: "Mike Holder",
-    role: "CEO, Harland inc",
-    img: "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?auto=format&fit=crop&w=100&q=80",
-  },
-];
-
 // ─── INTRO / WHO WE ARE ──────────────────────────────────────────────────────
 function IntroSection() {
   const ref = useRef(null);
@@ -380,8 +364,6 @@ function ProminentSolutionsSection() {
       }}
     >
       <div className="container mx-auto ">
-        
-
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
           {solutionsItems.map((item, idx) => (
             <motion.div
@@ -614,120 +596,11 @@ function ExpertTeamSection() {
   );
 }
 
-// ─── TESTIMONIAL SECTION ─────────────────────────────────────────────────────
-function TestimonialSection() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
-
-  return (
-    <section ref={ref} className="bg-white py-20">
-      <div className="container mx-auto ">
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          className="text-center mb-12"
-        >
-          <p className="text-primary-foreground text-xs font-bold tracking-[0.2em] uppercase mb-3">
-            TESTIMONIAL
-          </p>
-          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900">
-            20k+ satisfied clients worldwide
-          </h2>
-        </motion.div>
-
-        <div className="grid md:grid-cols-2 gap-6 mb-10">
-          {testimonials.map((t, i) => (
-            <motion.div
-              key={i}
-              variants={fadeUp}
-              initial="hidden"
-              animate={inView ? "visible" : "hidden"}
-              custom={i}
-              className="flex gap-5 p-6 rounded-xl border border-gray-100 shadow-sm"
-            >
-              <img
-                src={t.img}
-                alt={t.author}
-                className="w-16 h-16 rounded-lg object-cover flex-shrink-0"
-              />
-              <div>
-                <svg
-                  className="w-8 h-8 text-blue-400 mb-3"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
-                </svg>
-                <p className="text-gray-600 text-sm mb-3">{t.text}</p>
-                <div className="text-sm font-semibold text-gray-800">
-                  {t.author}{" "}
-                  <span className="text-gray-400 font-normal">/ {t.role}</span>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Nav arrows */}
-        <div className="flex items-center justify-end gap-3 mb-14">
-          <button className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:border-primary-foreground hover:text-primary-foreground transition-colors">
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M15 19l-7-7 7-7"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
-          <button className="w-8 h-8 rounded-full bg-primary-foreground flex items-center justify-center text-white hover:bg-primary-foreground transition-colors">
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M9 5l7 7-7 7"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
-        </div>
-
-        {/* Partners */}
-        <div className="flex flex-wrap items-center justify-center gap-10 pt-8 border-t border-gray-100">
-          {partners.map((p, i) => (
-            <motion.span
-              key={i}
-              variants={fadeUp}
-              initial="hidden"
-              animate={inView ? "visible" : "hidden"}
-              custom={i}
-              className="text-gray-400 font-bold text-lg uppercase tracking-wide hover:text-gray-600 transition-colors cursor-pointer"
-            >
-              {p.name}
-            </motion.span>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
 // ─── CTA SECTION ─────────────────────────────────────────────────────────────
 function CTASection() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
-  const router = useRouter()
+  const router = useRouter();
   return (
     <section ref={ref} className="py-8 bg-white">
       <div className="container mx-auto ">
@@ -762,8 +635,7 @@ function CTASection() {
             </h2>
           </div>
           <div
-          onClick={()=> router.push('/contact')}
-            
+            onClick={() => router.push("/contact")}
             className="flex-shrink-0 bg-white text-primary-foreground font-bold px-6 py-3 rounded-lg text-sm hover:bg-blue-50 transition-colors cursor-pointer"
           >
             Contact Us
@@ -774,17 +646,277 @@ function CTASection() {
   );
 }
 
+// ─── SOFTWARE SERVICES SECTION ───────────────────────────────────────────────
+const softwareCategories = [
+  {
+    label: "Enterprise & Business",
+    items: [
+      {
+        name: "ERP Systems",
+        desc: "SAP, Oracle, Microsoft Dynamics",
+        tag: "Enterprise",
+        color: "#185FA5",
+        bg: "#E6F1FB",
+      },
+      {
+        name: "CRM Platforms",
+        desc: "Salesforce, HubSpot, Zoho",
+        tag: "Business",
+        color: "#3B6D11",
+        bg: "#EAF3DE",
+      },
+      {
+        name: "HRM Software",
+        desc: "Workday, BambooHR, SAP HR",
+        tag: "Enterprise",
+        color: "#854F0B",
+        bg: "#FAEEDA",
+      },
+      {
+        name: "Accounting Tools",
+        desc: "QuickBooks, Xero, Tally",
+        tag: "Finance",
+        color: "#534AB7",
+        bg: "#EEEDFE",
+      },
+    ],
+  },
+  {
+    label: "Web & Cloud Applications",
+    items: [
+      {
+        name: "SaaS Platforms",
+        desc: "Custom multi-tenant SaaS builds",
+        tag: "Cloud",
+        color: "#0F6E56",
+        bg: "#E1F5EE",
+      },
+      {
+        name: "CMS Solutions",
+        desc: "WordPress, Strapi, Contentful",
+        tag: "Web",
+        color: "#185FA5",
+        bg: "#E6F1FB",
+      },
+      {
+        name: "E-Commerce",
+        desc: "Shopify, WooCommerce, custom",
+        tag: "Retail",
+        color: "#993C1D",
+        bg: "#FAECE7",
+      },
+      {
+        name: "API & Integration",
+        desc: "REST, GraphQL, microservices",
+        tag: "Backend",
+        color: "#534AB7",
+        bg: "#EEEDFE",
+      },
+    ],
+  },
+  {
+    label: "Mobile & Desktop",
+    items: [
+      {
+        name: "Mobile Apps",
+        desc: "iOS, Android, React Native, Flutter",
+        tag: "Mobile",
+        color: "#3B6D11",
+        bg: "#EAF3DE",
+      },
+      {
+        name: "Desktop Software",
+        desc: "Electron, .NET, WPF apps",
+        tag: "Desktop",
+        color: "#185FA5",
+        bg: "#E6F1FB",
+      },
+      {
+        name: "POS Systems",
+        desc: "Retail & restaurant point-of-sale",
+        tag: "Retail",
+        color: "#854F0B",
+        bg: "#FAEEDA",
+      },
+      {
+        name: "Dashboard Apps",
+        desc: "Analytics & reporting UIs",
+        tag: "Data",
+        color: "#993C1D",
+        bg: "#FAECE7",
+      },
+    ],
+  },
+  {
+    label: "Data & AI",
+    items: [
+      {
+        name: "Data Pipelines",
+        desc: "ETL, warehousing, data lakes",
+        tag: "Data",
+        color: "#534AB7",
+        bg: "#EEEDFE",
+      },
+      {
+        name: "AI / ML Apps",
+        desc: "LLM integration, model deployment",
+        tag: "AI",
+        color: "#0F6E56",
+        bg: "#E1F5EE",
+      },
+      {
+        name: "BI & Reporting",
+        desc: "Power BI, Tableau, Metabase",
+        tag: "Analytics",
+        color: "#185FA5",
+        bg: "#E6F1FB",
+      },
+      {
+        name: "Automation RPA",
+        desc: "Robotic process automation bots",
+        tag: "AI",
+        color: "#993556",
+        bg: "#FBEAF0",
+      },
+    ],
+  },
+  {
+    label: "Security & DevOps",
+    items: [
+      {
+        name: "Cybersecurity",
+        desc: "Pen testing, audits, compliance",
+        tag: "Security",
+        color: "#993C1D",
+        bg: "#FAECE7",
+      },
+      {
+        name: "DevOps & CI/CD",
+        desc: "Jenkins, GitHub Actions, Docker",
+        tag: "DevOps",
+        color: "#3B6D11",
+        bg: "#EAF3DE",
+      },
+      {
+        name: "Cloud Infra",
+        desc: "AWS, GCP, Azure management",
+        tag: "Cloud",
+        color: "#185FA5",
+        bg: "#E6F1FB",
+      },
+      {
+        name: "Monitoring",
+        desc: "Grafana, Datadog, New Relic",
+        tag: "Ops",
+        color: "#534AB7",
+        bg: "#EEEDFE",
+      },
+    ],
+  },
+];
+
+function SoftwareServicesSection() {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+
+  return (
+    <section ref={ref} className="bg-gray-50 py-20">
+      <div className="container mx-auto">
+        {/* Header */}
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          animate={inView ? "visible" : "hidden"}
+          className="text-center mb-12"
+        >
+          <p className="text-primary-foreground text-xs font-bold tracking-[0.2em] uppercase mb-3">
+            WHAT WE WORK WITH
+          </p>
+          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+            Software Services Across Every Layer of Your Stack
+          </h2>
+          <p className="text-gray-500 text-sm max-w-xl mx-auto">
+            Rivaan Tech delivers expert implementation, integration, and support
+            across the software tools and platforms your business depends on.
+          </p>
+        </motion.div>
+
+        {/* Categories */}
+        <div className="space-y-10">
+          {softwareCategories.map((cat, catIdx) => (
+            <div key={catIdx}>
+              <motion.p
+                variants={fadeUp}
+                initial="hidden"
+                animate={inView ? "visible" : "hidden"}
+                custom={catIdx * 0.1}
+                className="text-xs font-bold text-gray-900 uppercase tracking-widest mb-4 pb-2 border-b border-gray-200"
+              >
+                {cat.label}
+              </motion.p>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {cat.items.map((item, itemIdx) => (
+                  <motion.div
+                    key={itemIdx}
+                    variants={fadeUp}
+                    initial="hidden"
+                    animate={inView ? "visible" : "hidden"}
+                    custom={catIdx * 0.1 + itemIdx * 0.07}
+                    className="bg-white rounded-xl p-5 border border-gray-100 hover:shadow-md hover:border-gray-200 transition-all duration-300 flex flex-col gap-3"
+                  >
+                    {/* Icon circle */}
+                    <div
+                      className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
+                      style={{ backgroundColor: item.bg }}
+                    >
+                      <svg
+                        viewBox="0 0 24 24"
+                        className="w-5 h-5"
+                        fill="none"
+                        stroke={item.color}
+                        strokeWidth="1.5"
+                      >
+                        <rect x="3" y="3" width="18" height="18" rx="2" />
+                        <path d="M3 9h18M9 21V9" />
+                      </svg>
+                    </div>
+                    <div>
+                      <p className="text-sm font-bold text-gray-800 mb-1">
+                        {item.name}
+                      </p>
+                      <p className="text-xs text-gray-500 leading-relaxed">
+                        {item.desc}
+                      </p>
+                    </div>
+                    <span
+                      className="text-xs font-semibold px-2 py-0.5 rounded-full self-start"
+                      style={{
+                        backgroundColor: item.bg,
+                        color: item.color,
+                      }}
+                    >
+                      {item.tag}
+                    </span>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // ─── PAGE EXPORT ─────────────────────────────────────────────────────────────
 export default function ServicePage() {
-  
   return (
     <main className="overflow-x-hidden">
       <Header />
       <BreadCrumb title="Services" />
 
-      <ProminentSolutionsSection />
-
-      <TestimonialSection />
+      <SoftwareServicesSection />
+      {/* <ProminentSolutionsSection /> */}
       <CTASection />
       <Footer />
     </main>
