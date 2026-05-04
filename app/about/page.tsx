@@ -1,10 +1,11 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import BreadCrumb from "@/components/BreadCrumb";
+import { useRouter } from "next/navigation";
 
 // ─── Animation Variants ──────────────────────────────────────────────────────
 const fadeUp = {
@@ -51,13 +52,8 @@ const checklist = [
   { text: "We're consultants, guides, and partners for brands", checked: true },
 ];
 
-const partners = [
-  { name: "fampay", logo: null },
-  { name: "SWIGG", logo: null },
-  { name: "MIGHTY BUILDING", logo: null },
-  { name: "Jupiter", logo: null },
-  { name: "dyte", logo: null },
-];
+const partners = ["Fampay", "SWIGG", "MIGHTY BUILDING", "Jupiter", "Dyte"];
+
 
 const solutionsItems = [
   {
@@ -211,7 +207,7 @@ const teamMembers = [
   {
     name: "Mike Holder",
     role: "CEO, Technax",
-    img: "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?auto=format&fit=crop&w=400&q=80",
+    img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80",
   },
   {
     name: "Joachim Ken",
@@ -222,16 +218,18 @@ const teamMembers = [
 
 const testimonials = [
   {
+    image:
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80",
     text: "Accelerate innovation with world-class tech teams Beyond more stoic this along goodness hey this wow manatee",
-    author: "Mike Holder",
-    role: "CEO, Harland inc",
-    img: "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?auto=format&fit=crop&w=100&q=80",
+    name: "Mike Holder",
+    role: "CEO, Harland Inc.",
   },
   {
+    image:
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&q=80",
     text: "Accelerate innovation with world-class tech teams Beyond more stoic this along goodness hey this wow manatee",
-    author: "Mike Holder",
-    role: "CEO, Harland inc",
-    img: "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?auto=format&fit=crop&w=100&q=80",
+    name: "Mike Fernalin",
+    role: "CEO, Harland Inc.",
   },
 ];
 
@@ -625,28 +623,32 @@ function ExpertTeamSection() {
 }
 
 // ─── TESTIMONIAL SECTION ─────────────────────────────────────────────────────
-function TestimonialSection() {
+function TestimonialsSection() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
+  const [active, setActive] = useState(0);
 
   return (
-    <section ref={ref} className="bg-white py-20">
-      <div className="container mx-auto ">
+    <section ref={ref} className="bg-white py-24">
+      <div className="container mx-auto">
         <motion.div
           variants={fadeUp}
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
           className="text-center mb-12"
         >
-          <p className="text-primary-foreground text-xs font-bold tracking-[0.2em] uppercase mb-3">
-            TESTIMONIAL
+          <p className="text-xs font-bold tracking-[0.2em] uppercase text-primary-foreground mb-3">
+            Testimonial
           </p>
-          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900">
+          <h2
+            className="text-3xl lg:text-4xl font-bold text-gray-900 leading-tight"
+            style={{ fontFamily: "'Sora', sans-serif" }}
+          >
             20k+ satisfied clients worldwide
           </h2>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-6 mb-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
           {testimonials.map((t, i) => (
             <motion.div
               key={i}
@@ -654,90 +656,66 @@ function TestimonialSection() {
               initial="hidden"
               animate={inView ? "visible" : "hidden"}
               custom={i}
-              className="flex gap-5 p-6 rounded-xl border border-gray-100 shadow-sm"
+              className="bg-white border border-gray-300 rounded-sm p-6 shadow-sm hover:shadow-md transition-shadow"
             >
-              <img
-                src={t.img}
-                alt={t.author}
-                className="w-16 h-16 rounded-lg object-cover flex-shrink-0"
-              />
-              <div>
-                <svg
-                  className="w-8 h-8 text-primary-foreground mb-3"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
-                </svg>
-                <p className="text-gray-600 text-sm mb-3">{t.text}</p>
-                <div className="text-sm font-semibold text-gray-800">
-                  {t.author}{" "}
-                  <span className="text-gray-400 font-normal">/ {t.role}</span>
+              <div className="flex items-start gap-4 mb-4">
+                <img
+                  src={t.image}
+                  alt={t.name}
+                  className="w-14 h-14 rounded-full object-cover flex-shrink-0"
+                />
+                <div className="flex-1">
+                  <svg
+                    viewBox="0 0 32 24"
+                    className="w-8 h-6 text-primary-foreground mb-2"
+                    fill="currentColor"
+                  >
+                    <path d="M0 24V14.4C0 6.4 4.8 1.6 14.4 0l1.6 2.4C10.4 3.6 7.2 6.4 6.4 10.4H12V24H0zm20 0V14.4C20 6.4 24.8 1.6 34.4 0l1.6 2.4c-5.6 1.2-8.8 4-9.6 8H32V24H20z" />
+                  </svg>
+                  <p className="text-gray-600 text-sm leading-relaxed">
+                    {t.text}
+                  </p>
                 </div>
+              </div>
+              <div className="border-t border-gray-100 pt-4">
+                <span className="font-bold text-gray-800 text-sm">
+                  {t.name}
+                </span>
               </div>
             </motion.div>
           ))}
         </div>
 
-        {/* Nav arrows */}
-        <div className="flex items-center justify-end gap-3 mb-14">
-          <button className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:border-primary-foreground hover:text-primary-foreground transition-colors">
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M15 19l-7-7 7-7"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
-          <button className="w-8 h-8 rounded-full bg-primary-foreground flex items-center justify-center text-white hover:bg-blue-600 transition-colors">
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M9 5l7 7-7 7"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
-        </div>
+        {/* Dots */}
+        
 
-        {/* Partners */}
-        <div className="flex flex-wrap items-center justify-center gap-10 pt-8 border-t border-gray-100">
+        {/* Partners Logos */}
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          animate={inView ? "visible" : "hidden"}
+          custom={3}
+          className="mt-16 flex flex-wrap items-center justify-center gap-10"
+        >
           {partners.map((p, i) => (
-            <motion.span
+            <span
               key={i}
-              variants={fadeUp}
-              initial="hidden"
-              animate={inView ? "visible" : "hidden"}
-              custom={i}
-              className="text-gray-400 font-bold text-lg uppercase tracking-wide hover:text-gray-600 transition-colors cursor-pointer"
+              className="text-gray-400 font-bold text-3xl tracking-wide hover:text-gray-600 transition-colors cursor-pointer uppercase"
+              style={{ fontFamily: "'Sora', sans-serif" }}
             >
-              {p.name}
-            </motion.span>
+              {p}
+            </span>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
 }
-
 // ─── CTA SECTION ─────────────────────────────────────────────────────────────
 function CTASection() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
-
+  const router = useRouter();
   return (
     <section ref={ref} className="py-8 bg-white">
       <div className="container mx-auto ">
@@ -771,12 +749,12 @@ function CTASection() {
               We're Delivering the best customer Experience
             </h2>
           </div>
-          <a
-            href="tel:+44920090505"
-            className="flex-shrink-0 bg-white text-blue-600 font-bold px-6 py-3 rounded-lg text-sm hover:bg-blue-50 transition-colors"
+          <div
+          onClick={()=> router.push("/contact")}
+            className="flex-shrink-0 bg-white text-blue-600 font-bold px-6 py-3 rounded-lg text-sm hover:bg-blue-50 transition-colors cursor-pointer"
           >
-            +44 920 090 505
-          </a>
+            Contact Us
+          </div>
         </motion.div>
       </div>
     </section>
@@ -794,7 +772,7 @@ export default function AboutPage() {
       <ProminentSolutionsSection />
       <PreparingSection />
       <ExpertTeamSection />
-      <TestimonialSection />
+      <TestimonialsSection />
       <CTASection />
       <Footer />
     </main>

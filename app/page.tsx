@@ -1112,7 +1112,6 @@ function TestimonialsSection() {
                 <span className="font-bold text-gray-800 text-sm">
                   {t.name}
                 </span>
-                <span className="text-gray-400 text-xs ml-1">/ {t.role}</span>
               </div>
             </motion.div>
           ))}

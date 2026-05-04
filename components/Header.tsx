@@ -33,11 +33,11 @@ export default function Header() {
       icon: <Layers className="w-4 h-4" />,
     },
 
-    {
-      name: "Our Team",
-      href: "our-team",
-      icon: <LifeBuoy className="w-4 h-4" />,
-    },
+    // {
+    //   name: "Our Team",
+    //   href: "our-team",
+    //   icon: <LifeBuoy className="w-4 h-4" />,
+    // },
     { name: "Contact", href: "contact", icon: <Send className="w-4 h-4" /> },
   ];
 
