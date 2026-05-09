@@ -215,11 +215,10 @@ const teamMembers = [
     img: "https://images.unsplash.com/photo-1463453091185-61582044d556?auto=format&fit=crop&w=400&q=80",
   },
 ];
-
 const testimonials = [
   {
     image:
-      "https://randomuser.me/api/portraits/men/26.jpg",
+      "https://randomuser.me/api/portraits/men/56.jpg",
     text:
       "Very good experience working with this team. They completed our project on time and support was also very helpful whenever needed. Highly recommended for startups and business owners.",
     name: "Rahul Mehta",
@@ -227,7 +226,7 @@ const testimonials = [
   },
   {
     image:
-      "https://randomuser.me/api/portraits/men/45.jpg",
+      "https://randomuser.me/api/portraits/men/39.jpg",
     text:
       "Honestly speaking, the quality of work is really impressive. Communication was smooth and the team understood our requirements properly. Happy with the final result.",
     name: "Arjun Patel",
