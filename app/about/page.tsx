@@ -37,7 +37,7 @@ const slideRight = {
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 const stats = [
-  { value: "354+", label: "Completed Projects" },
+  { value: "1021+", label: "Completed Projects" },
   { value: "119+", label: "Robotic Automation" },
   { value: "99%", label: "Web Site Analyze" },
   { value: "321+", label: "Clients Support Done" },
@@ -219,17 +219,19 @@ const teamMembers = [
 const testimonials = [
   {
     image:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80",
-    text: "Accelerate innovation with world-class tech teams Beyond more stoic this along goodness hey this wow manatee",
-    name: "Mike Holder",
-    role: "CEO, Harland Inc.",
+      "https://randomuser.me/api/portraits/men/26.jpg",
+    text:
+      "Very good experience working with this team. They completed our project on time and support was also very helpful whenever needed. Highly recommended for startups and business owners.",
+    name: "Rahul Mehta",
+    role: "Founder, TechNova Solutions",
   },
   {
     image:
-      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&q=80",
-    text: "Accelerate innovation with world-class tech teams Beyond more stoic this along goodness hey this wow manatee",
-    name: "Mike Fernalin",
-    role: "CEO, Harland Inc.",
+      "https://randomuser.me/api/portraits/men/45.jpg",
+    text:
+      "Honestly speaking, the quality of work is really impressive. Communication was smooth and the team understood our requirements properly. Happy with the final result.",
+    name: "Arjun Patel",
+    role: "CEO, BrightEdge Pvt Ltd",
   },
 ];
 
@@ -460,31 +462,6 @@ function PreparingSection() {
               ))}
             </div>
 
-            <div className="flex flex-wrap items-start gap-12 pt-6 border-t border-gray-200">
-              <div>
-                <div
-                  className="font-bold text-2xl mb-1"
-                  style={{ fontFamily: "cursive", color: "#1e293b" }}
-                >
-                  Alex Song
-                </div>
-                <div className="text-xs text-gray-500">Alex Mama aim</div>
-                <div className="text-sm font-semibold text-gray-800">
-                  CEO, Technax
-                </div>
-              </div>
-              <div>
-                <div className="text-xs text-gray-500 mb-1">
-                  Call to ask any question
-                </div>
-                <a
-                  href="tel:01234567890"
-                  className="text-primary-foreground font-bold text-xl"
-                >
-                  0123-456-7890
-                </a>
-              </div>
-            </div>
           </motion.div>
 
           {/* Right */}
@@ -538,89 +515,7 @@ function PreparingSection() {
   );
 }
 
-// ─── EXPERT TEAM SECTION ─────────────────────────────────────────────────────
-function ExpertTeamSection() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
 
-  return (
-    <section
-      ref={ref}
-      className="py-20 relative overflow-hidden"
-      style={{
-        background:
-          "linear-gradient(135deg, #050e1f 0%, #0b1a2a 60%, #0d1f3c 100%)",
-      }}
-    >
-      {/* Network dots background */}
-      <div
-        className="absolute inset-0 opacity-20"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%234f8ef7' fill-opacity='0.4'%3E%3Ccircle cx='30' cy='30' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-        }}
-      />
-
-      <div className="relative z-10 container mx-auto ">
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          className="text-center mb-10"
-        >
-          <p className="text-primary-foreground text-xs font-bold tracking-[0.2em] uppercase mb-3">
-            OUR EXPERT TEAM
-          </p>
-          <h2 className="text-3xl lg:text-4xl font-bold text-white">
-            We have world expert team
-          </h2>
-        </motion.div>
-
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          {teamMembers.map((member, i) => (
-            <motion.div
-              key={i}
-              variants={fadeUp}
-              initial="hidden"
-              animate={inView ? "visible" : "hidden"}
-              custom={i}
-              className="group relative overflow-hidden rounded-lg"
-            >
-              <div className="relative h-64">
-                <img
-                  src={member.img}
-                  alt={member.name}
-                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-4">
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="w-1 h-6 bg-primary-foreground rounded-sm" />
-                    <div>
-                      <div className="text-white font-bold text-xs leading-tight">
-                        {member.name}
-                      </div>
-                      <div className="text-white/60 text-xs">{member.role}</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Carousel dots */}
-        <div className="flex justify-center gap-2 mb-16">
-          {[0, 1, 2, 3].map((i) => (
-            <span
-              key={i}
-              className={`w-2 h-2 rounded-full ${i === 0 ? "bg-primary-foreground w-4" : "bg-white/30"}`}
-            />
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
 
 // ─── TESTIMONIAL SECTION ─────────────────────────────────────────────────────
 function TestimonialsSection() {
@@ -644,7 +539,7 @@ function TestimonialsSection() {
             className="text-3xl lg:text-4xl font-bold text-gray-900 leading-tight"
             style={{ fontFamily: "'Sora', sans-serif" }}
           >
-            20k+ satisfied clients worldwide
+            1k+ satisfied clients worldwide
           </h2>
         </motion.div>
 
@@ -690,7 +585,7 @@ function TestimonialsSection() {
         
 
         {/* Partners Logos */}
-        <motion.div
+        {/* <motion.div
           variants={fadeUp}
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
@@ -706,7 +601,7 @@ function TestimonialsSection() {
               {p}
             </span>
           ))}
-        </motion.div>
+        </motion.div> */}
       </div>
     </section>
   );
@@ -771,7 +666,6 @@ export default function AboutPage() {
       <StatsSection />
       <ProminentSolutionsSection />
       <PreparingSection />
-      <ExpertTeamSection />
       <TestimonialsSection />
       <CTASection />
       <Footer />

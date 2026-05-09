@@ -260,17 +260,19 @@ const caseStudies = [
 const testimonials = [
   {
     image:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80",
-    text: "Accelerate innovation with world-class tech teams Beyond more stoic this along goodness hey this wow manatee",
-    name: "Mike Holder",
-    role: "CEO, Harland Inc.",
+      "https://randomuser.me/api/portraits/men/26.jpg",
+    text:
+      "Very good experience working with this team. They completed our project on time and support was also very helpful whenever needed. Highly recommended for startups and business owners.",
+    name: "Rahul Mehta",
+    role: "Founder, TechNova Solutions",
   },
   {
     image:
-      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&q=80",
-    text: "Accelerate innovation with world-class tech teams Beyond more stoic this along goodness hey this wow manatee",
-    name: "Mike Fernalin",
-    role: "CEO, Harland Inc.",
+      "https://randomuser.me/api/portraits/men/45.jpg",
+    text:
+      "Honestly speaking, the quality of work is really impressive. Communication was smooth and the team understood our requirements properly. Happy with the final result.",
+    name: "Arjun Patel",
+    role: "CEO, BrightEdge Pvt Ltd",
   },
 ];
 
@@ -570,43 +572,7 @@ function AboutSection() {
   );
 }
 
-// ─── STATS SECTION ─────────────────────────────────────────────────────────────
-function StatsSection() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
 
-  return (
-    <section ref={ref} className="bg-gray-50 py-16">
-      <div className="container mx-auto max-w-5xl">
-        <div className="border border-primary-foreground rounded-sm bg-white px-8 py-10 grid grid-cols-2 lg:grid-cols-4 gap-8">
-          {stats.map((s, i) => (
-            <motion.div
-              key={i}
-              variants={fadeUp}
-              initial="hidden"
-              animate={inView ? "visible" : "hidden"}
-              custom={i}
-              className="flex items-center gap-4"
-            >
-              <div className="flex-shrink-0 w-12 h-12 rounded-full bg-white text-primary-foreground flex items-center justify-center">
-                {s.icon}
-              </div>
-              <div>
-                <div
-                  className="text-2xl font-bold text-primary-foreground leading-none"
-                  style={{ fontFamily: "'Sora', sans-serif" }}
-                >
-                  {s.value}
-                </div>
-                <div className="text-xs text-gray-500 mt-1">{s.label}</div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
 
 // ─── SOLUTIONS SECTION ────────────────────────────────────────────────────────
 function SolutionsSection() {
@@ -735,7 +701,7 @@ function SkillsSection() {
 
           <div className="flex items-start gap-5 mb-8">
             <div className="flex-shrink-0 w-28 h-28 rounded-md bg-gradient-to-br from-[#3B82F6] to-[#8A2BE2] flex flex-col items-center justify-center text-white shadow-lg">
-              <span className="text-4xl font-bold leading-none">25</span>
+              <span className="text-4xl font-bold leading-none">4</span>
               <span className="text-[10px] mt-1 font-medium opacity-90">
                 Years of
               </span>
@@ -1075,7 +1041,7 @@ function TestimonialsSection() {
             className="text-3xl lg:text-4xl font-bold text-gray-900 leading-tight"
             style={{ fontFamily: "'Sora', sans-serif" }}
           >
-            20k+ satisfied clients worldwide
+            1k+ satisfied clients worldwide
           </h2>
         </motion.div>
 
@@ -1121,7 +1087,7 @@ function TestimonialsSection() {
         
 
         {/* Partners Logos */}
-        <motion.div
+        {/* <motion.div
           variants={fadeUp}
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
@@ -1137,7 +1103,7 @@ function TestimonialsSection() {
               {p}
             </span>
           ))}
-        </motion.div>
+        </motion.div> */}
       </div>
     </section>
   );
@@ -1376,7 +1342,6 @@ export default function HomePage() {
       <Header />
       <HeroSection />
       <AboutSection />
-      <StatsSection />
       <SolutionsSection />
       <SkillsSection />
       <CaseStudiesSection />
