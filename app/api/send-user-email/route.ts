@@ -21,7 +21,7 @@ transporter.verify((error) => {
 
 export async function POST(req: Request) {
   try {
-    const { name, email, subject, message } = await req.json();
+    const { name, email, phone, subject, message } = await req.json();
 
     const templatePath = path.join(
       process.cwd(),

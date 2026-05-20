@@ -5,7 +5,8 @@ import path from "path";
 
 export async function POST(req: Request) {
   try {
-    const { name, email, subject, message } = await req.json();
+    // 1. Added phone here to destructure it from the incoming request
+    const { name, email, phone, subject, message } = await req.json();
 
     const transporter = nodemailer.createTransport({
       host: "mail.rivaantech.ae",
@@ -23,10 +24,11 @@ export async function POST(req: Request) {
       "static/email_template/contact_template.ejs",
     );
 
-    // Updated to pass the correct variables to your EJS template
+    // 2. Added phone here to pass it through to your EJS template
     const html = await ejs.renderFile(templatePath, {
       name,
       email,
+      phone,
       subject,
       message,
     });
@@ -34,7 +36,6 @@ export async function POST(req: Request) {
     const mailOptions = {
       from: '"Rivaan Tech" <noreplay@rivaantech.ae>',
       to: "info@rivaantech.ae",
-      
       subject: `New Contact Form Submission from ${name}: ${subject}`,
       html,
     };

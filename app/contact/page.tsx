@@ -84,6 +84,7 @@ function ContactFormSection() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    phone: "",
     subject: "",
     message: "",
   });
@@ -134,6 +135,7 @@ function ContactFormSection() {
         setFormData({
           name: "",
           email: "",
+          phone: "", 
           subject: "",
           message: "",
         });
@@ -219,15 +221,27 @@ function ContactFormSection() {
                 />
               </div>
 
-              <input
-                type="text"
-                name="subject"
-                value={formData.subject}
-                onChange={handleChange}
-                required
-                placeholder="Subject *"
-                className="w-full border-b border-gray-200 py-3 text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:border-primary-foreground transition-colors bg-transparent"
-              />
+              {/* Grouped Phone and Subject side by side for a cleaner layout */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <input
+                  type="tel"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  required
+                  placeholder="Phone Number *"
+                  className="w-full border-b border-gray-200 py-3 text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:border-primary-foreground transition-colors bg-transparent"
+                />
+                <input
+                  type="text"
+                  name="subject"
+                  value={formData.subject}
+                  onChange={handleChange}
+                  required
+                  placeholder="Subject *"
+                  className="w-full border-b border-gray-200 py-3 text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:border-primary-foreground transition-colors bg-transparent"
+                />
+              </div>
 
               <textarea
                 name="message"
