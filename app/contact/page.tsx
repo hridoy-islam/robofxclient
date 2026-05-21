@@ -12,6 +12,7 @@ import {
   Clock,
   Send,
   CheckCircle,
+  Phone,
 } from "lucide-react";
 
 export default function ContactPage() {
@@ -130,23 +131,27 @@ export default function ContactPage() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto relative z-10">
+          <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto relative z-10">
             {/* 1. Email Card */}
             <div className="bg-zinc-900/40 backdrop-blur-md rounded-2xl p-8 border border-white/10 hover:border-primary-blue/40 transition-all duration-300 group flex flex-col items-center text-center">
               <div className="w-16 h-16 bg-primary-blue/10 rounded-full flex items-center justify-center mb-6 text-primary-blue border border-primary-blue/20 group-hover:scale-110 transition-transform duration-300">
                 <Mail className="w-7 h-7" />
               </div>
+
               <h3 className="text-xl font-bold text-white mb-2">
                 Email Support
               </h3>
+
               <p className="text-gray-400 mb-6 text-sm">
                 For general inquiries and technical support.
               </p>
+
               <a
                 href="mailto:support@quicktradefx.com"
                 className="mt-auto text-primary-blue font-medium inline-flex items-center text-lg border-b border-primary-blue/30 pb-1 hover:border-primary-blue hover:text-white transition-all"
               >
-                support@quicktradefx.com <ArrowRight className="w-4 h-4 ml-2" />
+                support@quicktradefx.com
+                <ArrowRight className="w-4 h-4 ml-2" />
               </a>
             </div>
 
@@ -155,17 +160,43 @@ export default function ContactPage() {
               <div className="w-16 h-16 bg-primary-blue/10 rounded-full flex items-center justify-center mb-6 text-primary-blue border border-primary-blue/20 group-hover:scale-110 transition-transform duration-300">
                 <MapPin className="w-7 h-7" />
               </div>
+
               <h3 className="text-xl font-bold text-white mb-2">
                 Office Location
               </h3>
+
               <p className="text-gray-400 mb-6 text-sm">
                 Visit our headquarters in Dubai.
               </p>
+
               <div className="mt-auto text-gray-300 font-medium text-base leading-relaxed">
-                21st latifa tower,
+                21st Latifa Tower,
                 <br />
                 Sheikh Zayed Road, Dubai, UAE
               </div>
+            </div>
+
+            {/* 3. Phone Card */}
+            <div className="bg-zinc-900/40 backdrop-blur-md rounded-2xl p-8 border border-white/10 hover:border-primary-blue/40 transition-all duration-300 group flex flex-col items-center text-center">
+              <div className="w-16 h-16 bg-primary-blue/10 rounded-full flex items-center justify-center mb-6 text-primary-blue border border-primary-blue/20 group-hover:scale-110 transition-transform duration-300">
+                <Phone className="w-7 h-7" />
+              </div>
+
+              <h3 className="text-xl font-bold text-white mb-2">
+                Phone Support
+              </h3>
+
+              <p className="text-gray-400 mb-6 text-sm">
+                Reach out to our support team directly.
+              </p>
+
+              <a
+                href="tel:+447411552751"
+                className="mt-auto text-primary-blue font-medium inline-flex items-center text-lg border-b border-primary-blue/30 pb-1 hover:border-primary-blue hover:text-white transition-all"
+              >
+                +44 7411 552751
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </a>
             </div>
           </div>
         </div>
